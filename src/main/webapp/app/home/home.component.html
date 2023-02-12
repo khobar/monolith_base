@@ -1,0 +1,78 @@
+<div class="row">
+  <div class="col-md-3">
+    <span class="hipster img-fluid rounded"></span>
+  </div>
+
+  <div class="col-md-9">
+    <h1 class="display-4"><span jhiTranslate="home.title">Witamy, Java Hipsterze!</span> (Clinic)</h1>
+
+    <p class="lead" jhiTranslate="home.subtitle">To jest twoja strona domowa</p>
+
+    <div [ngSwitch]="account !== null">
+      <div class="alert alert-success" *ngSwitchCase="true">
+        <span id="home-logged-message" *ngIf="account" jhiTranslate="home.logged.message" [translateValues]="{ username: account.login }"
+          >Jesteś zalogowany jako użytkownik "{{ account.login }}".</span
+        >
+      </div>
+
+      <div class="alert alert-warning" *ngSwitchCase="false">
+        <span jhiTranslate="global.messages.info.authenticated.prefix">Jeśli chcesz się </span>
+        <a class="alert-link" (click)="login()" jhiTranslate="global.messages.info.authenticated.link">zalogować</a
+        ><span jhiTranslate="global.messages.info.authenticated.suffix"
+          >, możesz spróbować któregoś z domyślnych kont:<br />- Administrator (login="admin" i hasło="admin") <br />- Użytkownik
+          (login="user" i hasło="user").</span
+        >
+      </div>
+
+      <div class="alert alert-warning" *ngSwitchCase="false">
+        <span jhiTranslate="global.messages.info.register.noaccount">Nie masz jeszcze konta?</span>&nbsp;
+        <a class="alert-link" routerLink="account/register" jhiTranslate="global.messages.info.register.link">Zarejestruj się</a>
+      </div>
+    </div>
+
+    <p jhiTranslate="home.question">Jeśli masz jakiekolwiek pytania na temat JHipster:</p>
+
+    <ul>
+      <li>
+        <a href="https://www.jhipster.tech/" target="_blank" rel="noopener noreferrer" jhiTranslate="home.link.homepage"
+          >Strona domowa JHipster</a
+        >
+      </li>
+      <li>
+        <a
+          href="https://stackoverflow.com/tags/jhipster/info"
+          target="_blank"
+          rel="noopener noreferrer"
+          jhiTranslate="home.link.stackoverflow"
+          >JHipster na Stack Overflow</a
+        >
+      </li>
+      <li>
+        <a
+          href="https://github.com/jhipster/generator-jhipster/issues?state=open"
+          target="_blank"
+          rel="noopener noreferrer"
+          jhiTranslate="home.link.bugtracker"
+          >JHipster bug tracker</a
+        >
+      </li>
+      <li>
+        <a href="https://gitter.im/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer" jhiTranslate="home.link.chat"
+          >Publiczny chat room JHipster</a
+        >
+      </li>
+      <li>
+        <a href="https://twitter.com/jhipster" target="_blank" rel="noopener noreferrer" jhiTranslate="home.link.follow"
+          >skontaktuj się z @jhipster na Twitterze</a
+        >
+      </li>
+    </ul>
+
+    <p>
+      <span jhiTranslate="home.like">Jeśli lubisz JHipster, nie zapomnij dać nam gwiazdki na</span>
+      <a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer" jhiTranslate="home.github"
+        >GitHubie</a
+      >!
+    </p>
+  </div>
+</div>
