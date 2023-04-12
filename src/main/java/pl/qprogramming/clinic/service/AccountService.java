@@ -2,15 +2,13 @@ package pl.qprogramming.clinic.service;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.CacheManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -46,6 +44,7 @@ public class AccountService {
     private final PasswordEncoder passwordEncoder;
     private final AuthorityRepository authorityRepository;
     private final AccountMapper accountMapper;
+    private final CacheManager cacheManager;
 
     public Optional<Account> activateRegistration(String key) {
         log.debug("Activating user for activation key {}", key);
@@ -178,6 +177,7 @@ public class AccountService {
                 managedAuthorities.clear();
                 userDTO.getAuthorities().stream().map(accountMapper::roleToAuthority).forEach(managedAuthorities::add);
                 log.debug("Changed Information for User: {}", user);
+                this.clearUserCaches(user);
                 return user;
             })
             .map(accountMapper::accountToAccountDTO);
@@ -289,5 +289,13 @@ public class AccountService {
             auth.setName(role.toString());
             return authorityRepository.save(auth);
         });
+    }
+
+    private void clearUserCaches(Account account) {
+        Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE)).evict(account.getLogin());
+        Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_LOGIN_AUTHORITIES_CACHE)).evict(account.getLogin());
+        if (account.getEmail() != null) {
+            Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE)).evict(account.getEmail());
+        }
     }
 }
