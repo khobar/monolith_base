@@ -1,0 +1,6 @@
+### Get All users ( admin only )
+GET {{url}}/api/users
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+###

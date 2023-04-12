@@ -1,0 +1,29 @@
+### Login user
+POST {{url}}/api/authenticate
+Accept: application/json
+Content-Type: application/json
+
+{
+    "username": "user",
+    "password": "user"
+}
+
+> {%
+    client.global.set("auth_token", JSON.parse(JSON.stringify(response.body)).token);
+%}
+
+### Login admin
+POST {{url}}/api/authenticate
+Accept: application/json
+Content-Type: application/json
+
+{
+    "username": "admin",
+    "password": "admin"
+}
+
+> {%
+    client.global.set("auth_token", JSON.parse(JSON.stringify(response.body)).token);
+%}
+
+###

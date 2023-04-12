@@ -9,26 +9,32 @@
 # ===================================================================
 
 spring:
+  #  datasource:
+  #    type: com.zaxxer.hikari.HikariDataSource
+  #    hikari:
+  #      auto-commit: false
+  #      poolName: Hikari
+  #      maximum-pool-size: 1
   datasource:
-    type: com.zaxxer.hikari.HikariDataSource
-    hikari:
-      auto-commit: false
-      poolName: Hikari
-      maximum-pool-size: 1
+  #    url: jdbc:h2:mem:myDb;DB_CLOSE_DELAY=-1
+  #    username: sa
+  #    password:
   jpa:
     database-platform: tech.jhipster.domain.util.FixedPostgreSQL10Dialect
     open-in-view: false
     hibernate:
-      ddl-auto: none
       naming:
         physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
         implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
     properties:
       hibernate.id.new_generator_mappings: true
-      hibernate.connection.provider_disables_autocommit: true
+      hibernate.connection.provider_disables_autocommit: false
       hibernate.cache.use_second_level_cache: false
       hibernate.cache.use_query_cache: false
       hibernate.generate_statistics: false
-      hibernate.hbm2ddl.auto: validate
+      hibernate.hbm2ddl.auto: update
       hibernate.jdbc.time_zone: UTC
       hibernate.query.fail_on_pagination_over_collection_fetch: true
+  sql:
+    init:
+      mode: always

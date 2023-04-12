@@ -90,3 +90,10 @@ management:
   health:
     mail:
       enabled: false
+
+application:
+  defaults:
+    admin-password: admin
+    admin-account: admin
+    admin-email: admin@clinic.com
+  activate-new-accounts: false

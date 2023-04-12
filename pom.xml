@@ -5,7 +5,7 @@
                              https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>pl.qprogramming.clicnic</groupId>
+    <groupId>pl.qprogramming.clinic</groupId>
     <artifactId>clinic</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
@@ -34,12 +34,11 @@
         <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <start-class>pl.qprogramming.clicnic.ClinicApp</start-class>
+        <start-class>pl.qprogramming.clinic.ClinicApp</start-class>
         <argLine>-Djava.security.egd=file:/dev/./urandom -Xmx1G</argLine>
         <m2e.apt.activation>jdt_apt</m2e.apt.activation>
         <run.addResources>false</run.addResources>
         <!-- These remain empty unless the corresponding profile is active -->
-        <profile.no-liquibase />
         <profile.api-docs />
         <profile.tls />
         <profile.e2e />
@@ -52,10 +51,6 @@
         <!-- The hibernate version should match the one managed by
         https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies/${spring-boot.version} -->
         <hibernate.version>5.6.10.Final</hibernate.version>
-        <!-- The liquibase version should match the one managed by
-        https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies/${spring-boot.version} -->
-        <liquibase.version>4.15.0</liquibase.version>
-        <liquibase-hibernate5.version>4.15.0</liquibase-hibernate5.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
         <jaxb-runtime.version>4.0.0</jaxb-runtime.version>
         <archunit-junit5.version>0.22.0</archunit-junit5.version>
@@ -90,8 +85,10 @@
         <openapi-generator-maven-plugin.version>6.0.1</openapi-generator-maven-plugin.version>
         <properties-maven-plugin.version>1.1.0</properties-maven-plugin.version>
         <sonar-maven-plugin.version>3.9.1.2184</sonar-maven-plugin.version>
+        <lombok.version>1.18.26</lombok.version>
 
         <!-- jhipster-needle-maven-property -->
+        <h2.version>2.1.214</h2.version>
     </properties>
 
     <dependencyManagement>
@@ -111,6 +108,17 @@
         <dependency>
             <groupId>tech.jhipster</groupId>
             <artifactId>jhipster-framework</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>javax.annotation</groupId>
@@ -161,12 +169,6 @@
         <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.liquibase</groupId>
-            <artifactId>liquibase-core</artifactId>
-            <!-- Inherited version from Spring Boot can't be used because of regressions -->
-            <version>${liquibase.version}</version>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
@@ -421,6 +423,16 @@
                                 <groupId>org.glassfish.jaxb</groupId>
                                 <artifactId>jaxb-runtime</artifactId>
                                 <version>${jaxb-runtime.version}</version>
+                            </path>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok-mapstruct-binding</artifactId>
+                                <version>0.2.0</version>
+                            </path>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <version>${lombok.version}</version>
                             </path>
                             <!-- jhipster-needle-maven-add-annotation-processor -->
                         </annotationProcessorPaths>
@@ -738,10 +750,16 @@
                             <configuration>
                                 <inputSpec>${project.basedir}/src/main/resources/swagger/api.yml</inputSpec>
                                 <generatorName>spring</generatorName>
-                                <apiPackage>pl.qprogramming.clicnic.web.api</apiPackage>
-                                <modelPackage>pl.qprogramming.clicnic.service.api.dto</modelPackage>
+                                <apiPackage>pl.qprogramming.clinic.web.api</apiPackage>
+                                <modelPackage>pl.qprogramming.clinic.service.api.dto</modelPackage>
                                 <supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
-                                <importMappings>Problem=org.zalando.problem.Problem</importMappings>
+                                <importMappings>
+                                    <importMapping>Problem=org.zalando.problem.Problem</importMapping>
+                                    <importMapping>java.time.OffsetDateTime=java.time.Instant</importMapping>
+                                </importMappings>
+                                <typeMappings>
+                                    <typeMapping>OffsetDateTime=Instant</typeMapping>
+                                </typeMappings>
                                 <skipValidateSpec>false</skipValidateSpec>
                                 <configOptions>
                                     <delegatePattern>true</delegatePattern>
@@ -782,12 +800,6 @@
         </pluginManagement>
     </build>
     <profiles>
-        <profile>
-            <id>no-liquibase</id>
-            <properties>
-                <profile.no-liquibase>,no-liquibase</profile.no-liquibase>
-            </properties>
-        </profile>
         <profile>
             <id>api-docs</id>
             <properties>
@@ -910,7 +922,7 @@
                                 <goals>
                                     <goal>npm</goal>
                                 </goals>
-                                <phase>generate-resources</phase>
+                                <phase>package</phase>
                                 <configuration>
                                     <arguments>run webapp:build</arguments>
                                     <environmentVariables>
@@ -925,7 +937,7 @@
             </build>
             <properties>
                 <!-- default Spring profiles -->
-                <spring.profiles.active>dev${profile.no-liquibase}</spring.profiles.active>
+                <spring.profiles.active>dev</spring.profiles.active>
             </properties>
         </profile>
         <profile>
@@ -948,6 +960,12 @@
                     <artifactId>postgresql</artifactId>
                     <scope>test</scope>
                 </dependency>
+                <dependency>
+                    <groupId>com.h2database</groupId>
+                    <artifactId>h2</artifactId>
+                    <scope>test</scope>
+                </dependency>
+
             </dependencies>
             <build>
                 <plugins>
@@ -986,57 +1004,12 @@
                                 </execution>
                             </executions>
                         </plugin>
-                        <plugin>
-                            <groupId>org.liquibase</groupId>
-                            <artifactId>liquibase-maven-plugin</artifactId>
-                            <version>${liquibase.version}</version>
-                            <configuration>
-                                <changeLogFile>${project.basedir}/src/main/resources/config/liquibase/master.xml</changeLogFile>
-                                <diffChangeLogFile>${project.basedir}/src/main/resources/config/liquibase/changelog/${maven.build.timestamp}_changelog.xml</diffChangeLogFile>
-                                <driver>org.postgresql.Driver</driver>
-                                <url>jdbc:postgresql://localhost:5432/clinic</url>
-                                <defaultSchemaName></defaultSchemaName>
-                                <username>clinic</username>
-                                <password></password>
-                                <referenceUrl>hibernate:spring:pl.qprogramming.clicnic.domain?dialect=tech.jhipster.domain.util.FixedPostgreSQL10Dialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy</referenceUrl>
-                                <verbose>true</verbose>
-                                <logging>debug</logging>
-                                <contexts>!test</contexts>
-                            </configuration>
-                            <dependencies>
-                                <dependency>
-                                    <groupId>org.liquibase</groupId>
-                                    <artifactId>liquibase-core</artifactId>
-                                    <version>${liquibase.version}</version>
-                                </dependency>
-                                <dependency>
-                                    <groupId>org.liquibase.ext</groupId>
-                                    <artifactId>liquibase-hibernate5</artifactId>
-                                    <version>${liquibase-hibernate5.version}</version>
-                                </dependency>
-                                <dependency>
-                                    <groupId>org.springframework.boot</groupId>
-                                    <artifactId>spring-boot-starter-data-jpa</artifactId>
-                                    <version>${spring-boot.version}</version>
-                                </dependency>
-                                <dependency>
-                                    <groupId>javax.validation</groupId>
-                                    <artifactId>validation-api</artifactId>
-                                    <version>${validation-api.version}</version>
-                                </dependency>
-                                <dependency>
-                                    <groupId>tech.jhipster</groupId>
-                                    <artifactId>jhipster-framework</artifactId>
-                                    <version>${jhipster-dependencies.version}</version>
-                                </dependency>
-                            </dependencies>
-                        </plugin>
                     </plugins>
                 </pluginManagement>
             </build>
             <properties>
                 <!-- default Spring profiles -->
-                <spring.profiles.active>dev${profile.tls}${profile.no-liquibase}</spring.profiles.active>
+                <spring.profiles.active>dev${profile.tls}</spring.profiles.active>
             </properties>
         </profile>
         <profile>
@@ -1045,6 +1018,11 @@
                 <dependency>
                     <groupId>org.testcontainers</groupId>
                     <artifactId>postgresql</artifactId>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>com.h2database</groupId>
+                    <artifactId>h2</artifactId>
                     <scope>test</scope>
                 </dependency>
                 <dependency>
@@ -1085,51 +1063,6 @@
                                     </goals>
                                 </execution>
                             </executions>
-                        </plugin>
-                        <plugin>
-                            <groupId>org.liquibase</groupId>
-                            <artifactId>liquibase-maven-plugin</artifactId>
-                            <version>${liquibase.version}</version>
-                            <configuration>
-                                <changeLogFile>${project.basedir}/src/main/resources/config/liquibase/master.xml</changeLogFile>
-                                <diffChangeLogFile>${project.basedir}/src/main/resources/config/liquibase/changelog/${maven.build.timestamp}_changelog.xml</diffChangeLogFile>
-                                <driver>org.postgresql.Driver</driver>
-                                <url>jdbc:postgresql://localhost:5432/clinic</url>
-                                <defaultSchemaName></defaultSchemaName>
-                                <username>clinic</username>
-                                <password></password>
-                                <referenceUrl>hibernate:spring:pl.qprogramming.clicnic.domain?dialect=tech.jhipster.domain.util.FixedPostgreSQL10Dialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy</referenceUrl>
-                                <verbose>true</verbose>
-                                <logging>debug</logging>
-                                <contexts>!test</contexts>
-                            </configuration>
-                            <dependencies>
-                                <dependency>
-                                    <groupId>org.liquibase</groupId>
-                                    <artifactId>liquibase-core</artifactId>
-                                    <version>${liquibase.version}</version>
-                                </dependency>
-                                <dependency>
-                                    <groupId>org.liquibase.ext</groupId>
-                                    <artifactId>liquibase-hibernate5</artifactId>
-                                    <version>${liquibase-hibernate5.version}</version>
-                                </dependency>
-                                <dependency>
-                                    <groupId>org.springframework.boot</groupId>
-                                    <artifactId>spring-boot-starter-data-jpa</artifactId>
-                                    <version>${spring-boot.version}</version>
-                                </dependency>
-                                <dependency>
-                                    <groupId>javax.validation</groupId>
-                                    <artifactId>validation-api</artifactId>
-                                    <version>${validation-api.version}</version>
-                                </dependency>
-                                <dependency>
-                                    <groupId>tech.jhipster</groupId>
-                                    <artifactId>jhipster-framework</artifactId>
-                                    <version>${jhipster-dependencies.version}</version>
-                                </dependency>
-                            </dependencies>
                         </plugin>
                     </plugins>
                 </pluginManagement>
@@ -1210,7 +1143,7 @@
             </build>
             <properties>
                 <!-- default Spring profiles -->
-                <spring.profiles.active>prod${profile.api-docs}${profile.tls}${profile.e2e}${profile.no-liquibase}</spring.profiles.active>
+                <spring.profiles.active>prod${profile.api-docs}${profile.tls}${profile.e2e}</spring.profiles.active>
             </properties>
         </profile>
         <profile>

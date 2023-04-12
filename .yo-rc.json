@@ -29,7 +29,7 @@
     "microfrontends": [],
     "nativeLanguage": "pl",
     "otherModules": [],
-    "packageName": "pl.qprogramming.clicnic",
+    "packageName": "pl.qprogramming.clinic",
     "pages": [],
     "prodDatabaseType": "postgresql",
     "reactive": false,

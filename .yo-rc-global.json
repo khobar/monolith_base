@@ -1,7 +1,7 @@
 {
   "generator-jhipster:7.9.3": {
     "promptValues": {
-      "packageName": "pl.qprogramming.clicnic",
+      "packageName": "pl.qprogramming.clinic",
       "nativeLanguage": "pl"
     }
   }
