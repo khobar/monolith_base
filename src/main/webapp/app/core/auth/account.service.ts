@@ -3,18 +3,18 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
 import { SessionStorageService } from 'ngx-webstorage';
-import { Observable, ReplaySubject, of } from 'rxjs';
-import { shareReplay, tap, catchError } from 'rxjs/operators';
+import { Observable, of, ReplaySubject } from 'rxjs';
+import { catchError, shareReplay, tap } from 'rxjs/operators';
 
 import { StateStorageService } from 'app/core/auth/state-storage.service';
 import { ApplicationConfigService } from '../config/application-config.service';
-import { Account } from 'app/core/auth/account.model';
+import { AccountDTO } from 'client-rest';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
-  private userIdentity: Account | null = null;
-  private authenticationState = new ReplaySubject<Account | null>(1);
-  private accountCache$?: Observable<Account> | null;
+  private userIdentity: AccountDTO | null = null;
+  private authenticationState = new ReplaySubject<AccountDTO | null>(1);
+  private accountCache$?: Observable<AccountDTO> | null;
 
   constructor(
     private translateService: TranslateService,
@@ -25,11 +25,11 @@ export class AccountService {
     private applicationConfigService: ApplicationConfigService
   ) {}
 
-  save(account: Account): Observable<{}> {
+  save(account: AccountDTO): Observable<{}> {
     return this.http.post(this.applicationConfigService.getEndpointFor('api/account'), account);
   }
 
-  authenticate(identity: Account | null): void {
+  authenticate(identity: AccountDTO | null): void {
     this.userIdentity = identity;
     this.authenticationState.next(this.userIdentity);
     if (!identity) {
@@ -38,19 +38,19 @@ export class AccountService {
   }
 
   hasAnyAuthority(authorities: string[] | string): boolean {
-    if (!this.userIdentity) {
+    if (!this.userIdentity || !this.userIdentity?.authorities) {
       return false;
     }
     if (!Array.isArray(authorities)) {
       authorities = [authorities];
     }
-    return this.userIdentity.authorities.some((authority: string) => authorities.includes(authority));
+    return Array.from(this.userIdentity.authorities).some((authority: string) => authorities.includes(authority));
   }
 
-  identity(force?: boolean): Observable<Account | null> {
+  identity(force?: boolean): Observable<AccountDTO | null> {
     if (!this.accountCache$ || force) {
       this.accountCache$ = this.fetch().pipe(
-        tap((account: Account) => {
+        tap((account: AccountDTO) => {
           this.authenticate(account);
 
           // After retrieve the account info, the language will be changed to
@@ -72,12 +72,12 @@ export class AccountService {
     return this.userIdentity !== null;
   }
 
-  getAuthenticationState(): Observable<Account | null> {
+  getAuthenticationState(): Observable<AccountDTO | null> {
     return this.authenticationState.asObservable();
   }
 
-  private fetch(): Observable<Account> {
-    return this.http.get<Account>(this.applicationConfigService.getEndpointFor('api/account'));
+  private fetch(): Observable<AccountDTO> {
+    return this.http.get<AccountDTO>(this.applicationConfigService.getEndpointFor('api/account'));
   }
 
   private navigateToStoredUrl(): void {

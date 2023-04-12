@@ -238,6 +238,11 @@ public class AccountService {
         return userRepository.findAll(pageable).map(accountMapper::accountToAccountDTO);
     }
 
+    @Transactional(readOnly = true)
+    public List<AccountDTO> getAllUsers() {
+        return userRepository.findAll().stream().map(accountMapper::accountToAccountDTO).collect(Collectors.toList());
+    }
+
     public boolean noUsers() {
         return userRepository.findAll().isEmpty();
     }

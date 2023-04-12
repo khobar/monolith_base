@@ -88,6 +88,7 @@
     "@ngx-translate/http-loader": "7.0.0",
     "@popperjs/core": "2.11.6",
     "bootstrap": "5.2.0",
+    "client-rest": "file:target/generated-sources/angular-client/client-rest-0.0.1-SNAPSHOT.tgz",
     "dayjs": "1.11.5",
     "ngx-infinite-scroll": "14.0.0",
     "ngx-webstorage": "10.0.1",

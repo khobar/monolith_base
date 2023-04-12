@@ -3,4 +3,9 @@ GET {{url}}/api/users
 Accept: application/json
 Authorization: Bearer {{auth_token}}
 
+### Get All users global
+GET {{url}}/api/users/list
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
 ###

@@ -83,7 +83,7 @@
         <jib-maven-plugin.image>eclipse-temurin:11-jre-focal</jib-maven-plugin.image>
         <jib-maven-plugin.architecture>amd64</jib-maven-plugin.architecture>
         <lifecycle-mapping.version>1.0.0</lifecycle-mapping.version>
-        <openapi-generator-maven-plugin.version>6.0.1</openapi-generator-maven-plugin.version>
+        <openapi-generator-maven-plugin.version>6.4.0</openapi-generator-maven-plugin.version>
         <properties-maven-plugin.version>1.1.0</properties-maven-plugin.version>
         <sonar-maven-plugin.version>3.9.1.2184</sonar-maven-plugin.version>
         <lombok.version>1.18.26</lombok.version>
@@ -144,6 +144,11 @@
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-webmvc-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>2.2.8</version>
         </dependency>
         <dependency>
             <groupId>com.zaxxer</groupId>
@@ -784,6 +789,21 @@
                                 <configOptions>
                                     <delegatePattern>true</delegatePattern>
                                     <title>clinic</title>
+                                </configOptions>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>angular-client-code-generation</id>
+                            <goals>
+                                <goal>generate</goal>
+                            </goals>
+                            <configuration>
+                                <inputSpec>${project.build.outputDirectory}/swagger/api.yml</inputSpec>
+                                <output>${project.build.directory}/generated-sources/angular-client</output>
+                                <generatorName>typescript-angular</generatorName>
+                                <configOptions>
+                                    <npmName>client-rest</npmName>
+                                    <npmVersion>${project.version}</npmVersion>
                                 </configOptions>
                             </configuration>
                         </execution>
