@@ -1,28 +1,28 @@
-jest.mock('app/core/auth/account.service');
-
+import { AccountDTO } from 'api-client';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormBuilder } from '@angular/forms';
-import { throwError, of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { AccountService } from 'app/core/auth/account.service';
-import { Account } from 'app/core/auth/account.model';
 
 import { SettingsComponent } from './settings.component';
+
+jest.mock('app/core/auth/account.service');
 
 describe('SettingsComponent', () => {
   let comp: SettingsComponent;
   let fixture: ComponentFixture<SettingsComponent>;
   let mockAccountService: AccountService;
-  const account: Account = {
+  const account: AccountDTO = {
     firstName: 'John',
     lastName: 'Doe',
     activated: true,
     email: 'john.doe@mail.com',
     langKey: 'pl',
     login: 'john',
-    authorities: [],
+    authorities: new Set(),
     imageUrl: '',
   };
 

@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Alert, AlertService } from 'app/core/util/alert.service';
 
 @Component({
-  selector: 'alert',
+  selector: 'app-alert',
   templateUrl: './alert.component.html',
 })
 export class AlertComponent implements OnInit, OnDestroy {

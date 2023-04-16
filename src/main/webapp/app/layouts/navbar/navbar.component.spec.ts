@@ -1,5 +1,4 @@
-jest.mock('app/login/login.service');
-
+import { AccountDTO } from 'api-client';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -8,21 +7,22 @@ import { NgxWebstorageModule } from 'ngx-webstorage';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { ProfileInfo } from 'app/layouts/profiles/profile-info.model';
-import { Account } from 'app/core/auth/account.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { ProfileService } from 'app/layouts/profiles/profile.service';
 import { LoginService } from 'app/login/login.service';
 
 import { NavbarComponent } from './navbar.component';
 
+jest.mock('app/login/login.service');
+
 describe('Navbar Component', () => {
   let comp: NavbarComponent;
   let fixture: ComponentFixture<NavbarComponent>;
   let accountService: AccountService;
   let profileService: ProfileService;
-  const account: Account = {
+  const account: AccountDTO = {
     activated: true,
-    authorities: [],
+    authorities: new Set(),
     email: '',
     firstName: 'John',
     langKey: '',

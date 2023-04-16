@@ -1,5 +1,4 @@
-jest.mock('app/core/auth/state-storage.service');
-
+import { AccountDTO, Role } from 'api-client';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
@@ -7,18 +6,17 @@ import { TestBed } from '@angular/core/testing';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { NgxWebstorageModule, SessionStorageService } from 'ngx-webstorage';
-
-import { Account } from 'app/core/auth/account.model';
-import { Authority } from 'app/config/authority.constants';
 import { StateStorageService } from 'app/core/auth/state-storage.service';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 
 import { AccountService } from './account.service';
 
-function accountWithAuthorities(authorities: string[]): Account {
+jest.mock('app/core/auth/state-storage.service');
+
+function accountWithAuthorities(authorities: Role[] = []): AccountDTO {
   return {
     activated: true,
-    authorities,
+    authorities: new Set(authorities),
     email: '',
     firstName: '',
     langKey: '',
@@ -62,7 +60,7 @@ describe('Account Service', () => {
   describe('save', () => {
     it('should call account saving endpoint with correct values', () => {
       // GIVEN
-      const account = accountWithAuthorities([]);
+      const account = accountWithAuthorities();
 
       // WHEN
       service.save(account).subscribe();
@@ -77,7 +75,7 @@ describe('Account Service', () => {
   describe('authenticate', () => {
     it('authenticationState should emit null if input is null', () => {
       // GIVEN
-      let userIdentity: Account | null = accountWithAuthorities([]);
+      let userIdentity: AccountDTO | null = accountWithAuthorities();
       service.getAuthenticationState().subscribe(account => (userIdentity = account));
 
       // WHEN
@@ -90,8 +88,8 @@ describe('Account Service', () => {
 
     it('authenticationState should emit the same account as was in input parameter', () => {
       // GIVEN
-      const expectedResult = accountWithAuthorities([]);
-      let userIdentity: Account | null = null;
+      const expectedResult = accountWithAuthorities();
+      let userIdentity: AccountDTO | null = null;
       service.getAuthenticationState().subscribe(account => (userIdentity = account));
 
       // WHEN
@@ -204,22 +202,22 @@ describe('Account Service', () => {
   describe('hasAnyAuthority', () => {
     describe('hasAnyAuthority string parameter', () => {
       it('should return false if user is not logged', () => {
-        const hasAuthority = service.hasAnyAuthority(Authority.USER);
+        const hasAuthority = service.hasAnyAuthority(Role.User);
         expect(hasAuthority).toBe(false);
       });
 
       it('should return false if user is logged and has not authority', () => {
-        service.authenticate(accountWithAuthorities([Authority.USER]));
+        service.authenticate(accountWithAuthorities([Role.User]));
 
-        const hasAuthority = service.hasAnyAuthority(Authority.ADMIN);
+        const hasAuthority = service.hasAnyAuthority(Role.Admin);
 
         expect(hasAuthority).toBe(false);
       });
 
       it('should return true if user is logged and has authority', () => {
-        service.authenticate(accountWithAuthorities([Authority.USER]));
+        service.authenticate(accountWithAuthorities([Role.User]));
 
-        const hasAuthority = service.hasAnyAuthority(Authority.USER);
+        const hasAuthority = service.hasAnyAuthority(Role.User);
 
         expect(hasAuthority).toBe(true);
       });
@@ -227,22 +225,22 @@ describe('Account Service', () => {
 
     describe('hasAnyAuthority array parameter', () => {
       it('should return false if user is not logged', () => {
-        const hasAuthority = service.hasAnyAuthority([Authority.USER]);
+        const hasAuthority = service.hasAnyAuthority([Role.User]);
         expect(hasAuthority).toBeFalsy();
       });
 
       it('should return false if user is logged and has not authority', () => {
-        service.authenticate(accountWithAuthorities([Authority.USER]));
+        service.authenticate(accountWithAuthorities([Role.User]));
 
-        const hasAuthority = service.hasAnyAuthority([Authority.ADMIN]);
+        const hasAuthority = service.hasAnyAuthority([Role.Admin]);
 
         expect(hasAuthority).toBe(false);
       });
 
       it('should return true if user is logged and has authority', () => {
-        service.authenticate(accountWithAuthorities([Authority.USER]));
+        service.authenticate(accountWithAuthorities([Role.User]));
 
-        const hasAuthority = service.hasAnyAuthority([Authority.USER, Authority.ADMIN]);
+        const hasAuthority = service.hasAnyAuthority([Role.User, Role.Admin]);
 
         expect(hasAuthority).toBe(true);
       });

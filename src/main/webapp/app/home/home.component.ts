@@ -12,11 +12,10 @@ import { AccountDTO, AccountsService } from 'api-client';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  account: AccountDTO | null = null;
-
-  private readonly destroy$ = new Subject<void>();
   accounts$!: Observable<AccountDTO[]>;
-  loading: boolean = false;
+  account: AccountDTO | null = null;
+  loading = false;
+  private readonly destroy$ = new Subject<void>();
 
   constructor(private accountService: AccountService, private router: Router, private accountsService: AccountsService) {}
 
@@ -36,7 +35,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  loadUsers() {
+  loadUsers(): void {
     this.accounts$ = this.accountsService.getAccounts().pipe(
       shareReplay(),
       finalize(() => {

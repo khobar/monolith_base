@@ -1,36 +1,37 @@
-jest.mock('app/core/auth/account.service');
-
+import { AccountDTO, AccountsService as AccountsServiceAPI } from 'api-client';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of, Subject } from 'rxjs';
 
 import { AccountService } from 'app/core/auth/account.service';
-import { Account } from 'app/core/auth/account.model';
 
 import { HomeComponent } from './home.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+
+jest.mock('app/core/auth/account.service');
 
 describe('Home Component', () => {
   let comp: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
   let mockAccountService: AccountService;
   let mockRouter: Router;
-  const account: Account = {
+  const account: AccountDTO = {
     activated: true,
-    authorities: [],
+    authorities: new Set(),
     email: '',
-    firstName: null,
+    firstName: undefined,
     langKey: '',
-    lastName: null,
+    lastName: undefined,
     login: 'login',
-    imageUrl: null,
+    imageUrl: undefined,
   };
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule.withRoutes([])],
+      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([])],
       declarations: [HomeComponent],
-      providers: [AccountService],
+      providers: [AccountService, AccountsServiceAPI],
     })
       .overrideTemplate(HomeComponent, '')
       .compileComponents();
@@ -50,7 +51,7 @@ describe('Home Component', () => {
   describe('ngOnInit', () => {
     it('Should synchronize account variable with current account', () => {
       // GIVEN
-      const authenticationState = new Subject<Account | null>();
+      const authenticationState = new Subject<AccountDTO | null>();
       mockAccountService.getAuthenticationState = jest.fn(() => authenticationState.asObservable());
 
       // WHEN
@@ -86,7 +87,7 @@ describe('Home Component', () => {
   describe('ngOnDestroy', () => {
     it('Should destroy authentication state subscription on component destroy', () => {
       // GIVEN
-      const authenticationState = new Subject<Account | null>();
+      const authenticationState = new Subject<AccountDTO | null>();
       mockAccountService.getAuthenticationState = jest.fn(() => authenticationState.asObservable());
 
       // WHEN

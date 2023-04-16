@@ -1,14 +1,14 @@
-jest.mock('app/core/auth/account.service');
-
+import { AccountDTO } from 'api-client';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Subject } from 'rxjs';
 
 import { AccountService } from 'app/core/auth/account.service';
-import { Account } from 'app/core/auth/account.model';
 
 import { HasAnyAuthorityDirective } from './has-any-authority.directive';
+
+jest.mock('app/core/auth/account.service');
 
 @Component({
   template: ` <div *jhiHasAnyAuthority="'ROLE_ADMIN'" #content></div> `,
@@ -20,7 +20,7 @@ class TestHasAnyAuthorityDirectiveComponent {
 
 describe('HasAnyAuthorityDirective tests', () => {
   let mockAccountService: AccountService;
-  const authenticationState = new Subject<Account | null>();
+  const authenticationState = new Subject<AccountDTO | null>();
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
