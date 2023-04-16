@@ -14,7 +14,7 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
       tap({
         error: (err: HttpErrorResponse) => {
           if (!(err.status === 401 && (err.message === '' || err.url?.includes('api/account')))) {
-            this.eventManager.broadcast(new EventWithContent('clinicApp.httpError', err));
+            this.eventManager.broadcast(new EventWithContent('appbase.httpError', err));
           }
         },
       })

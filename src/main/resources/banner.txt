@@ -1,9 +1,3 @@
-
-${AnsiColor.RED}   ______  __       __  .__   __.  __    ______         ___      .______    __
-${AnsiColor.RED}  /      ||  |     |  | |  \ |  | |  |  /      |       /   \     |   _  \  |  |
-${AnsiColor.RED} |  ,----'|  |     |  | |   \|  | |  | |  ,----'      /  ^  \    |  |_)  | |  |
-${AnsiColor.RED} |  |     |  |     |  | |  . `  | |  | |  |          /  /_\  \   |   ___/  |  |
-${AnsiColor.RED} |  `----.|  `----.|  | |  |\   | |  | |  `----.    /  _____  \  |  |      |  |
-${AnsiColor.RED}  \______||_______||__| |__| \__| |__|  \______|   /__/     \__\ | _|      |__|
+BASEAPP
 ${AnsiColor.BRIGHT_BLUE}:: ${application.title} v${application.version} ::
 ${AnsiColor.BRIGHT_BLUE}:: Running Spring Boot ${spring-boot.version} ::

@@ -2,7 +2,7 @@
   "generator-jhipster": {
     "applicationType": "monolith",
     "authenticationType": "jwt",
-    "baseName": "clinic",
+    "baseName": "appBase",
     "blueprints": [],
     "buildTool": "maven",
     "cacheProvider": "no",
@@ -29,7 +29,7 @@
     "microfrontends": [],
     "nativeLanguage": "pl",
     "otherModules": [],
-    "packageName": "pl.qprogramming.clinic",
+    "packageName": "pl.qprogramming.appbase",
     "pages": [],
     "prodDatabaseType": "postgresql",
     "reactive": false,

@@ -5,12 +5,12 @@
                              https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>pl.qprogramming.clinic</groupId>
-    <artifactId>clinic</artifactId>
+    <groupId>pl.qprogramming.appbase</groupId>
+    <artifactId>appbase</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>Clinic</name>
-    <description>Description for clinic</description>
+    <name>AppBase</name>
+    <description>Description for AppBase</description>
 
     <repositories>
         <!-- jhipster-needle-maven-repository -->
@@ -34,7 +34,7 @@
         <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <start-class>pl.qprogramming.clinic.ClinicApp</start-class>
+        <start-class>pl.qprogramming.appbase.AppBaseApp</start-class>
         <argLine>-Djava.security.egd=file:/dev/./urandom -Xmx1G</argLine>
         <m2e.apt.activation>jdt_apt</m2e.apt.activation>
         <run.addResources>false</run.addResources>
@@ -613,7 +613,7 @@
                             </platforms>
                         </from>
                         <to>
-                            <image>clinic:latest</image>
+                            <image>appbase:latest</image>
                         </to>
                         <container>
                             <entrypoint>
@@ -792,8 +792,8 @@
                             <configuration>
                                 <inputSpec>${project.basedir}/src/main/resources/swagger/api.yml</inputSpec>
                                 <generatorName>spring</generatorName>
-                                <apiPackage>pl.qprogramming.clinic.web.api</apiPackage>
-                                <modelPackage>pl.qprogramming.clinic.service.api.dto</modelPackage>
+                                <apiPackage>pl.qprogramming.appbase.web.api</apiPackage>
+                                <modelPackage>pl.qprogramming.appbase.service.api.dto</modelPackage>
                                 <supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
                                 <importMappings>
                                     <importMapping>Problem=org.zalando.problem.Problem</importMapping>
@@ -805,7 +805,7 @@
                                 <skipValidateSpec>false</skipValidateSpec>
                                 <configOptions>
                                     <delegatePattern>true</delegatePattern>
-                                    <title>clinic</title>
+                                    <title>appbase</title>
                                 </configOptions>
                             </configuration>
                         </execution>
