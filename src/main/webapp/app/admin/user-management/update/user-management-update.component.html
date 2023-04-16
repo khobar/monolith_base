@@ -3,7 +3,7 @@
     <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
       <h2 id="myUserLabel" jhiTranslate="userManagement.home.createOrEditLabel">Stwórz lub edytuj użytkownika</h2>
 
-      <jhi-alert-error></jhi-alert-error>
+      <alert-error></alert-error>
 
       <div class="mb-3" [hidden]="!editForm.value.id">
         <label jhiTranslate="global.field.id">ID</label>

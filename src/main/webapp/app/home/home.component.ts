@@ -4,7 +4,7 @@ import { finalize, Observable, Subject, tap } from 'rxjs';
 import { shareReplay, takeUntil } from 'rxjs/operators';
 
 import { AccountService } from 'app/core/auth/account.service';
-import { AccountDTO, DefaultService } from 'api-client';
+import { AccountDTO, AccountsService } from 'api-client';
 
 @Component({
   selector: 'jhi-home',
@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   accounts$!: Observable<AccountDTO[]>;
   loading: boolean = false;
 
-  constructor(private accountService: AccountService, private router: Router, private apiClient: DefaultService) {}
+  constructor(private accountService: AccountService, private router: Router, private accountsService: AccountsService) {}
 
   ngOnInit(): void {
     this.accountService
@@ -37,7 +37,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   loadUsers() {
-    this.accounts$ = this.apiClient.getUsers().pipe(
+    this.accounts$ = this.accountsService.getAccounts().pipe(
       shareReplay(),
       finalize(() => {
         this.loading = false;

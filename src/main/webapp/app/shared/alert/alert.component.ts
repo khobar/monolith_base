@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { AlertService, Alert } from 'app/core/util/alert.service';
+import { Alert, AlertService } from 'app/core/util/alert.service';
 
 @Component({
-  selector: 'jhi-alert',
+  selector: 'alert',
   templateUrl: './alert.component.html',
 })
 export class AlertComponent implements OnInit, OnDestroy {
@@ -16,7 +16,7 @@ export class AlertComponent implements OnInit, OnDestroy {
   }
 
   setClasses(alert: Alert): { [key: string]: boolean } {
-    const classes = { 'jhi-toast': Boolean(alert.toast) };
+    const classes = { toast: Boolean(alert.toast) };
     if (alert.position) {
       return { ...classes, [alert.position]: true };
     }

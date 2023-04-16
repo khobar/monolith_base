@@ -8,7 +8,7 @@ import { Alert, AlertService } from 'app/core/util/alert.service';
 import { EventManager, EventWithContent } from 'app/core/util/event-manager.service';
 
 @Component({
-  selector: 'jhi-alert-error',
+  selector: 'alert-error',
   templateUrl: './alert-error.component.html',
 })
 export class AlertErrorComponent implements OnDestroy {
@@ -86,7 +86,7 @@ export class AlertErrorComponent implements OnDestroy {
   }
 
   setClasses(alert: Alert): { [key: string]: boolean } {
-    const classes = { 'jhi-toast': Boolean(alert.toast) };
+    const classes = { toast: Boolean(alert.toast) };
     if (alert.position) {
       return { ...classes, [alert.position]: true };
     }

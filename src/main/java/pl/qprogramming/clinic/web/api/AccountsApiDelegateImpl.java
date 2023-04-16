@@ -9,12 +9,12 @@ import pl.qprogramming.clinic.service.api.dto.AccountDTO;
 
 @Service
 @RequiredArgsConstructor
-public class UsersApiDelegateImpl implements UsersApiDelegate {
+public class AccountsApiDelegateImpl implements UsersApiDelegate {
 
     private final AccountService accountService;
 
     @Override
-    public ResponseEntity<List<AccountDTO>> getUsers() {
+    public ResponseEntity<List<AccountDTO>> getAccounts() {
         return ResponseEntity.ok(this.accountService.getAllUsers());
     }
 }

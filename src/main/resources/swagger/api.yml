@@ -12,8 +12,10 @@ servers:
 paths:
   /users/list:
     get:
-      summary: Gets all users
-      operationId: getUsers
+      tags:
+        - 'accounts'
+      summary: Gets all accounts
+      operationId: getAccounts
       responses:
         '200':
           description: Successful operation
