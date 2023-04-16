@@ -1,4 +1,4 @@
-import { NgModule, LOCALE_ID } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import locale from '@angular/common/locales/pl';
@@ -25,6 +25,8 @@ import { FooterComponent } from './layouts/footer/footer.component';
 import { PageRibbonComponent } from './layouts/profiles/page-ribbon.component';
 import { ActiveMenuDirective } from './layouts/navbar/active-menu.directive';
 import { ErrorComponent } from './layouts/error/error.component';
+import { ApiModule, Configuration } from 'api-client';
+import { AuthServerProvider } from './core/auth/auth-jwt.service';
 
 @NgModule({
   imports: [
@@ -38,12 +40,23 @@ import { ErrorComponent } from './layouts/error/error.component';
     HttpClientModule,
     NgxWebstorageModule.forRoot({ prefix: 'jhi', separator: '-', caseSensitive: true }),
     TranslationModule,
+    ApiModule,
   ],
   providers: [
     Title,
     { provide: LOCALE_ID, useValue: 'pl' },
     { provide: NgbDateAdapter, useClass: NgbDateDayjsAdapter },
     httpInterceptorProviders,
+    {
+      provide: Configuration,
+      useFactory: (authService: AuthServerProvider) =>
+        new Configuration({
+          basePath: './api',
+          accessToken: authService.getToken(),
+        }),
+      deps: [AuthServerProvider],
+      multi: false,
+    },
   ],
   declarations: [MainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, ActiveMenuDirective, FooterComponent],
   bootstrap: [MainComponent],

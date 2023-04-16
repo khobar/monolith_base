@@ -9,7 +9,7 @@ import { AccountService } from 'app/core/auth/account.service';
 import { LoginService } from 'app/login/login.service';
 import { ProfileService } from 'app/layouts/profiles/profile.service';
 import { EntityNavbarItems } from 'app/entities/entity-navbar-items';
-import { AccountDTO } from 'client-rest';
+import { AccountDTO } from 'api-client';
 
 @Component({
   selector: 'jhi-navbar',

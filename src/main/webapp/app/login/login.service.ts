@@ -4,7 +4,7 @@ import { mergeMap } from 'rxjs/operators';
 import { AccountService } from 'app/core/auth/account.service';
 import { AuthServerProvider } from 'app/core/auth/auth-jwt.service';
 import { Login } from './login.model';
-import { AccountDTO } from 'client-rest';
+import { AccountDTO } from 'api-client';
 
 @Injectable({ providedIn: 'root' })
 export class LoginService {

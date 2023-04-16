@@ -28,6 +28,8 @@ public class InitialDataLoader implements ApplicationRunner {
             log.info("There are no users yet , presuming it's initial app startup");
             val administrator = new AccountDTO()
                 .firstName("Administrator")
+                .lastName("Administrator")
+                .langKey(properties.getDefaults().getDefaultLang())
                 .login(properties.getDefaults().getAdminAccount())
                 .email(properties.getDefaults().getAdminEmail())
                 .authorities(new HashSet<>(Arrays.asList(Role.ADMIN, Role.USER)));

@@ -8,7 +8,7 @@ import { catchError, shareReplay, tap } from 'rxjs/operators';
 
 import { StateStorageService } from 'app/core/auth/state-storage.service';
 import { ApplicationConfigService } from '../config/application-config.service';
-import { AccountDTO } from 'client-rest';
+import { AccountDTO } from 'api-client';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {

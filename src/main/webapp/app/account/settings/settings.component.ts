@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { AccountService } from 'app/core/auth/account.service';
 import { LANGUAGES } from 'app/config/language.constants';
-import { AccountDTO } from 'client-rest';
+import { AccountDTO } from 'api-client';
 
 const initialAccount: AccountDTO = {} as AccountDTO;
 

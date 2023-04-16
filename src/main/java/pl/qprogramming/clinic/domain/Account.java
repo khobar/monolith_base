@@ -13,6 +13,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.BatchSize;
 import pl.qprogramming.clinic.config.Constants;
@@ -91,6 +92,7 @@ public class Account extends AbstractAuditingEntity<Long> implements Serializabl
         inverseJoinColumns = { @JoinColumn(name = "authority_name", referencedColumnName = "name") }
     )
     @BatchSize(size = 20)
+    @ToString.Exclude
     private Set<Authority> authorities = new HashSet<>();
 
     // Lowercase the login before saving it in database

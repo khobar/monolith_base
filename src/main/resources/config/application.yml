@@ -215,4 +215,5 @@ application:
     admin-password: admin
     admin-account: admin
     admin-email: admin@clinic.com
+    default-lang: pl
   activate-new-accounts: false

@@ -75,4 +75,14 @@
       >!
     </p>
   </div>
+  <div>
+    <h2>Accounts list</h2>
+    <div>
+      <button (click)="loadUsers()">Get Accounts</button>
+      <ul>
+        <li *ngFor="let account of accounts$ | async">{{ account.firstName }} {{ account.lastName }}</li>
+      </ul>
+      <div *ngIf="loading">Loading...</div>
+    </div>
+  </div>
 </div>

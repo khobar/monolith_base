@@ -28,5 +28,6 @@ public class ApplicationProperties {
         private String adminPassword;
         private String adminAccount;
         private String adminEmail;
+        private String defaultLang;
     }
 }

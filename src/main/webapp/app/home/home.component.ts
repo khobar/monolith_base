@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { finalize, Observable, Subject, tap } from 'rxjs';
+import { shareReplay, takeUntil } from 'rxjs/operators';
 
 import { AccountService } from 'app/core/auth/account.service';
-import { AccountDTO } from 'client-rest';
+import { AccountDTO, DefaultService } from 'api-client';
 
 @Component({
   selector: 'jhi-home',
@@ -15,8 +15,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   account: AccountDTO | null = null;
 
   private readonly destroy$ = new Subject<void>();
+  accounts$!: Observable<AccountDTO[]>;
+  loading: boolean = false;
 
-  constructor(private accountService: AccountService, private router: Router) {}
+  constructor(private accountService: AccountService, private router: Router, private apiClient: DefaultService) {}
 
   ngOnInit(): void {
     this.accountService
@@ -32,5 +34,17 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  loadUsers() {
+    this.accounts$ = this.apiClient.getUsers().pipe(
+      shareReplay(),
+      finalize(() => {
+        this.loading = false;
+      }),
+      tap(() => {
+        this.loading = true;
+      })
+    );
   }
 }

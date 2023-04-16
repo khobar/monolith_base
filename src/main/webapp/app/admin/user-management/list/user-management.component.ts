@@ -10,7 +10,7 @@ import { AccountService } from 'app/core/auth/account.service';
 import { UserManagementService } from '../service/user-management.service';
 import { User } from '../user-management.model';
 import { UserManagementDeleteDialogComponent } from '../delete/user-management-delete-dialog.component';
-import { AccountDTO } from 'client-rest';
+import { AccountDTO } from 'api-client';
 
 @Component({
   selector: 'jhi-user-mgmt',

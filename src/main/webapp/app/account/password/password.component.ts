@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { AccountService } from 'app/core/auth/account.service';
 import { PasswordService } from './password.service';
-import { AccountDTO } from 'client-rest';
+import { AccountDTO } from 'api-client';
 
 @Component({
   selector: 'jhi-password',

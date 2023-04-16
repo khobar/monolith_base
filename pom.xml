@@ -645,6 +645,23 @@
                 <plugin>
                     <artifactId>maven-clean-plugin</artifactId>
                     <version>${maven-clean-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>auto-clean-client</id>
+                            <phase>clean</phase>
+                            <goals>
+                                <goal>clean</goal>
+                            </goals>
+                            <configuration>
+                                <excludeDefaultDirectories>true</excludeDefaultDirectories>
+                                <filesets>
+                                    <fileset>
+                                        <directory>${project.basedir}/src/main/webapp/api-client</directory>
+                                    </fileset>
+                                </filesets>
+                            </configuration>
+                        </execution>
+                    </executions>
                 </plugin>
                 <plugin>
                     <artifactId>maven-site-plugin</artifactId>
@@ -799,10 +816,10 @@
                             </goals>
                             <configuration>
                                 <inputSpec>${project.build.outputDirectory}/swagger/api.yml</inputSpec>
-                                <output>${project.build.directory}/generated-sources/angular-client</output>
+                                <output>${project.basedir}/src/main/webapp/api-client</output>
                                 <generatorName>typescript-angular</generatorName>
                                 <configOptions>
-                                    <npmName>client-rest</npmName>
+                                    <npmName>api-client</npmName>
                                     <npmVersion>${project.version}</npmVersion>
                                 </configOptions>
                             </configuration>

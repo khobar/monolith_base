@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import pl.qprogramming.clinic.domain.Account;
 import pl.qprogramming.clinic.repository.UserRepository;
@@ -112,6 +113,7 @@ public class AccountResource {
      * @throws RuntimeException {@code 500 (Internal Server Error)} if the user login wasn't found.
      */
     @PostMapping("/account")
+    @Transactional
     public void saveAccount(@Valid @RequestBody AccountDTO userDTO) {
         String userLogin = SecurityUtils
             .getCurrentUserLogin()
@@ -124,6 +126,7 @@ public class AccountResource {
         if (!user.isPresent()) {
             throw new AccountResourceException("User could not be found");
         }
+        //TODO change to ti also include cache clean etc ?
         accountService.updateUser(
             userDTO.getFirstName(),
             userDTO.getLastName(),
