@@ -7,40 +7,43 @@
       </div>
       <form class="form" role="form" (ngSubmit)="login()" [formGroup]="loginForm">
         <div class="mb-3">
-          <label class="username-label" for="username" jhiTranslate="global.form.username.label">Nazwa użytkownika</label>
-          <input
-            type="text"
-            class="form-control"
-            name="username"
-            id="username"
-            placeholder="{{ 'global.form.username.placeholder' | translate }}"
-            formControlName="username"
-            #username
-            data-cy="username"
-          />
+          <mat-form-field>
+            <mat-label>{{ 'global.form.username.label' | translate }}</mat-label>
+            <input
+              matInput
+              type="text"
+              class="form-control"
+              name="username"
+              id="username"
+              placeholder="{{ 'global.form.username.placeholder' | translate }}"
+              formControlName="username"
+              #username
+              data-cy="username"
+            />
+          </mat-form-field>
         </div>
-
         <div class="mb-3">
-          <label for="password" jhiTranslate="login.form.password">Hasło</label>
-          <input
-            type="password"
-            class="form-control"
-            name="password"
-            id="password"
-            placeholder="{{ 'login.form.password.placeholder' | translate }}"
-            formControlName="password"
-            data-cy="password"
-          />
+          <mat-form-field>
+            <mat-label>{{ 'login.form.password' | translate }}</mat-label>
+            <input
+              matInput
+              type="password"
+              class="form-control"
+              name="password"
+              id="password"
+              placeholder="{{ 'login.form.password.placeholder' | translate }}"
+              formControlName="password"
+              data-cy="password"
+            />
+          </mat-form-field>
         </div>
-
         <div class="form-check">
-          <label class="form-check-label" for="rememberMe">
-            <input class="form-check-input" type="checkbox" name="rememberMe" id="rememberMe" formControlName="rememberMe" />
-            <span jhiTranslate="login.form.rememberme">Zapamiętaj mnie</span>
-          </label>
+          <mat-checkbox class="example-margin" formControlName="rememberMe">
+            {{ 'login.form.rememberme' | translate }}
+          </mat-checkbox>
         </div>
 
-        <button type="submit" class="btn btn-primary" jhiTranslate="login.form.button" data-cy="submit">Zaloguj</button>
+        <button type="submit" mat-raised-button color="primary" jhiTranslate="login.form.button" data-cy="submit">Zaloguj</button>
       </form>
       <div class="mt-3 alert alert-warning">
         <a class="alert-link" routerLink="/account/reset/request" jhiTranslate="login.password.forgot" data-cy="forgetYourPasswordSelector"

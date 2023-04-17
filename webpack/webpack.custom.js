@@ -12,7 +12,7 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 const environment = require('./environment');
 const proxyConfig = require('./proxy.conf');
 
-module.exports = async (config, options, targetOptions) => {
+module.exports = async (config, options, targetOptions, module) => {
   const languagesHash = await hashElement(path.resolve(__dirname, '../src/main/webapp/i18n'), {
     algo: 'md5',
     encoding: 'hex',

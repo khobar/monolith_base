@@ -1,13 +1,13 @@
-import { Component, OnInit, RendererFactory2, Renderer2 } from '@angular/core';
+import { Component, OnInit, Renderer2, RendererFactory2 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { Router, ActivatedRouteSnapshot, NavigationEnd } from '@angular/router';
-import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import dayjs from 'dayjs/esm';
 
 import { AccountService } from 'app/core/auth/account.service';
 
 @Component({
-  selector: 'jhi-main',
+  selector: 'app-main',
   templateUrl: './main.component.html',
 })
 export class MainComponent implements OnInit {
