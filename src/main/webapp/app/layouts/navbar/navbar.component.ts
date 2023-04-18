@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from "@angular/core";
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SessionStorageService } from 'ngx-webstorage';
@@ -57,7 +57,8 @@ export class NavbarComponent implements OnInit {
   }
 
   public onToggleSidenav = () => {
-  }
+    this.sidenavToggle.emit();
+  };
 
   changeLanguage(languageKey: string): void {
     this.sessionStorageService.store('locale', languageKey);

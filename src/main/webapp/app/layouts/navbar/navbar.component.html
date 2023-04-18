@@ -2,23 +2,28 @@
   <mat-toolbar-row>
     <span class="font-semibold">Logo</span>
     <span class="menu-spacer"></span>
+    <!--    hidden in sm, visible in larger than md-->
     <div class="hidden md:block">
-      <!-- The following menu items will be hidden on both SM and XS screen sizes -->
       <a mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="mx-2">
         <mat-icon>home</mat-icon>
-        <span jhiTranslate="global.menu.home">Strona domowa</span>
+        <span>{{ 'global.menu.home' | translate }}</span>
       </a>
-      <ng-container [ngSwitch]="account!==null">
+      <ng-container [ngSwitch]="account !== null">
         <ng-container *ngSwitchCase="true">
           <a mat-button *hasAnyAuthority="'ROLE_ADMIN'" [matMenuTriggerFor]="adminMenu" class="mx-2">
             <mat-icon>admin_panel_settings</mat-icon>
-            {{"global.menu.admin.main"| translate}}
+            {{ 'global.menu.admin.main' | translate }}
             <span class="absolute mt-1">
               <mat-icon>arrow_drop_down</mat-icon>
             </span>
           </a>
-          <a *ngIf="languages && languages.length > 1" id="languagesnavBarDropdown" [matMenuTriggerFor]="languageMenu"
-             mat-button class="mx-2">
+          <a
+            *ngIf="languages && languages.length > 1"
+            id="languagesnavBarDropdown"
+            [matMenuTriggerFor]="languageMenu"
+            mat-button
+            class="mx-2"
+          >
             <mat-icon>translate</mat-icon>
             <span jhiTranslate="global.menu.language">Język</span>
             <span class="absolute mt-1">
@@ -35,21 +40,13 @@
           <a *ngIf="account?.imageUrl" [matMenuTriggerFor]="userMenu" class="mx-2">
             <img [src]="account!.imageUrl" class="profile-image rounded-circle" alt="Avatar" />
           </a>
-
         </ng-container>
         <ng-container *ngSwitchCase="false">
           <a (click)="login()" id="login" data-cy="login" mat-button>
             <mat-icon>login</mat-icon>
             <span jhiTranslate="global.menu.account.login">Autoryzacja</span>
           </a>
-        </ng-container>
-        <ng-container *ngSwitchCase="false">
-          <a
-            mat-button
-            routerLink="account/register"
-            routerLinkActive="active"
-            (click)="collapseNavbar()"
-          >
+          <a mat-button routerLink="account/register" routerLinkActive="active" (click)="collapseNavbar()">
             <mat-icon>person_add</mat-icon>
             <span jhiTranslate="global.menu.account.register">Zarejestruj się</span>
           </a>
@@ -62,14 +59,10 @@
   </mat-toolbar-row>
 </mat-toolbar>
 
-
 <!--Lang menu-->
 <mat-menu aria-labelledby="languagesnavBarDropdown" #languageMenu="matMenu">
   <button mat-menu-item *ngFor="let language of languages">
-    <a
-      [jhiActiveMenu]="language"
-      (click)="changeLanguage(language); collapseNavbar()"
-    >
+    <a [jhiActiveMenu]="language" (click)="changeLanguage(language); collapseNavbar()">
       {{ language | findLanguageFromKey }}
     </a>
   </button>
@@ -115,25 +108,16 @@
 </mat-menu>
 <!--USER menu-->
 <mat-menu #userMenu="matMenu">
-  <button mat-menu-item
-          routerLink="account/settings"
-          routerLinkActive="active"
-          (click)="collapseNavbar()"
-
-  >
-    <fa-icon icon="wrench" [fixedWidth]="true"></fa-icon>
+  <button mat-menu-item routerLink="account/settings" routerLinkActive="active" (click)="collapseNavbar()">
+    <mat-icon>construction</mat-icon>
     <span jhiTranslate="global.menu.account.settings">Ustawienia</span>
   </button>
-  <button mat-menu-item
-          routerLink="account/password"
-          routerLinkActive="active"
-          (click)="collapseNavbar()"
-  >
-    <fa-icon icon="lock" [fixedWidth]="true"></fa-icon>
+  <button mat-menu-item routerLink="account/password" routerLinkActive="active" (click)="collapseNavbar()">
+    <mat-icon>password</mat-icon>
     <span jhiTranslate="global.menu.account.password">Hasło</span>
   </button>
   <button mat-menu-item (click)="logout()" id="logout" data-cy="logout">
-    <fa-icon icon="sign-out-alt" [fixedWidth]="true"></fa-icon>
+    <mat-icon>logout</mat-icon>
     <span jhiTranslate="global.menu.account.logout">Wyloguj</span>
   </button>
 </mat-menu>

@@ -10,10 +10,8 @@
 <!--  <jhi-footer></jhi-footer>-->
 <!--</div>-->
 <mat-sidenav-container>
+  <mat-sidenav #sidenav role="navigation" position="end"> My sidebar </mat-sidenav>
   <mat-sidenav-content>
-    <mat-sidenav #sidenav role="navigation">
-      My sidebar
-    </mat-sidenav>
     <!--in here all the content must reside. We will add a navigation header as well-->
     <app-navbar (sidenavToggle)="sidenav.toggle()"></app-navbar>
     <main>

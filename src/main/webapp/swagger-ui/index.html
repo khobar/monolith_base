@@ -26,7 +26,7 @@
 
       window.onload = async function () {
         const getBearerToken = () => {
-          var authToken = localStorage.getItem('jhi-authenticationToken') || sessionStorage.getItem('jhi-authenticationToken');
+          var authToken = localStorage.getItem('app-authenticationToken') || sessionStorage.getItem('app-authenticationToken');
           if (authToken) {
             authToken = JSON.parse(authToken);
             return `Bearer ${authToken}`;
