@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SessionStorageService } from 'ngx-webstorage';
@@ -12,11 +12,12 @@ import { EntityNavbarItems } from 'app/entities/entity-navbar-items';
 import { AccountDTO } from 'api-client';
 
 @Component({
-  selector: 'jhi-navbar',
+  selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
+  @Output() public sidenavToggle = new EventEmitter();
   inProduction?: boolean;
   isNavbarCollapsed = true;
   languages = LANGUAGES;
@@ -24,6 +25,7 @@ export class NavbarComponent implements OnInit {
   version = '';
   account: AccountDTO | null = null;
   entitiesNavbarItems: any[] = [];
+  hamburgerOpen = false;
 
   constructor(
     private loginService: LoginService,
@@ -38,6 +40,10 @@ export class NavbarComponent implements OnInit {
     }
   }
 
+  toggleHamburger(): void {
+    this.hamburgerOpen = !this.hamburgerOpen;
+  }
+
   ngOnInit(): void {
     this.entitiesNavbarItems = EntityNavbarItems;
     this.profileService.getProfileInfo().subscribe(profileInfo => {
@@ -48,6 +54,9 @@ export class NavbarComponent implements OnInit {
     this.accountService.getAuthenticationState().subscribe(account => {
       this.account = account;
     });
+  }
+
+  public onToggleSidenav = () => {
   }
 
   changeLanguage(languageKey: string): void {

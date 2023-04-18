@@ -23,6 +23,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatSidenavModule } from "@angular/material/sidenav";
+import { MatToolbarModule } from "@angular/material/toolbar";
 
 @NgModule({
   declarations: [],
@@ -51,6 +53,8 @@ import { MatMenuModule } from '@angular/material/menu';
     MatRadioModule,
     MatListModule,
     MatIconModule,
+    MatSidenavModule,
+    MatToolbarModule
   ],
   exports: [
     MatButtonModule,
@@ -76,6 +80,8 @@ import { MatMenuModule } from '@angular/material/menu';
     MatRadioModule,
     MatListModule,
     MatIconModule,
+    MatSidenavModule,
+    MatToolbarModule
   ],
 })
 export class MaterialModule {}

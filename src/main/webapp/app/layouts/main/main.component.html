@@ -1,11 +1,25 @@
-<div>
-  <router-outlet name="navbar"></router-outlet>
-</div>
+<!--<div>-->
+<!--  <router-outlet name="navbar"></router-outlet>-->
+<!--</div>-->
 
-<div class="container-fluid">
-  <div class="card jh-card">
-    <router-outlet></router-outlet>
-  </div>
+<!--<div class="container-fluid">-->
+<!--  <div class="card jh-card">-->
+<!--    <router-outlet></router-outlet>-->
+<!--  </div>-->
 
-  <jhi-footer></jhi-footer>
-</div>
+<!--  <jhi-footer></jhi-footer>-->
+<!--</div>-->
+<mat-sidenav-container>
+  <mat-sidenav-content>
+    <mat-sidenav #sidenav role="navigation">
+      My sidebar
+    </mat-sidenav>
+    <!--in here all the content must reside. We will add a navigation header as well-->
+    <app-navbar (sidenavToggle)="sidenav.toggle()"></app-navbar>
+    <main>
+      <mat-card class="p-2">
+        <router-outlet></router-outlet>
+      </mat-card>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

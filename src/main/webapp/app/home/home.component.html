@@ -75,13 +75,16 @@
       >!
     </p>
   </div>
+  <h1 class="text-3xl font-bold underline">
+    Hello world!
+  </h1>
   <div class="col-md-9 offset-md-3">
     <h2>Accounts list</h2>
     <div>
-      <button (click)="loadUsers()">Get Accounts</button>
+      <button mat-raised-button (click)="loadUsers()">Get Accounts</button>
       <mat-list>
         <mat-list-item *ngFor="let account of accounts$ | async">
-          <mat-icon aria-hidden="false" aria-label="accon icon" fontIcon="person"></mat-icon>
+          <mat-icon aria-hidden="false" aria-label="account icon">person</mat-icon>
           {{ account.firstName }} ({{ account.lastName }})
         </mat-list-item>
       </mat-list>

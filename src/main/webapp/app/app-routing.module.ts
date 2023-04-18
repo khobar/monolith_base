@@ -32,7 +32,7 @@ import { Role } from 'api-client';
           path: '',
           loadChildren: () => import(`./entities/entity-routing.module`).then(m => m.EntityRoutingModule),
         },
-        navbarRoute,
+        // navbarRoute,
         ...errorRoute,
       ],
       { enableTracing: DEBUG_INFO_ENABLED }
