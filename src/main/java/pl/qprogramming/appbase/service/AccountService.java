@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
+
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.slf4j.Logger;
@@ -84,10 +85,13 @@ public class AccountService {
     }
 
     public Account registerUser(AccountDTO accountDTO, String password) {
-        return registerUser(accountDTO, password, false);
+        return registerUser(accountDTO, password, false, false);
     }
 
-    public Account registerUser(AccountDTO accountDTO, String password, boolean activated) {
+    /**
+     * Registers user with User role ( ignoring any attempts to create itself as admin
+     */
+    public Account registerUser(AccountDTO accountDTO, String password, boolean activated, boolean keepRoles) {
         userRepository
             .findOneByLogin(accountDTO.getLogin().toLowerCase())
             .ifPresent(existingUser -> {
@@ -111,7 +115,7 @@ public class AccountService {
         newAccount.setActivated(activated);
         // new user gets registration key
         newAccount.setActivationKey(RandomUtil.generateActivationKey());
-        if (CollectionUtils.isEmpty(accountDTO.getAuthorities())) {
+        if (!keepRoles) {
             accountDTO.setAuthorities(Collections.singleton(Role.USER));
         }
         newAccount.setAuthorities(accountDTO.getAuthorities().stream().map(this::findByRole).collect(Collectors.toSet()));
@@ -139,14 +143,9 @@ public class AccountService {
         account.setResetKey(RandomUtil.generateResetKey());
         account.setResetDate(Instant.now());
         account.setActivated(true);
-        //        if (userDTO.getAuthorities() != null) {
-        //            Set<Authority> authorities = userDTO
-        //                .getAuthorities()
-        //                .stream()
-        //                .map(accountMapper::roleToAuthority)
-        //                .collect(Collectors.toSet());
-        //            user.setAuthorities(authorities);
-        //        }
+        if (account.getAuthorities() != null) {
+            account.setAuthorities(accountDTO.getAuthorities().stream().map(this::findByRole).collect(Collectors.toSet()));
+        }
         userRepository.save(account);
         log.debug("Created Information for User: {}", account);
         return account;

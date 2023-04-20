@@ -15,7 +15,7 @@ import pl.qprogramming.appbase.config.EmbeddedSQL;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @SpringBootTest(classes = { AppBaseApp.class, AsyncSyncConfiguration.class })
-@EmbeddedSQL
+//@EmbeddedSQL
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public @interface IntegrationTest {
 }

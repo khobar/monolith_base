@@ -93,7 +93,7 @@ management:
 
 application:
   defaults:
-    admin-password: admin
-    admin-account: admin
+    admin-password: test
+    admin-account: password
     admin-email: admin@appbase.com
   activate-new-accounts: false

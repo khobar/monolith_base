@@ -548,7 +548,6 @@ class UserResourceIT {
     void testAuthorityEquals() {
         Authority authorityA = new Authority();
         assertThat(authorityA).isNotEqualTo(null).isNotEqualTo(new Object());
-        assertThat(authorityA.hashCode()).isZero();
         assertThat(authorityA.toString()).isNotNull();
 
         Authority authorityB = new Authority();

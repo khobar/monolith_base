@@ -33,7 +33,6 @@ components:
         - login
         - email
         - langKey
-        - activated
       type: object
 
       properties:

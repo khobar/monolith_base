@@ -9,7 +9,7 @@ import pl.qprogramming.appbase.service.api.dto.AccountDTO;
 
 @Service
 @RequiredArgsConstructor
-public class AccountsApiDelegateImpl implements UsersApiDelegate {
+public class AccountsApiDelegateImpl implements pl.qprogramming.appbase.web.api.UsersApiDelegate {
 
     private final AccountService accountService;
 
@@ -17,4 +17,5 @@ public class AccountsApiDelegateImpl implements UsersApiDelegate {
     public ResponseEntity<List<AccountDTO>> getAccounts() {
         return ResponseEntity.ok(this.accountService.getAllUsers());
     }
+
 }

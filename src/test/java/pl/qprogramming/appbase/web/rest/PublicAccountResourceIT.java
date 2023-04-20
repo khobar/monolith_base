@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import javax.persistence.EntityManager;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import pl.qprogramming.appbase.IntegrationTest;
 import pl.qprogramming.appbase.domain.Account;
 import pl.qprogramming.appbase.repository.UserRepository;
 import pl.qprogramming.appbase.security.AuthoritiesConstants;
+import lombok.val;
 
 /**
  * Integration tests for the {@link UserResource} REST controller.

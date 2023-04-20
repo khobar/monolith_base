@@ -33,7 +33,7 @@ public class InitialDataLoader implements ApplicationRunner {
                 .login(properties.getDefaults().getAdminAccount())
                 .email(properties.getDefaults().getAdminEmail())
                 .authorities(new HashSet<>(Arrays.asList(Role.ADMIN, Role.USER)));
-            accountService.registerUser(administrator, properties.getDefaults().getAdminPassword(), true);
+            accountService.registerUser(administrator, properties.getDefaults().getAdminPassword(), true, true);
             log.info("Administrator user created with default password");
         }
     }
