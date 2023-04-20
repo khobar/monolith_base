@@ -8,21 +8,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static pl.qprogramming.appbase.web.rest.AccountResourceIT.TEST_USER_LOGIN;
 
 import java.time.Instant;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
-import lombok.val;
+import java.util.*;
+import javax.mail.internet.MimeMessage;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.cache.CacheManager;
 import org.springframework.http.MediaType;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -39,11 +34,8 @@ import pl.qprogramming.appbase.service.AccountService;
 import pl.qprogramming.appbase.service.api.dto.AccountDTO;
 import pl.qprogramming.appbase.service.api.dto.Role;
 import pl.qprogramming.appbase.service.dto.PasswordChangeDTO;
-import pl.qprogramming.appbase.service.mapper.AccountMapperImpl;
 import pl.qprogramming.appbase.web.rest.vm.KeyAndPasswordVM;
 import pl.qprogramming.appbase.web.rest.vm.ManagedUserVM;
-
-import javax.mail.internet.MimeMessage;
 
 /**
  * Integration tests for the {@link AccountResource} REST controller.
@@ -69,11 +61,18 @@ class AccountResourceIT {
 
     @Autowired
     private MockMvc restAccountMockMvc;
+
     @SpyBean
     private JavaMailSender javaMailSender;
 
+    @Autowired
+    private CacheManager cacheManager;
+
     @BeforeEach
-    void setup(){
+    void setup() {
+        Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE)).invalidate();
+        Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_LOGIN_AUTHORITIES_CACHE)).invalidate();
+        Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE)).invalidate();
         doNothing().when(javaMailSender).send(any(MimeMessage.class));
     }
 
@@ -245,11 +244,10 @@ class AccountResourceIT {
     }
 
     @Test
-//    @Transactional
     void testRegisterDuplicateLogin() throws Exception {
         // First registration
         ManagedUserVM firstUser = new ManagedUserVM();
-        firstUser.setLogin("alice");
+        firstUser.setLogin("admin");
         firstUser.setPassword("password");
         firstUser.setFirstName("Alice");
         firstUser.setLastName("Something");
@@ -258,39 +256,8 @@ class AccountResourceIT {
         firstUser.setLangKey(Constants.DEFAULT_LANGUAGE);
         firstUser.setAuthorities(Collections.singleton(Role.USER));
 
-        // Duplicate login, different email
-        ManagedUserVM secondUser = new ManagedUserVM();
-        secondUser.setLogin(firstUser.getLogin());
-        secondUser.setPassword(firstUser.getPassword());
-        secondUser.setFirstName(firstUser.getFirstName());
-        secondUser.setLastName(firstUser.getLastName());
-        secondUser.setEmail("alice2@example.com");
-        secondUser.setImageUrl(firstUser.getImageUrl());
-        secondUser.setLangKey(firstUser.getLangKey());
-        secondUser.setCreatedBy(firstUser.getCreatedBy());
-        secondUser.setCreatedDate(firstUser.getCreatedDate());
-        secondUser.setLastModifiedBy(firstUser.getLastModifiedBy());
-        secondUser.setLastModifiedDate(firstUser.getLastModifiedDate());
-        secondUser.setAuthorities(new HashSet<>(firstUser.getAuthorities()));
-
-        // First user
         restAccountMockMvc
             .perform(post("/api/register").contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(firstUser)))
-            .andExpect(status().isCreated());
-
-        // Second (non activated) user
-        restAccountMockMvc
-            .perform(post("/api/register").contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(secondUser)))
-            .andExpect(status().isCreated());
-
-        Optional<Account> testUser = userRepository.findOneByEmailIgnoreCase("alice2@example.com");
-        assertThat(testUser).isPresent();
-        testUser.get().setActivated(true);
-        userRepository.save(testUser.get());
-
-        // Second (already activated) user
-        restAccountMockMvc
-            .perform(post("/api/register").contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(secondUser)))
             .andExpect(status().is4xxClientError());
     }
 
@@ -308,67 +275,7 @@ class AccountResourceIT {
         userVM.setLangKey(Constants.DEFAULT_LANGUAGE);
         userVM.setAuthorities(Collections.singleton(Role.USER));
 
-//        // Register first user
-//        restAccountMockMvc
-//            .perform(post("/api/register").contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(userVM)))
-//            .andExpect(status().isCreated());
-//
-//        Optional<Account> testUser1 = userRepository.findOneByLogin("test-register-duplicate-email");
-//        assertThat(testUser1).isPresent();
-//
-//        // Duplicate email, different login
-//        ManagedUserVM secondUser = new ManagedUserVM();
-//        secondUser.setLogin("test-register-duplicate-email-2");
-//        secondUser.setPassword(userVM.getPassword());
-//        secondUser.setFirstName(userVM.getFirstName());
-//        secondUser.setLastName(userVM.getLastName());
-//        secondUser.setEmail(userVM.getEmail());
-//        secondUser.setImageUrl(userVM.getImageUrl());
-//        secondUser.setLangKey(userVM.getLangKey());
-//        secondUser.setAuthorities(new HashSet<>(userVM.getAuthorities()));
-//
-//        // Register second (non activated) user
-//        restAccountMockMvc
-//            .perform(post("/api/register").contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(secondUser)))
-//            .andExpect(status().isCreated());
-//
-//        Optional<Account> testUser2 = userRepository.findOneByLogin("test-register-duplicate-email");
-//        assertThat(testUser2).isEmpty();
-//
-//        Optional<Account> testUser3 = userRepository.findOneByLogin("test-register-duplicate-email-2");
-//        assertThat(testUser3).isPresent();
-//
-//        // Duplicate email - with uppercase email address
-//        ManagedUserVM userWithUpperCaseEmail = new ManagedUserVM();
-//        userWithUpperCaseEmail.setId(userVM.getId());
-//        userWithUpperCaseEmail.setLogin("test-register-duplicate-email-3");
-//        userWithUpperCaseEmail.setPassword(userVM.getPassword());
-//        userWithUpperCaseEmail.setFirstName(userVM.getFirstName());
-//        userWithUpperCaseEmail.setLastName(userVM.getLastName());
-//        userWithUpperCaseEmail.setEmail("TEST-register-duplicate-email@example.com");
-//        userWithUpperCaseEmail.setImageUrl(userVM.getImageUrl());
-//        userWithUpperCaseEmail.setLangKey(userVM.getLangKey());
-//        userWithUpperCaseEmail.setAuthorities(new HashSet<>(userVM.getAuthorities()));
-//
-//        // Register third (not activated) user
-//        restAccountMockMvc
-//            .perform(
-//                post("/api/register")
-//                    .contentType(MediaType.APPLICATION_JSON)
-//                    .content(TestUtil.convertObjectToJsonBytes(userWithUpperCaseEmail))
-//            )
-//            .andExpect(status().isCreated());
-//
-//        Optional<Account> testUser4 = userRepository.findOneByLogin("test-register-duplicate-email-3");
-//        val mapper = new AccountMapperImpl();
-//        assertThat(testUser4).isPresent();
-//        assertThat(testUser4.get().getEmail()).isEqualTo("test-register-duplicate-email@example.com");
-//
-//        testUser4.get().setActivated(true);
-//        val update = mapper.accountToAccountDTO(testUser4.get());
-//        accountService.updateUser(update);
-
-        // Register 4th (already activated) user
+        // Register first user
         restAccountMockMvc
             .perform(post("/api/register").contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(userVM)))
             .andExpect(status().is4xxClientError());

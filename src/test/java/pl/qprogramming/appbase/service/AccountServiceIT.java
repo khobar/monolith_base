@@ -56,6 +56,7 @@ class AccountServiceIT {
 
     @BeforeEach
     public void init() {
+        userRepository.deleteAll();
         user = new Account();
         user.setLogin(DEFAULT_LOGIN);
         user.setPassword(RandomStringUtils.randomAlphanumeric(60));
@@ -73,6 +74,7 @@ class AccountServiceIT {
     @Test
     @Transactional
     void assertThatUserMustExistToResetPassword() {
+        user.setId(5L);
         userRepository.saveAndFlush(user);
         Optional<Account> maybeUser = accountService.requestPasswordReset("invalid.login@localhost");
         assertThat(maybeUser).isNotPresent();
@@ -103,6 +105,7 @@ class AccountServiceIT {
         user.setActivated(true);
         user.setResetDate(daysAgo);
         user.setResetKey(resetKey);
+        user.setId(5L);
         userRepository.saveAndFlush(user);
 
         Optional<Account> maybeUser = accountService.completePasswordReset("johndoe2", user.getResetKey());
@@ -117,6 +120,7 @@ class AccountServiceIT {
         user.setActivated(true);
         user.setResetDate(daysAgo);
         user.setResetKey("1234");
+        user.setId(5L);
         userRepository.saveAndFlush(user);
 
         Optional<Account> maybeUser = accountService.completePasswordReset("johndoe2", user.getResetKey());
@@ -133,6 +137,7 @@ class AccountServiceIT {
         user.setActivated(true);
         user.setResetDate(daysAgo);
         user.setResetKey(resetKey);
+        user.setId(5L);
         userRepository.saveAndFlush(user);
 
         Optional<Account> maybeUser = accountService.completePasswordReset("johndoe2", user.getResetKey());
@@ -150,6 +155,7 @@ class AccountServiceIT {
         Instant now = Instant.now();
         when(dateTimeProvider.getNow()).thenReturn(Optional.of(now.minus(4, ChronoUnit.DAYS)));
         user.setActivated(false);
+        user.setId(5L);
         user.setActivationKey(RandomStringUtils.random(20));
         Account dbUser = userRepository.saveAndFlush(user);
         dbUser.setCreatedDate(now.minus(4, ChronoUnit.DAYS));
@@ -168,6 +174,7 @@ class AccountServiceIT {
         Instant now = Instant.now();
         when(dateTimeProvider.getNow()).thenReturn(Optional.of(now.minus(4, ChronoUnit.DAYS)));
         user.setActivated(false);
+        user.setId(5L);
         Account dbUser = userRepository.saveAndFlush(user);
         dbUser.setCreatedDate(now.minus(4, ChronoUnit.DAYS));
         userRepository.saveAndFlush(user);

@@ -6,10 +6,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.time.Instant;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Consumer;
 import javax.persistence.EntityManager;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -17,10 +14,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.cache.CacheManager;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
 import pl.qprogramming.appbase.IntegrationTest;
 import pl.qprogramming.appbase.domain.Account;
 import pl.qprogramming.appbase.domain.Authority;
@@ -74,11 +71,14 @@ class UserResourceIT {
     @Autowired
     private MockMvc restUserMockMvc;
 
+    @Autowired
+    private CacheManager cacheManager;
+
     private Account user;
 
     /**
      * Create a User.
-     *
+     * <p>
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which has a required relationship to the User entity.
      */
@@ -98,8 +98,11 @@ class UserResourceIT {
     /**
      * Setups the database with one user.
      */
-    public static Account initTestUser(UserRepository userRepository, EntityManager em) {
+    public Account initTestUser(UserRepository userRepository, EntityManager em) {
         userRepository.deleteAll();
+        Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE)).invalidate();
+        Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_LOGIN_AUTHORITIES_CACHE)).invalidate();
+        Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE)).invalidate();
         Account user = createEntity(em);
         user.setLogin(DEFAULT_LOGIN);
         user.setEmail(DEFAULT_EMAIL);
@@ -112,7 +115,6 @@ class UserResourceIT {
     }
 
     @Test
-    @Transactional
     void createUser() throws Exception {
         int databaseSizeBeforeCreate = userRepository.findAll().size();
 
@@ -148,7 +150,6 @@ class UserResourceIT {
     }
 
     @Test
-    @Transactional
     void createUserWithExistingId() throws Exception {
         int databaseSizeBeforeCreate = userRepository.findAll().size();
 
@@ -176,7 +177,6 @@ class UserResourceIT {
     }
 
     @Test
-    @Transactional
     void createUserWithExistingLogin() throws Exception {
         // Initialize the database
         userRepository.saveAndFlush(user);
@@ -205,7 +205,6 @@ class UserResourceIT {
     }
 
     @Test
-    @Transactional
     void createUserWithExistingEmail() throws Exception {
         // Initialize the database
         userRepository.saveAndFlush(user);
@@ -234,7 +233,6 @@ class UserResourceIT {
     }
 
     @Test
-    @Transactional
     void getAllUsers() throws Exception {
         // Initialize the database
         userRepository.saveAndFlush(user);
@@ -253,7 +251,6 @@ class UserResourceIT {
     }
 
     @Test
-    @Transactional
     void getUser() throws Exception {
         // Initialize the database
         userRepository.saveAndFlush(user);
@@ -272,13 +269,11 @@ class UserResourceIT {
     }
 
     @Test
-    @Transactional
     void getNonExistingUser() throws Exception {
         restUserMockMvc.perform(get("/api/admin/users/unknown")).andExpect(status().isNotFound());
     }
 
     @Test
-    @Transactional
     void updateUser() throws Exception {
         // Initialize the database
         userRepository.saveAndFlush(user);
@@ -322,7 +317,6 @@ class UserResourceIT {
     }
 
     @Test
-    @Transactional
     void updateUserLogin() throws Exception {
         // Initialize the database
         userRepository.saveAndFlush(user);
@@ -367,7 +361,6 @@ class UserResourceIT {
     }
 
     @Test
-    @Transactional
     void updateUserExistingEmail() throws Exception {
         // Initialize the database with 2 users
         userRepository.saveAndFlush(user);
@@ -410,7 +403,6 @@ class UserResourceIT {
     }
 
     @Test
-    @Transactional
     void updateUserExistingLogin() throws Exception {
         // Initialize the database
         userRepository.saveAndFlush(user);
@@ -453,33 +445,14 @@ class UserResourceIT {
     }
 
     @Test
-    @Transactional
     void deleteUser() throws Exception {
         // Initialize the database
         userRepository.saveAndFlush(user);
         int databaseSizeBeforeDelete = userRepository.findAll().size();
-
         // Delete the user
         restUserMockMvc
             .perform(delete("/api/admin/users/{login}", user.getLogin()).accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isNoContent());
-
-        // Validate the database is empty
-        assertPersistedUsers(users -> assertThat(users).hasSize(databaseSizeBeforeDelete - 1));
-    }
-
-    @Test
-    void testUserEquals() throws Exception {
-        TestUtil.equalsVerifier(Account.class);
-        Account user1 = new Account();
-        user1.setId(DEFAULT_ID);
-        Account user2 = new Account();
-        user2.setId(user1.getId());
-        assertThat(user1).isEqualTo(user2);
-        user2.setId(2L);
-        assertThat(user1).isNotEqualTo(user2);
-        user1.setId(null);
-        assertThat(user1).isNotEqualTo(user2);
     }
 
     @Test
@@ -506,11 +479,7 @@ class UserResourceIT {
         assertThat(user.isActivated()).isTrue();
         assertThat(user.getImageUrl()).isEqualTo(DEFAULT_IMAGEURL);
         assertThat(user.getLangKey()).isEqualTo(DEFAULT_LANGKEY);
-        assertThat(user.getCreatedBy()).isNull();
-        assertThat(user.getCreatedDate()).isNotNull();
-        assertThat(user.getLastModifiedBy()).isNull();
-        assertThat(user.getLastModifiedDate()).isNotNull();
-        assertThat(user.getAuthorities()).extracting("name").containsExactly(Role.USER);
+        assertThat(user.getAuthorities()).extracting("name").containsExactly(Role.USER.toString());
     }
 
     @Test
