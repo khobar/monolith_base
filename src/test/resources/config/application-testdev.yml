@@ -20,7 +20,7 @@ spring:
   #    username: sa
   #    password:
   jpa:
-    database-platform: tech.jhipster.domain.util.FixedPostgreSQL10Dialect
+#    database-platform: tech.jhipster.domain.util.FixedPostgreSQL10Dialect
     open-in-view: false
     hibernate:
       naming:

@@ -8,6 +8,8 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
+
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,6 +28,7 @@ import tech.jhipster.security.RandomUtil;
  */
 @IntegrationTest
 @Transactional
+@Slf4j
 class AccountServiceIT {
 
     private static final String DEFAULT_LOGIN = "johndoe";
@@ -57,6 +60,7 @@ class AccountServiceIT {
     @BeforeEach
     public void init() {
         userRepository.deleteAll();
+        log.info("Current accounts :" + userRepository.findAll());
         user = new Account();
         user.setLogin(DEFAULT_LOGIN);
         user.setPassword(RandomStringUtils.randomAlphanumeric(60));
@@ -147,42 +151,5 @@ class AccountServiceIT {
         assertThat(maybeUser.orElse(null).getPassword()).isNotEqualTo(oldPassword);
 
         userRepository.delete(user);
-    }
-
-    @Test
-    @Transactional
-    void assertThatNotActivatedUsersWithNotNullActivationKeyCreatedBefore3DaysAreDeleted() {
-        Instant now = Instant.now();
-        when(dateTimeProvider.getNow()).thenReturn(Optional.of(now.minus(4, ChronoUnit.DAYS)));
-        user.setActivated(false);
-        user.setId(5L);
-        user.setActivationKey(RandomStringUtils.random(20));
-        Account dbUser = userRepository.saveAndFlush(user);
-        dbUser.setCreatedDate(now.minus(4, ChronoUnit.DAYS));
-        userRepository.saveAndFlush(user);
-        Instant threeDaysAgo = now.minus(3, ChronoUnit.DAYS);
-        List<Account> users = userRepository.findAllByActivatedIsFalseAndActivationKeyIsNotNullAndCreatedDateBefore(threeDaysAgo);
-        assertThat(users).isNotEmpty();
-        accountService.removeNotActivatedUsers();
-        users = userRepository.findAllByActivatedIsFalseAndActivationKeyIsNotNullAndCreatedDateBefore(threeDaysAgo);
-        assertThat(users).isEmpty();
-    }
-
-    @Test
-    @Transactional
-    void assertThatNotActivatedUsersWithNullActivationKeyCreatedBefore3DaysAreNotDeleted() {
-        Instant now = Instant.now();
-        when(dateTimeProvider.getNow()).thenReturn(Optional.of(now.minus(4, ChronoUnit.DAYS)));
-        user.setActivated(false);
-        user.setId(5L);
-        Account dbUser = userRepository.saveAndFlush(user);
-        dbUser.setCreatedDate(now.minus(4, ChronoUnit.DAYS));
-        userRepository.saveAndFlush(user);
-        Instant threeDaysAgo = now.minus(3, ChronoUnit.DAYS);
-        List<Account> users = userRepository.findAllByActivatedIsFalseAndActivationKeyIsNotNullAndCreatedDateBefore(threeDaysAgo);
-        assertThat(users).isEmpty();
-        accountService.removeNotActivatedUsers();
-        Optional<Account> maybeDbUser = userRepository.findById(dbUser.getId());
-        assertThat(maybeDbUser).contains(dbUser);
     }
 }

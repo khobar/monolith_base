@@ -8,6 +8,8 @@ import static pl.qprogramming.appbase.web.rest.UserResourceIT.createEntity;
 
 import java.util.Objects;
 import javax.persistence.EntityManager;
+
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,7 @@ import pl.qprogramming.appbase.security.AuthoritiesConstants;
 @AutoConfigureMockMvc
 @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
 @IntegrationTest
+@Slf4j
 class PublicAccountResourceIT {
 
     private static final String DEFAULT_LOGIN = "johndoe";
@@ -55,6 +58,7 @@ class PublicAccountResourceIT {
         Account user = createEntity(em);
         user.setLogin(DEFAULT_LOGIN);
         user.setEmail(DEFAULT_EMAIL);
+        log.info("Current accounts :" + userRepository.findAll());
         return user;
     }
 

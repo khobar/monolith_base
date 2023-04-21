@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.util.Locale;
+
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,6 +23,7 @@ import pl.qprogramming.appbase.repository.UserRepository;
  */
 @Transactional
 @IntegrationTest
+@Slf4j
 class DomainUserDetailsServiceIT {
 
     private static final String USER_ONE_LOGIN = "test-user-one";
@@ -39,6 +42,8 @@ class DomainUserDetailsServiceIT {
 
     @BeforeEach
     public void init() {
+        userRepository.deleteAll();
+        log.info("Current accounts :" + userRepository.findAll());
         Account userOne = new Account();
         userOne.setLogin(USER_ONE_LOGIN);
         userOne.setPassword(RandomStringUtils.randomAlphanumeric(60));
