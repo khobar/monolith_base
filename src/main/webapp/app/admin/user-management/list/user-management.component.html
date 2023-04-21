@@ -1,14 +1,14 @@
 <div>
   <h2>
-    <span id="user-management-page-heading" jhiTranslate="userManagement.home.title" data-cy="userManagementPageHeading">Użytkownicy</span>
+    <span id="user-management-page-heading" appTranslate="userManagement.home.title" data-cy="userManagementPageHeading">Użytkownicy</span>
 
     <div class="d-flex justify-content-end">
       <button class="btn btn-info me-2" (click)="loadAll()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
-        <span jhiTranslate="userManagement.home.refreshListLabel">Refresh list</span>
+        <span appTranslate="userManagement.home.refreshListLabel">Refresh list</span>
       </button>
       <button class="btn btn-primary jh-create-entity" [routerLink]="['./new']">
-        <fa-icon icon="plus"></fa-icon> <span jhiTranslate="userManagement.home.createLabel">Stwórz nowego użytkownika</span>
+        <fa-icon icon="plus"></fa-icon> <span appTranslate="userManagement.home.createLabel">Stwórz nowego użytkownika</span>
       </button>
     </div>
   </h2>
@@ -21,20 +21,20 @@
     <table class="table table-striped" aria-describedby="user-management-page-heading">
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="transition()">
-          <th scope="col" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="login"><span jhiTranslate="userManagement.login">Login</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="email"><span jhiTranslate="userManagement.email">Email</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="id"><span appTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="login"><span appTranslate="userManagement.login">Login</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="email"><span appTranslate="userManagement.email">Email</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col"></th>
-          <th scope="col" jhiSortBy="langKey"><span jhiTranslate="userManagement.langKey">Język</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col"><span jhiTranslate="userManagement.profiles">Profile</span></th>
+          <th scope="col" jhiSortBy="langKey"><span appTranslate="userManagement.langKey">Język</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col"><span appTranslate="userManagement.profiles">Profile</span></th>
           <th scope="col" jhiSortBy="createdDate">
-            <span jhiTranslate="userManagement.createdDate">Data utworzenia</span> <fa-icon icon="sort"></fa-icon>
+            <span appTranslate="userManagement.createdDate">Data utworzenia</span> <fa-icon icon="sort"></fa-icon>
           </th>
           <th scope="col" jhiSortBy="lastModifiedBy">
-            <span jhiTranslate="userManagement.lastModifiedBy">Zmodyfikowany przez</span> <fa-icon icon="sort"></fa-icon>
+            <span appTranslate="userManagement.lastModifiedBy">Zmodyfikowany przez</span> <fa-icon icon="sort"></fa-icon>
           </th>
           <th scope="col" jhiSortBy="lastModifiedDate">
-            <span jhiTranslate="userManagement.lastModifiedDate">Data modyfikacji</span> <fa-icon icon="sort"></fa-icon>
+            <span appTranslate="userManagement.lastModifiedDate">Data modyfikacji</span> <fa-icon icon="sort"></fa-icon>
           </th>
           <th scope="col"></th>
         </tr>
@@ -51,7 +51,7 @@
               class="btn btn-danger btn-sm"
               (click)="setActive(user, true)"
               *ngIf="!user.activated"
-              jhiTranslate="userManagement.deactivated"
+              appTranslate="userManagement.deactivated"
             >
               Nieaktywny
             </button>
@@ -60,7 +60,7 @@
               (click)="setActive(user, false)"
               *ngIf="user.activated"
               [disabled]="!currentAccount || currentAccount.login === user.login"
-              jhiTranslate="userManagement.activated"
+              appTranslate="userManagement.activated"
             >
               Aktywny
             </button>
@@ -78,12 +78,12 @@
             <div class="btn-group">
               <button type="submit" [routerLink]="['./', user.login, 'view']" class="btn btn-info btn-sm">
                 <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">Widok</span>
+                <span class="d-none d-md-inline" appTranslate="entity.action.view">Widok</span>
               </button>
 
               <button type="submit" [routerLink]="['./', user.login, 'edit']" queryParamsHandling="merge" class="btn btn-primary btn-sm">
                 <fa-icon icon="pencil-alt"></fa-icon>
-                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edytuj</span>
+                <span class="d-none d-md-inline" appTranslate="entity.action.edit">Edytuj</span>
               </button>
 
               <button
@@ -93,7 +93,7 @@
                 [disabled]="!currentAccount || currentAccount.login === user.login"
               >
                 <fa-icon icon="times"></fa-icon>
-                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Usuń</span>
+                <span class="d-none d-md-inline" appTranslate="entity.action.delete">Usuń</span>
               </button>
             </div>
           </td>

@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4 class="modal-title" jhiTranslate="metrics.jvm.threads.dump.title">Zrzut wątków</h4>
+  <h4 class="modal-title" appTranslate="metrics.jvm.threads.dump.title">Zrzut wątków</h4>
 
   <button type="button" class="btn-close" (click)="dismiss()">&times;</button>
 </div>
@@ -39,8 +39,8 @@
       &nbsp;{{ thread.threadName }} (ID {{ thread.threadId }})
 
       <a (click)="thread.showThreadDump = !thread.showThreadDump" href="javascript:void(0);">
-        <span [hidden]="thread.showThreadDump" jhiTranslate="metrics.jvm.threads.dump.show">Pokaż</span>
-        <span [hidden]="!thread.showThreadDump" jhiTranslate="metrics.jvm.threads.dump.hide">Ukryj</span>
+        <span [hidden]="thread.showThreadDump" appTranslate="metrics.jvm.threads.dump.show">Pokaż</span>
+        <span [hidden]="!thread.showThreadDump" appTranslate="metrics.jvm.threads.dump.hide">Ukryj</span>
       </a>
     </h6>
 
@@ -64,11 +64,11 @@
       </caption>
       <thead>
         <tr>
-          <th scope="col" jhiTranslate="metrics.jvm.threads.dump.blockedtime">Czas zablokowanych</th>
-          <th scope="col" jhiTranslate="metrics.jvm.threads.dump.blockedcount">Liczba zablokowanych</th>
-          <th scope="col" jhiTranslate="metrics.jvm.threads.dump.waitedtime">Oczekiwany czas</th>
-          <th scope="col" jhiTranslate="metrics.jvm.threads.dump.waitedcount">Liczba oczekiwanych</th>
-          <th scope="col" jhiTranslate="metrics.jvm.threads.dump.lockname">Nazwa blokady</th>
+          <th scope="col" appTranslate="metrics.jvm.threads.dump.blockedtime">Czas zablokowanych</th>
+          <th scope="col" appTranslate="metrics.jvm.threads.dump.blockedcount">Liczba zablokowanych</th>
+          <th scope="col" appTranslate="metrics.jvm.threads.dump.waitedtime">Oczekiwany czas</th>
+          <th scope="col" appTranslate="metrics.jvm.threads.dump.waitedcount">Liczba oczekiwanych</th>
+          <th scope="col" appTranslate="metrics.jvm.threads.dump.lockname">Nazwa blokady</th>
         </tr>
       </thead>
       <tbody>

@@ -1,9 +1,9 @@
-import { HttpInterceptor, HttpRequest, HttpResponse, HttpHandler, HttpEvent } from '@angular/common/http';
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { AlertService } from 'app/core/util/alert.service';
+import { AlertService, AlertType } from 'app/core/util/alert.service';
 
 @Injectable()
 export class NotificationInterceptor implements HttpInterceptor {
@@ -26,7 +26,7 @@ export class NotificationInterceptor implements HttpInterceptor {
 
           if (alert) {
             this.alertService.addAlert({
-              type: 'success',
+              type: AlertType.success,
               translationKey: alert,
               translationParams: { param: alertParams },
             });

@@ -1,10 +1,16 @@
-import { Injectable, SecurityContext, NgZone } from '@angular/core';
+import { Injectable, NgZone, SecurityContext } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 
 import { translationNotFoundMessage } from 'app/config/translation.config';
+import { timeout } from 'rxjs';
 
-export type AlertType = 'success' | 'danger' | 'warning' | 'info';
+export enum AlertType {
+  success = 'success',
+  danger = 'danger',
+  warning = 'warning',
+  info = 'info',
+}
 
 export interface Alert {
   id?: number;
@@ -23,6 +29,7 @@ export interface Alert {
 })
 export class AlertService {
   timeout = 5000;
+  errorTimeout = 10000;
   toast = false;
   position = 'top right';
 
@@ -38,6 +45,9 @@ export class AlertService {
 
   get(): Alert[] {
     return this.alerts;
+  }
+  defaultTimeout(alert: Alert) {
+    return alert?.type === AlertType.danger ? this.errorTimeout : this.timeout;
   }
 
   /**
@@ -62,7 +72,7 @@ export class AlertService {
     }
 
     alert.message = this.sanitizer.sanitize(SecurityContext.HTML, alert.message ?? '') ?? '';
-    alert.timeout = alert.timeout ?? this.timeout;
+    alert.timeout = alert.timeout ?? this.defaultTimeout(alert);
     alert.toast = alert.toast ?? this.toast;
     alert.position = alert.position ?? this.position;
     alert.close = (alertsArray: Alert[]) => this.closeAlert(alert.id!, alertsArray);

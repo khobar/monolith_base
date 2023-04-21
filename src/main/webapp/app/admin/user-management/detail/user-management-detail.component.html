@@ -2,43 +2,43 @@
   <div class="col-8">
     <div *ngIf="user">
       <h2>
-        <span jhiTranslate="userManagement.detail.title">Użytkownik</span> [<strong>{{ user.login }}</strong
+        <span appTranslate="userManagement.detail.title">Użytkownik</span> [<strong>{{ user.login }}</strong
         >]
       </h2>
 
       <dl class="row-md jh-entity-details">
-        <dt><span jhiTranslate="userManagement.login">Login</span></dt>
+        <dt><span appTranslate="userManagement.login">Login</span></dt>
         <dd>
           <span>{{ user.login }}</span>
-          <span *ngIf="user.activated" class="badge bg-success" jhiTranslate="userManagement.activated">Aktywny</span>
-          <span *ngIf="!user.activated" class="badge bg-danger" jhiTranslate="userManagement.deactivated">Nieaktywny</span>
+          <span *ngIf="user.activated" class="badge bg-success" appTranslate="userManagement.activated">Aktywny</span>
+          <span *ngIf="!user.activated" class="badge bg-danger" appTranslate="userManagement.deactivated">Nieaktywny</span>
         </dd>
 
-        <dt><span jhiTranslate="userManagement.firstName">Imię</span></dt>
+        <dt><span appTranslate="userManagement.firstName">Imię</span></dt>
         <dd>{{ user.firstName }}</dd>
 
-        <dt><span jhiTranslate="userManagement.lastName">Nazwisko</span></dt>
+        <dt><span appTranslate="userManagement.lastName">Nazwisko</span></dt>
         <dd>{{ user.lastName }}</dd>
 
-        <dt><span jhiTranslate="userManagement.email">Email</span></dt>
+        <dt><span appTranslate="userManagement.email">Email</span></dt>
         <dd>{{ user.email }}</dd>
 
-        <dt><span jhiTranslate="userManagement.langKey">Język</span></dt>
+        <dt><span appTranslate="userManagement.langKey">Język</span></dt>
         <dd>{{ user.langKey }}</dd>
 
-        <dt><span jhiTranslate="userManagement.createdBy">Utworzony przez</span></dt>
+        <dt><span appTranslate="userManagement.createdBy">Utworzony przez</span></dt>
         <dd>{{ user.createdBy }}</dd>
 
-        <dt><span jhiTranslate="userManagement.createdDate">Data utworzenia</span></dt>
+        <dt><span appTranslate="userManagement.createdDate">Data utworzenia</span></dt>
         <dd>{{ user.createdDate | date: 'dd/MM/yy HH:mm' }}</dd>
 
-        <dt><span jhiTranslate="userManagement.lastModifiedBy">Zmodyfikowany przez</span></dt>
+        <dt><span appTranslate="userManagement.lastModifiedBy">Zmodyfikowany przez</span></dt>
         <dd>{{ user.lastModifiedBy }}</dd>
 
-        <dt><span jhiTranslate="userManagement.lastModifiedDate">Data modyfikacji</span></dt>
+        <dt><span appTranslate="userManagement.lastModifiedDate">Data modyfikacji</span></dt>
         <dd>{{ user.lastModifiedDate | date: 'dd/MM/yy HH:mm' }}</dd>
 
-        <dt><span jhiTranslate="userManagement.profiles">Profile</span></dt>
+        <dt><span appTranslate="userManagement.profiles">Profile</span></dt>
         <dd>
           <ul class="list-unstyled">
             <li *ngFor="let authority of user.authorities">
@@ -49,7 +49,7 @@
       </dl>
 
       <button type="submit" routerLink="../../" class="btn btn-info">
-        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Wstecz</span>
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span appTranslate="entity.action.back">Wstecz</span>
       </button>
     </div>
   </div>

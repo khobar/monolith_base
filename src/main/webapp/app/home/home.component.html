@@ -6,27 +6,27 @@
       <span>{{ 'home.title' | translate }}</span> (AppBase)
     </h1>
 
-    <p class="lead" jhiTranslate="home.subtitle">To jest twoja strona domowa</p>
+    <p class="lead" appTranslate="home.subtitle">To jest twoja strona domowa</p>
 
     <div [ngSwitch]="account !== null">
       <div class="alert alert-success" *ngSwitchCase="true">
-        <span id="home-logged-message" *ngIf="account" jhiTranslate="home.logged.message" [translateValues]="{ username: account.login }"
+        <span id="home-logged-message" *ngIf="account" appTranslate="home.logged.message" [translateValues]="{ username: account.login }"
           >Jesteś zalogowany jako użytkownik "{{ account.login }}".</span
         >
       </div>
 
       <div class="alert alert-warning" *ngSwitchCase="false">
-        <span jhiTranslate="global.messages.info.authenticated.prefix">Jeśli chcesz się </span>
-        <a class="alert-link" (click)="login()" jhiTranslate="global.messages.info.authenticated.link">zalogować</a
-        ><span jhiTranslate="global.messages.info.authenticated.suffix"
+        <span appTranslate="global.messages.info.authenticated.prefix">Jeśli chcesz się </span>
+        <a class="alert-link" (click)="login()" appTranslate="global.messages.info.authenticated.link">zalogować</a
+        ><span appTranslate="global.messages.info.authenticated.suffix"
           >, możesz spróbować któregoś z domyślnych kont:<br />- Administrator (login="admin" i hasło="admin") <br />- Użytkownik
           (login="user" i hasło="user").</span
         >
       </div>
 
       <div class="alert alert-warning" *ngSwitchCase="false">
-        <span jhiTranslate="global.messages.info.register.noaccount">Nie masz jeszcze konta?</span>&nbsp;
-        <a class="alert-link" routerLink="account/register" jhiTranslate="global.messages.info.register.link">Zarejestruj się</a>
+        <span appTranslate="global.messages.info.register.noaccount">Nie masz jeszcze konta?</span>&nbsp;
+        <a class="alert-link" routerLink="account/register" appTranslate="global.messages.info.register.link">Zarejestruj się</a>
       </div>
     </div>
   </div>

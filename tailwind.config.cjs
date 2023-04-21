@@ -7,7 +7,6 @@ module.exports = {
     enabled: enablePurge,
     content: ['./src/**/*.html', './src/**/*.scss'],
   },
-  important: true,
   content: ['*.{html,ts}'],
   theme: {
     extend: {},

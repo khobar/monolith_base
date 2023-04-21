@@ -1,6 +1,6 @@
 <form *ngIf="user" name="deleteForm" (ngSubmit)="confirmDelete(user.login!)">
   <div class="modal-header">
-    <h4 class="modal-title" jhiTranslate="entity.delete.title">Potwierdź usunięcie</h4>
+    <h4 class="modal-title" appTranslate="entity.delete.title">Potwierdź usunięcie</h4>
 
     <button type="button" class="btn-close" data-dismiss="modal" aria-hidden="true" (click)="cancel()">&times;</button>
   </div>
@@ -8,18 +8,18 @@
   <div class="modal-body">
     <alert-error></alert-error>
 
-    <p jhiTranslate="userManagement.delete.question" [translateValues]="{ login: user.login }">
+    <p appTranslate="userManagement.delete.question" [translateValues]="{ login: user.login }">
       Czy na pewno chcesz usunąć użytkownika {{ user.login }}?
     </p>
   </div>
 
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancel()">
-      <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Anuluj</span>
+      <fa-icon icon="ban"></fa-icon>&nbsp;<span appTranslate="entity.action.cancel">Anuluj</span>
     </button>
 
     <button type="submit" class="btn btn-danger">
-      <fa-icon icon="times"></fa-icon>&nbsp;<span jhiTranslate="entity.action.delete">Usuń</span>
+      <fa-icon icon="times"></fa-icon>&nbsp;<span appTranslate="entity.action.delete">Usuń</span>
     </button>
   </div>
 </form>

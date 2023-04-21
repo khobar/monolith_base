@@ -4,12 +4,15 @@ import { Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
 import { AlertError } from './alert-error.model';
-import { Alert, AlertService } from 'app/core/util/alert.service';
+import { Alert, AlertService, AlertType } from 'app/core/util/alert.service';
 import { EventManager, EventWithContent } from 'app/core/util/event-manager.service';
+import { alertAnimationTrigger } from './utils';
 
 @Component({
   selector: 'alert-error',
-  templateUrl: './alert-error.component.html',
+  templateUrl: './alert.component.html',
+  styleUrls: ['./alert.component.scss'],
+  animations: [alertAnimationTrigger],
 })
 export class AlertErrorComponent implements OnDestroy {
   alerts: Alert[] = [];
@@ -103,6 +106,8 @@ export class AlertErrorComponent implements OnDestroy {
   }
 
   private addErrorAlert(message?: string, translationKey?: string, translationParams?: { [key: string]: unknown }): void {
-    this.alertService.addAlert({ type: 'danger', message, translationKey, translationParams }, this.alerts);
+    this.alertService.addAlert({ type: AlertType.danger, message, translationKey, translationParams }, this.alerts);
   }
+
+  protected readonly AlertType = AlertType;
 }

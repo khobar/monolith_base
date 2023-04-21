@@ -1,12 +1,12 @@
 <div>
   <div class="d-flex justify-content-center">
     <div class="col-md-8">
-      <h2 jhiTranslate="settings.title" [translateValues]="{ username: settingsForm.value.login }" *ngIf="settingsForm.value.login">
+      <h2 appTranslate="settings.title" [translateValues]="{ username: settingsForm.value.login }" *ngIf="settingsForm.value.login">
         Ustawienia dla użytkownika [<strong>{{ settingsForm.value.login }}</strong
         >]
       </h2>
 
-      <div class="alert alert-success" *ngIf="success" jhiTranslate="settings.messages.success">
+      <div class="alert alert-success" *ngIf="success" appTranslate="settings.messages.success">
         <strong>Ustawienia zapisane!</strong>
       </div>
 
@@ -14,7 +14,7 @@
 
       <form name="form" role="form" (ngSubmit)="save()" [formGroup]="settingsForm" *ngIf="settingsForm.value.login" novalidate>
         <div class="mb-3">
-          <label class="form-label" for="firstName" jhiTranslate="settings.form.firstname">Imię</label>
+          <label class="form-label" for="firstName" appTranslate="settings.form.firstname">Imię</label>
           <input
             type="text"
             class="form-control"
@@ -33,7 +33,7 @@
             <small
               class="form-text text-danger"
               *ngIf="settingsForm.get('firstName')?.errors?.required"
-              jhiTranslate="settings.messages.validate.firstname.required"
+              appTranslate="settings.messages.validate.firstname.required"
             >
               Twoje imię jest wymagane.
             </small>
@@ -41,7 +41,7 @@
             <small
               class="form-text text-danger"
               *ngIf="settingsForm.get('firstName')?.errors?.minlength"
-              jhiTranslate="settings.messages.validate.firstname.minlength"
+              appTranslate="settings.messages.validate.firstname.minlength"
             >
               Twoje imię musi mieć przynajmniej 1 literę
             </small>
@@ -49,7 +49,7 @@
             <small
               class="form-text text-danger"
               *ngIf="settingsForm.get('firstName')?.errors?.maxlength"
-              jhiTranslate="settings.messages.validate.firstname.maxlength"
+              appTranslate="settings.messages.validate.firstname.maxlength"
             >
               Twoje imię nie może być dłuższe niż 50 liter
             </small>
@@ -57,7 +57,7 @@
         </div>
 
         <div class="mb-3">
-          <label class="form-label" for="lastName" jhiTranslate="settings.form.lastname">Nazwisko</label>
+          <label class="form-label" for="lastName" appTranslate="settings.form.lastname">Nazwisko</label>
           <input
             type="text"
             class="form-control"
@@ -74,7 +74,7 @@
             <small
               class="form-text text-danger"
               *ngIf="settingsForm.get('lastName')?.errors?.required"
-              jhiTranslate="settings.messages.validate.lastname.required"
+              appTranslate="settings.messages.validate.lastname.required"
             >
               Twoje nazwisko jest wymagane.
             </small>
@@ -82,7 +82,7 @@
             <small
               class="form-text text-danger"
               *ngIf="settingsForm.get('lastName')?.errors?.minlength"
-              jhiTranslate="settings.messages.validate.lastname.minlength"
+              appTranslate="settings.messages.validate.lastname.minlength"
             >
               Twoje nazwisko musi mieć przynajmniej 1 literę
             </small>
@@ -90,7 +90,7 @@
             <small
               class="form-text text-danger"
               *ngIf="settingsForm.get('lastName')?.errors?.maxlength"
-              jhiTranslate="settings.messages.validate.lastname.maxlength"
+              appTranslate="settings.messages.validate.lastname.maxlength"
             >
               Twoje nazwisko nie może być dłuższe niż 50 liter
             </small>
@@ -98,7 +98,7 @@
         </div>
 
         <div class="mb-3">
-          <label class="form-label" for="email" jhiTranslate="global.form.email.label">Email</label>
+          <label class="form-label" for="email" appTranslate="global.form.email.label">Email</label>
           <input
             type="email"
             class="form-control"
@@ -113,7 +113,7 @@
             <small
               class="form-text text-danger"
               *ngIf="settingsForm.get('email')?.errors?.required"
-              jhiTranslate="global.messages.validate.email.required"
+              appTranslate="global.messages.validate.email.required"
             >
               Twój email jest wymagany.
             </small>
@@ -121,7 +121,7 @@
             <small
               class="form-text text-danger"
               *ngIf="settingsForm.get('email')?.errors?.email"
-              jhiTranslate="global.messages.validate.email.invalid"
+              appTranslate="global.messages.validate.email.invalid"
             >
               Twój email jest błędny.
             </small>
@@ -129,7 +129,7 @@
             <small
               class="form-text text-danger"
               *ngIf="settingsForm.get('email')?.errors?.minlength"
-              jhiTranslate="global.messages.validate.email.minlength"
+              appTranslate="global.messages.validate.email.minlength"
             >
               Twój email musi mieć przynajmniej 5 znaków
             </small>
@@ -137,7 +137,7 @@
             <small
               class="form-text text-danger"
               *ngIf="settingsForm.get('email')?.errors?.maxlength"
-              jhiTranslate="global.messages.validate.email.maxlength"
+              appTranslate="global.messages.validate.email.maxlength"
             >
               Twój email nie może być dłuższy niż 50 znaków
             </small>
@@ -145,7 +145,7 @@
         </div>
 
         <div class="mb-3" *ngIf="languages && languages.length > 0">
-          <label for="langKey" jhiTranslate="settings.form.language">Język</label>
+          <label for="langKey" appTranslate="settings.form.language">Język</label>
           <select class="form-control" id="langKey" name="langKey" formControlName="langKey" data-cy="langKey">
             <option *ngFor="let language of languages" [value]="language">{{ language | findLanguageFromKey }}</option>
           </select>
@@ -155,7 +155,7 @@
           type="submit"
           [disabled]="settingsForm.invalid"
           class="btn btn-primary"
-          jhiTranslate="settings.form.button"
+          appTranslate="settings.form.button"
           data-cy="submit"
         >
           Zapisz

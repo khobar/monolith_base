@@ -1,10 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { Alert, AlertService } from 'app/core/util/alert.service';
+import { Alert, AlertService, AlertType } from 'app/core/util/alert.service';
+import { alertAnimationTrigger } from './utils';
 
 @Component({
   selector: 'app-alert',
   templateUrl: './alert.component.html',
+  styleUrls: ['./alert.component.scss'],
+  animations: [alertAnimationTrigger],
 })
 export class AlertComponent implements OnInit, OnDestroy {
   alerts: Alert[] = [];
@@ -30,4 +33,6 @@ export class AlertComponent implements OnInit, OnDestroy {
   close(alert: Alert): void {
     alert.close?.(this.alerts);
   }
+
+  protected readonly AlertType = AlertType;
 }

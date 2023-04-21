@@ -16,7 +16,7 @@ import { FilterComponent } from './filter/filter.component';
 import { MaterialModule } from './material/material.module';
 
 @NgModule({
-  imports: [SharedLibsModule],
+  imports: [SharedLibsModule, MaterialModule],
   declarations: [
     FindLanguageFromKeyPipe,
     TranslateDirective,

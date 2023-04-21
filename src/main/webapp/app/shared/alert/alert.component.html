@@ -1,7 +1,22 @@
-<div class="alerts" role="alert">
-  <div *ngFor="let alert of alerts" [ngClass]="setClasses(alert)">
-    <ngb-alert *ngIf="alert.message" [type]="alert.type" (closed)="close(alert)">
-      <pre [innerHTML]="alert.message"></pre>
-    </ngb-alert>
+<div [@alertsAnimation]="alerts.length" id="message-container" role="alert">
+  <div *ngFor="let alert of alerts "
+       [ngClass]="{
+            'message': alert,
+            'message-success': alert.type === AlertType.success,
+            'message-error': alert.type === AlertType.danger,
+            'message-info ': alert.type === AlertType.info,
+            'message-warning ': alert.type === AlertType.warning}" [ngSwitch]="alert.type">
+    <div class="message-text flex ">
+      <div class="flex-none">
+        <mat-icon *ngSwitchCase="AlertType.success" class="mr-2">check_circle</mat-icon>
+        <mat-icon *ngSwitchCase="AlertType.danger" class="mr-2">error</mat-icon>
+        <mat-icon *ngSwitchCase="AlertType.info" class="mr-2">info</mat-icon>
+        <mat-icon *ngSwitchCase="AlertType.warning" class="mr-2">warning</mat-icon>
+      </div>
+      <div [innerHTML]="alert.message" class="flex-auto mt-1"></div>
+      <div class="ml-4 flex-none">
+        <mat-icon (click)="close(alert)" class="clickable pull-right">close</mat-icon>
+      </div>
+    </div>
   </div>
 </div>
