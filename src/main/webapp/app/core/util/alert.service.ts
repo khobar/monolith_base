@@ -3,7 +3,6 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 
 import { translationNotFoundMessage } from 'app/config/translation.config';
-import { timeout } from 'rxjs';
 
 export enum AlertType {
   success = 'success',
@@ -46,8 +45,9 @@ export class AlertService {
   get(): Alert[] {
     return this.alerts;
   }
-  defaultTimeout(alert: Alert) {
-    return alert?.type === AlertType.danger ? this.errorTimeout : this.timeout;
+
+  defaultTimeout(alert: Alert): number {
+    return alert.type === AlertType.danger ? this.errorTimeout : this.timeout;
   }
 
   /**

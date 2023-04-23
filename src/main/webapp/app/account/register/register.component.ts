@@ -42,18 +42,18 @@ export class RegisterComponent implements AfterViewInit {
     { validators: [this.matchingPasswords] }
   );
 
-  matchingPasswords(c: AbstractControl): { [key: string]: boolean } | null {
-    const password = c.get(['password']);
-    const confirmPassword = c.get(['confirmPassword']);
-    return password && confirmPassword && password.value !== confirmPassword.value ? { notSame: true } : null;
-  }
-
   constructor(
     private translateService: TranslateService,
     private registerService: RegisterService,
     private alertService: AlertService,
     private router: Router
   ) {}
+
+  matchingPasswords(c: AbstractControl): { [key: string]: boolean } | null {
+    const password = c.get(['password']);
+    const confirmPassword = c.get(['confirmPassword']);
+    return password && confirmPassword && password.value !== confirmPassword.value ? { notSame: true } : null;
+  }
 
   ngAfterViewInit(): void {
     if (this.login) {
@@ -82,6 +82,4 @@ export class RegisterComponent implements AfterViewInit {
       this.alertService.addAlert({ type: AlertType.danger, translationKey: 'register.messages.error.fail' });
     }
   }
-
-  protected readonly JSON = JSON;
 }

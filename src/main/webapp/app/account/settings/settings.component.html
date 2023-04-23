@@ -1,6 +1,6 @@
 <div>
-  <div class="d-flex justify-content-center">
-    <div class="col-md-8">
+  <div class="flex justify-center">
+    <div class="w-fit md:w-1/2">
       <h2 appTranslate="settings.title" [translateValues]="{ username: settingsForm.value.login }" *ngIf="settingsForm.value.login">
         Ustawienia dla użytkownika [<strong>{{ settingsForm.value.login }}</strong
         >]
@@ -14,144 +14,129 @@
 
       <form name="form" role="form" (ngSubmit)="save()" [formGroup]="settingsForm" *ngIf="settingsForm.value.login" novalidate>
         <div class="mb-3">
-          <label class="form-label" for="firstName" appTranslate="settings.form.firstname">Imię</label>
-          <input
-            type="text"
-            class="form-control"
-            id="firstName"
-            name="firstName"
-            placeholder="{{ 'settings.form.firstname.placeholder' | translate }}"
-            formControlName="firstName"
-            data-cy="firstname"
-          />
+          <mat-form-field appearance="outline" class="w-1/2">
+            <mat-label appTranslate="settings.form.firstname">Nazwa użytkownika</mat-label>
+            <input
+              matInput
+              type="text"
+              class="form-control"
+              id="firstName"
+              name="firstName"
+              placeholder="{{ 'settings.form.firstname.placeholder' | translate }}"
+              formControlName="firstName"
+              data-cy="firstname"
+            />
+          </mat-form-field>
 
           <div
             *ngIf="
               settingsForm.get('firstName')!.invalid && (settingsForm.get('firstName')!.dirty || settingsForm.get('firstName')!.touched)
             "
           >
-            <small
+            <mat-error
               class="form-text text-danger"
               *ngIf="settingsForm.get('firstName')?.errors?.required"
               appTranslate="settings.messages.validate.firstname.required"
             >
               Twoje imię jest wymagane.
-            </small>
+            </mat-error>
 
-            <small
+            <mat-error
               class="form-text text-danger"
               *ngIf="settingsForm.get('firstName')?.errors?.minlength"
               appTranslate="settings.messages.validate.firstname.minlength"
             >
               Twoje imię musi mieć przynajmniej 1 literę
-            </small>
+            </mat-error>
 
-            <small
+            <mat-error
               class="form-text text-danger"
               *ngIf="settingsForm.get('firstName')?.errors?.maxlength"
               appTranslate="settings.messages.validate.firstname.maxlength"
             >
               Twoje imię nie może być dłuższe niż 50 liter
-            </small>
+            </mat-error>
           </div>
         </div>
 
         <div class="mb-3">
-          <label class="form-label" for="lastName" appTranslate="settings.form.lastname">Nazwisko</label>
-          <input
-            type="text"
-            class="form-control"
-            id="lastName"
-            name="lastName"
-            placeholder="{{ 'settings.form.lastname.placeholder' | translate }}"
-            formControlName="lastName"
-            data-cy="lastname"
-          />
+          <mat-form-field appearance="outline" class="w-1/2">
+            <mat-label appTranslate="settings.form.lastname">Nazwisko</mat-label>
+            <input
+              matInput
+              type="text"
+              class="form-control"
+              id="lastName"
+              name="lastName"
+              placeholder="{{ 'settings.form.lastname.placeholder' | translate }}"
+              formControlName="lastName"
+              data-cy="lastname"
+            />
+          </mat-form-field>
 
           <div
             *ngIf="settingsForm.get('lastName')!.invalid && (settingsForm.get('lastName')!.dirty || settingsForm.get('lastName')!.touched)"
           >
-            <small
-              class="form-text text-danger"
-              *ngIf="settingsForm.get('lastName')?.errors?.required"
-              appTranslate="settings.messages.validate.lastname.required"
-            >
+            <mat-error *ngIf="settingsForm.get('lastName')?.errors?.required" appTranslate="settings.messages.validate.lastname.required">
               Twoje nazwisko jest wymagane.
-            </small>
+            </mat-error>
 
-            <small
-              class="form-text text-danger"
-              *ngIf="settingsForm.get('lastName')?.errors?.minlength"
-              appTranslate="settings.messages.validate.lastname.minlength"
-            >
+            <mat-error *ngIf="settingsForm.get('lastName')?.errors?.minlength" appTranslate="settings.messages.validate.lastname.minlength">
               Twoje nazwisko musi mieć przynajmniej 1 literę
-            </small>
+            </mat-error>
 
-            <small
-              class="form-text text-danger"
-              *ngIf="settingsForm.get('lastName')?.errors?.maxlength"
-              appTranslate="settings.messages.validate.lastname.maxlength"
-            >
+            <mat-error *ngIf="settingsForm.get('lastName')?.errors?.maxlength" appTranslate="settings.messages.validate.lastname.maxlength">
               Twoje nazwisko nie może być dłuższe niż 50 liter
-            </small>
+            </mat-error>
           </div>
         </div>
 
         <div class="mb-3">
-          <label class="form-label" for="email" appTranslate="global.form.email.label">Email</label>
-          <input
-            type="email"
-            class="form-control"
-            id="email"
-            name="email"
-            placeholder="{{ 'global.form.email.placeholder' | translate }}"
-            formControlName="email"
-            data-cy="email"
-          />
+          <mat-form-field appearance="outline" class="w-1/2">
+            <mat-label appTranslate="global.form.email.label">Email</mat-label>
+            <input
+              matInput
+              type="email"
+              class="form-control"
+              id="email"
+              name="email"
+              placeholder="{{ 'global.form.email.placeholder' | translate }}"
+              formControlName="email"
+              data-cy="email"
+            />
+          </mat-form-field>
 
           <div *ngIf="settingsForm.get('email')!.invalid && (settingsForm.get('email')!.dirty || settingsForm.get('email')!.touched)">
-            <small
-              class="form-text text-danger"
-              *ngIf="settingsForm.get('email')?.errors?.required"
-              appTranslate="global.messages.validate.email.required"
-            >
+            <mat-error *ngIf="settingsForm.get('email')?.errors?.required" appTranslate="global.messages.validate.email.required">
               Twój email jest wymagany.
-            </small>
+            </mat-error>
 
-            <small
-              class="form-text text-danger"
-              *ngIf="settingsForm.get('email')?.errors?.email"
-              appTranslate="global.messages.validate.email.invalid"
-            >
+            <mat-error *ngIf="settingsForm.get('email')?.errors?.email" appTranslate="global.messages.validate.email.invalid">
               Twój email jest błędny.
-            </small>
+            </mat-error>
 
-            <small
-              class="form-text text-danger"
-              *ngIf="settingsForm.get('email')?.errors?.minlength"
-              appTranslate="global.messages.validate.email.minlength"
-            >
+            <mat-error *ngIf="settingsForm.get('email')?.errors?.minlength" appTranslate="global.messages.validate.email.minlength">
               Twój email musi mieć przynajmniej 5 znaków
-            </small>
+            </mat-error>
 
-            <small
-              class="form-text text-danger"
-              *ngIf="settingsForm.get('email')?.errors?.maxlength"
-              appTranslate="global.messages.validate.email.maxlength"
-            >
+            <mat-error *ngIf="settingsForm.get('email')?.errors?.maxlength" appTranslate="global.messages.validate.email.maxlength">
               Twój email nie może być dłuższy niż 50 znaków
-            </small>
+            </mat-error>
           </div>
         </div>
 
         <div class="mb-3" *ngIf="languages && languages.length > 0">
-          <label for="langKey" appTranslate="settings.form.language">Język</label>
-          <select class="form-control" id="langKey" name="langKey" formControlName="langKey" data-cy="langKey">
-            <option *ngFor="let language of languages" [value]="language">{{ language | findLanguageFromKey }}</option>
-          </select>
+          <mat-form-field appearance="outline" class="w-1/2">
+            <mat-label appTranslate="settings.form.language">Język</mat-label>
+            <mat-select id="langKey" formControlName="langKey" data-cy="langKey">
+              <mat-option *ngFor="let language of languages" [value]="language">{{ language | findLanguageFromKey }}</mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
 
         <button
+          mat-raised-button
+          color="primary"
           type="submit"
           [disabled]="settingsForm.invalid"
           class="btn btn-primary"

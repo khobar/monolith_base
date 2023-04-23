@@ -56,7 +56,7 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  public onToggleSidenav = () => {
+  public onToggleSidenav = (): void => {
     this.sidenavToggle.emit();
   };
 

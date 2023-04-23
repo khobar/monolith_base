@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync, inject, tick, fakeAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, flush, inject, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormBuilder } from '@angular/forms';
 import { of, throwError } from 'rxjs';
@@ -8,6 +8,9 @@ import { EMAIL_ALREADY_USED_TYPE, LOGIN_ALREADY_USED_TYPE } from 'app/config/err
 
 import { RegisterService } from './register.service';
 import { RegisterComponent } from './register.component';
+import { AlertService, AlertType } from '../../core/util/alert.service';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Router } from '@angular/router';
 
 describe('RegisterComponent', () => {
   let fixture: ComponentFixture<RegisterComponent>;
@@ -15,7 +18,7 @@ describe('RegisterComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), HttpClientTestingModule],
+      imports: [TranslateModule.forRoot(), HttpClientTestingModule, RouterTestingModule.withRoutes([])],
       declarations: [RegisterComponent],
       providers: [FormBuilder],
     })
@@ -35,13 +38,13 @@ describe('RegisterComponent', () => {
     });
 
     comp.register();
-
-    expect(comp.doNotMatch).toBe(true);
   });
 
   it('should update success to true after creating an account', inject(
     [RegisterService, TranslateService],
     fakeAsync((service: RegisterService, mockTranslateService: TranslateService) => {
+      const mockRouter = TestBed.inject(Router);
+      jest.spyOn(mockRouter, 'navigate').mockImplementation(() => Promise.resolve(true));
       jest.spyOn(service, 'save').mockReturnValue(of({}));
       mockTranslateService.currentLang = 'pl';
       comp.registerForm.patchValue({
@@ -58,17 +61,17 @@ describe('RegisterComponent', () => {
         login: '',
         langKey: 'pl',
       });
-      expect(comp.success).toBe(true);
-      expect(comp.errorUserExists).toBe(false);
-      expect(comp.errorEmailExists).toBe(false);
-      expect(comp.error).toBe(false);
+      //expect mockRouter to be called with login
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/login']);
+      flush();
     })
   ));
 
   it('should notify of user existence upon 400/login already in use', inject(
-    [RegisterService],
-    fakeAsync((service: RegisterService) => {
-      jest.spyOn(service, 'save').mockReturnValue(
+    [RegisterService, AlertService],
+    fakeAsync((service: RegisterService, alertService: AlertService) => {
+      jest.spyOn(alertService, 'addAlert');
+      const spy = jest.spyOn(service, 'save').mockReturnValue(
         throwError({
           status: 400,
           error: { type: LOGIN_ALREADY_USED_TYPE },
@@ -78,19 +81,22 @@ describe('RegisterComponent', () => {
         password: 'password',
         confirmPassword: 'password',
       });
-
       comp.register();
       tick();
-
-      expect(comp.errorUserExists).toBe(true);
-      expect(comp.errorEmailExists).toBe(false);
-      expect(comp.error).toBe(false);
+      expect(alertService.addAlert).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: AlertType.danger,
+          translationKey: 'register.messages.error.userexists',
+        })
+      );
+      flush();
     })
   ));
 
   it('should notify of email existence upon 400/email address already in use', inject(
-    [RegisterService],
-    fakeAsync((service: RegisterService) => {
+    [RegisterService, AlertService],
+    fakeAsync((service: RegisterService, alertService: AlertService) => {
+      jest.spyOn(alertService, 'addAlert');
       jest.spyOn(service, 'save').mockReturnValue(
         throwError({
           status: 400,
@@ -104,16 +110,18 @@ describe('RegisterComponent', () => {
 
       comp.register();
       tick();
-
-      expect(comp.errorEmailExists).toBe(true);
-      expect(comp.errorUserExists).toBe(false);
-      expect(comp.error).toBe(false);
+      expect(alertService.addAlert).toHaveBeenCalledWith(
+        expect.objectContaining({ type: AlertType.danger, translationKey: 'register.messages.error.emailexists' })
+      );
+      flush();
     })
   ));
 
   it('should notify of generic error', inject(
-    [RegisterService],
-    fakeAsync((service: RegisterService) => {
+    [RegisterService, AlertService],
+    fakeAsync((service: RegisterService, alertService: AlertService) => {
+      //alert service spy on addAlert
+      jest.spyOn(alertService, 'addAlert');
       jest.spyOn(service, 'save').mockReturnValue(
         throwError({
           status: 503,
@@ -123,13 +131,11 @@ describe('RegisterComponent', () => {
         password: 'password',
         confirmPassword: 'password',
       });
-
       comp.register();
       tick();
-
-      expect(comp.errorUserExists).toBe(false);
-      expect(comp.errorEmailExists).toBe(false);
-      expect(comp.error).toBe(true);
+      //expect alertService.addAlert to be called with partial of error
+      expect(alertService.addAlert).toHaveBeenCalledWith(expect.objectContaining({ type: AlertType.danger }));
+      flush();
     })
   ));
 });

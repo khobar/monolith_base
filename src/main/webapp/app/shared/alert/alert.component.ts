@@ -11,6 +11,7 @@ import { alertAnimationTrigger } from './utils';
 })
 export class AlertComponent implements OnInit, OnDestroy {
   alerts: Alert[] = [];
+  protected readonly AlertType = AlertType;
 
   constructor(private alertService: AlertService) {}
 
@@ -33,6 +34,4 @@ export class AlertComponent implements OnInit, OnDestroy {
   close(alert: Alert): void {
     alert.close?.(this.alerts);
   }
-
-  protected readonly AlertType = AlertType;
 }

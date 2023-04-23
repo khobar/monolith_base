@@ -19,6 +19,8 @@ export class AlertErrorComponent implements OnDestroy {
   errorListener: Subscription;
   httpErrorListener: Subscription;
 
+  protected readonly AlertType = AlertType;
+
   constructor(private alertService: AlertService, private eventManager: EventManager, translateService: TranslateService) {
     this.errorListener = eventManager.subscribe('appbase.error', (response: EventWithContent<unknown> | string) => {
       const errorResponse = (response as EventWithContent<AlertError>).content;
@@ -108,6 +110,4 @@ export class AlertErrorComponent implements OnDestroy {
   private addErrorAlert(message?: string, translationKey?: string, translationParams?: { [key: string]: unknown }): void {
     this.alertService.addAlert({ type: AlertType.danger, message, translationKey, translationParams }, this.alerts);
   }
-
-  protected readonly AlertType = AlertType;
 }

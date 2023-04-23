@@ -69,35 +69,25 @@
 </mat-menu>
 <!--ADMIN menu-->
 <mat-menu #adminMenu="matMenu">
-  <button mat-menu-item>
-    <a routerLink="admin/user-management" routerLinkActive="active" (click)="collapseNavbar()">
-      <mat-icon>people</mat-icon>
-      <span appTranslate="global.menu.admin.userManagement">Użytkownicy</span>
-    </a>
+  <button mat-menu-item routerLink="admin/user-management" routerLinkActive="active" (click)="collapseNavbar()">
+    <mat-icon>people</mat-icon>
+    <span appTranslate="global.menu.admin.userManagement">Użytkownicy</span>
   </button>
-  <button mat-menu-item>
-    <a routerLink="admin/metrics" routerLinkActive="active" (click)="collapseNavbar()">
-      <mat-icon>speed</mat-icon>
-      <span appTranslate="global.menu.admin.metrics">Metryki</span>
-    </a>
+  <button mat-menu-item routerLink="admin/metrics" routerLinkActive="active" (click)="collapseNavbar()">
+    <mat-icon>speed</mat-icon>
+    <span appTranslate="global.menu.admin.metrics">Metryki</span>
   </button>
-  <button mat-menu-item>
-    <a routerLink="admin/health" routerLinkActive="active" (click)="collapseNavbar()">
-      <mat-icon>favorite</mat-icon>
-      <span appTranslate="global.menu.admin.health">Status</span>
-    </a>
+  <button mat-menu-item routerLink="admin/health" routerLinkActive="active" (click)="collapseNavbar()">
+    <mat-icon>favorite</mat-icon>
+    <span appTranslate="global.menu.admin.health">Status</span>
   </button>
-  <button mat-menu-item>
-    <a class="dropdown-item" routerLink="admin/configuration" routerLinkActive="active" (click)="collapseNavbar()">
-      <mat-icon>settings</mat-icon>
-      <span appTranslate="global.menu.admin.configuration">Konfiguracja</span>
-    </a>
+  <button mat-menu-item routerLink="admin/configuration" routerLinkActive="active" (click)="collapseNavbar()">
+    <mat-icon>settings</mat-icon>
+    <span appTranslate="global.menu.admin.configuration">Konfiguracja</span>
   </button>
-  <button mat-menu-item>
-    <a routerLink="admin/logs" routerLinkActive="active" (click)="collapseNavbar()">
-      <mat-icon>article</mat-icon>
-      <span appTranslate="global.menu.admin.logs">Logi</span>
-    </a>
+  <button mat-menu-item routerLink="admin/logs" routerLinkActive="active" (click)="collapseNavbar()">
+    <mat-icon>article</mat-icon>
+    <span appTranslate="global.menu.admin.logs">Logi</span>
   </button>
   <button *ngIf="openAPIEnabled" mat-menu-item>
     <a routerLink="admin/docs" routerLinkActive="active" (click)="collapseNavbar()">

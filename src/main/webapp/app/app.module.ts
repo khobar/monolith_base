@@ -28,7 +28,6 @@ import { ErrorComponent } from './layouts/error/error.component';
 import { ApiModule, Configuration } from 'api-client';
 import { AuthServerProvider } from './core/auth/auth-jwt.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatSidenavModule } from "@angular/material/sidenav";
 
 @NgModule({
   imports: [
@@ -39,9 +38,9 @@ import { MatSidenavModule } from "@angular/material/sidenav";
     // jhipster-needle-angular-add-module JHipster will add new module here
     AppRoutingModule,
     // Set this to true to enable service worker (PWA)
-    ServiceWorkerModule.register("ngsw-worker.js", { enabled: false }),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: false }),
     HttpClientModule,
-    NgxWebstorageModule.forRoot({ prefix: "app", separator: "-", caseSensitive: true }),
+    NgxWebstorageModule.forRoot({ prefix: 'app', separator: '-', caseSensitive: true }),
     TranslationModule,
     ApiModule,
   ],

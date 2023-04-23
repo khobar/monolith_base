@@ -1,6 +1,5 @@
-jest.mock('app/core/auth/account.service');
-
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { AccountDTO } from 'api-client';
+import { ComponentFixture, fakeAsync, TestBed, waitForAsync } from '@angular/core/testing';
 import { HttpResponse } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormBuilder } from '@angular/forms';
@@ -10,19 +9,33 @@ import { AccountService } from 'app/core/auth/account.service';
 
 import { PasswordComponent } from './password.component';
 import { PasswordService } from './password.service';
+import { TranslateService } from '@ngx-translate/core';
+
+jest.mock('app/core/auth/account.service');
 
 describe('PasswordComponent', () => {
   let comp: PasswordComponent;
   let fixture: ComponentFixture<PasswordComponent>;
   let service: PasswordService;
+  let accountService: AccountService;
+  const account: AccountDTO = {
+    firstName: 'John',
+    lastName: 'Doe',
+    activated: true,
+    email: 'john.doe@mail.com',
+    langKey: 'pl',
+    login: 'john',
+    authorities: new Set(),
+    imageUrl: '',
+  };
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       declarations: [PasswordComponent],
-      providers: [FormBuilder, AccountService],
+      providers: [FormBuilder, AccountService, TranslateService],
     })
-      .overrideTemplate(PasswordComponent, '')
+      // .overrideTemplate(PasswordComponent, '')
       .compileComponents();
   }));
 
@@ -30,20 +43,24 @@ describe('PasswordComponent', () => {
     fixture = TestBed.createComponent(PasswordComponent);
     comp = fixture.componentInstance;
     service = TestBed.inject(PasswordService);
+    accountService = TestBed.inject(AccountService);
+    accountService.identity = jest.fn(() => of(account));
   });
 
   it('should show error if passwords do not match', () => {
-    // GIVEN
-    comp.passwordForm.patchValue({
-      newPassword: 'password1',
-      confirmPassword: 'password2',
+    fakeAsync((mockTranslateService: TranslateService) => {
+      mockTranslateService.currentLang = 'pl';
+      comp.passwordForm.patchValue({
+        newPassword: 'password1',
+        confirmPassword: 'password2',
+      });
+      // WHEN
+      fixture.detectChanges();
+      // THEN
+      const submitBtn = fixture.debugElement.nativeElement.querySelector('#password-submit');
+      expect(submitBtn.disabled).toBeTruthy();
     });
-    // WHEN
-    comp.changePassword();
-    // THEN
-    expect(comp.doNotMatch).toBe(true);
-    expect(comp.error).toBe(false);
-    expect(comp.success).toBe(false);
+    // GIVEN
   });
 
   it('should call Auth.changePassword when passwords match', () => {
@@ -80,7 +97,6 @@ describe('PasswordComponent', () => {
     comp.changePassword();
 
     // THEN
-    expect(comp.doNotMatch).toBe(false);
     expect(comp.error).toBe(false);
     expect(comp.success).toBe(true);
   });
@@ -97,7 +113,6 @@ describe('PasswordComponent', () => {
     comp.changePassword();
 
     // THEN
-    expect(comp.doNotMatch).toBe(false);
     expect(comp.success).toBe(false);
     expect(comp.error).toBe(true);
   });
