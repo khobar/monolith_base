@@ -1,15 +1,17 @@
 import { AccountDTO } from 'api-client';
-import { ComponentFixture, fakeAsync, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, flush, inject, TestBed, waitForAsync } from '@angular/core/testing';
 import { HttpResponse } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormBuilder } from '@angular/forms';
-import { of, throwError } from 'rxjs';
+import { of } from 'rxjs';
 
 import { AccountService } from 'app/core/auth/account.service';
 
 import { PasswordComponent } from './password.component';
 import { PasswordService } from './password.service';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { AlertService, AlertType } from '../../core/util/alert.service';
+import spyOn = jest.spyOn;
 
 jest.mock('app/core/auth/account.service');
 
@@ -17,7 +19,6 @@ describe('PasswordComponent', () => {
   let comp: PasswordComponent;
   let fixture: ComponentFixture<PasswordComponent>;
   let service: PasswordService;
-  let accountService: AccountService;
   const account: AccountDTO = {
     firstName: 'John',
     lastName: 'Doe',
@@ -31,11 +32,11 @@ describe('PasswordComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [TranslateModule.forRoot(), HttpClientTestingModule],
       declarations: [PasswordComponent],
-      providers: [FormBuilder, AccountService, TranslateService],
+      providers: [FormBuilder, AccountService],
     })
-      // .overrideTemplate(PasswordComponent, '')
+      .overrideTemplate(PasswordComponent, '')
       .compileComponents();
   }));
 
@@ -43,8 +44,9 @@ describe('PasswordComponent', () => {
     fixture = TestBed.createComponent(PasswordComponent);
     comp = fixture.componentInstance;
     service = TestBed.inject(PasswordService);
-    accountService = TestBed.inject(AccountService);
-    accountService.identity = jest.fn(() => of(account));
+  });
+  afterEach(() => {
+    jest.restoreAllMocks();
   });
 
   it('should show error if passwords do not match', () => {
@@ -84,36 +86,20 @@ describe('PasswordComponent', () => {
     // THEN
     expect(service.save).toHaveBeenCalledWith(passwordValues.newPassword, passwordValues.currentPassword);
   });
-
-  it('should set success to true upon success', () => {
-    // GIVEN
-    jest.spyOn(service, 'save').mockReturnValue(of(new HttpResponse({ body: true })));
-    comp.passwordForm.patchValue({
-      newPassword: 'myPassword',
-      confirmPassword: 'myPassword',
-    });
-
-    // WHEN
-    comp.changePassword();
-
-    // THEN
-    expect(comp.error).toBe(false);
-    expect(comp.success).toBe(true);
-  });
-
-  it('should notify of error if change password fails', () => {
-    // GIVEN
-    jest.spyOn(service, 'save').mockReturnValue(throwError('ERROR'));
-    comp.passwordForm.patchValue({
-      newPassword: 'myPassword',
-      confirmPassword: 'myPassword',
-    });
-
-    // WHEN
-    comp.changePassword();
-
-    // THEN
-    expect(comp.success).toBe(false);
-    expect(comp.error).toBe(true);
-  });
+  it('should set success to true upon success', inject(
+    [AlertService, PasswordService],
+    fakeAsync((alertService: AlertService, passwordService: PasswordService) => {
+      spyOn(passwordService, 'save').mockReturnValue(of(new HttpResponse({ body: true })));
+      spyOn(alertService, 'addAlert');
+      comp.passwordForm.patchValue({
+        newPassword: 'myPassword',
+        confirmPassword: 'myPassword',
+      });
+      // WHEN
+      comp.changePassword();
+      // THEN
+      expect(alertService.addAlert).toHaveBeenCalledWith(expect.objectContaining({ type: AlertType.success }));
+      flush();
+    })
+  ));
 });

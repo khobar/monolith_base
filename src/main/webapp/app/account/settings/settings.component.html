@@ -5,13 +5,6 @@
         Ustawienia dla użytkownika [<strong>{{ settingsForm.value.login }}</strong
         >]
       </h2>
-
-      <div class="alert alert-success" *ngIf="success" appTranslate="settings.messages.success">
-        <strong>Ustawienia zapisane!</strong>
-      </div>
-
-      <alert-error></alert-error>
-
       <form name="form" role="form" (ngSubmit)="save()" [formGroup]="settingsForm" *ngIf="settingsForm.value.login" novalidate>
         <div class="mb-3">
           <mat-form-field appearance="outline" class="w-1/2">

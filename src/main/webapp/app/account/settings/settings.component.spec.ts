@@ -8,6 +8,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AccountService } from 'app/core/auth/account.service';
 
 import { SettingsComponent } from './settings.component';
+import { AlertService, AlertType } from '../../core/util/alert.service';
+import spyOn = jest.spyOn;
 
 jest.mock('app/core/auth/account.service');
 
@@ -30,7 +32,7 @@ describe('SettingsComponent', () => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), HttpClientTestingModule],
       declarations: [SettingsComponent],
-      providers: [FormBuilder, AccountService],
+      providers: [FormBuilder, AccountService, AlertService],
     })
       .overrideTemplate(SettingsComponent, '')
       .compileComponents();
@@ -67,18 +69,20 @@ describe('SettingsComponent', () => {
 
   it('should notify of success upon successful save', () => {
     // GIVEN
+    const alertService = TestBed.inject(AlertService);
+    spyOn(alertService, 'addAlert');
     mockAccountService.save = jest.fn(() => of({}));
-
     // WHEN
     comp.ngOnInit();
     comp.save();
-
     // THEN
-    expect(comp.success).toBe(true);
+    expect(alertService.addAlert).toHaveBeenCalledWith(expect.objectContaining({ type: AlertType.success }));
   });
 
   it('should notify of error upon failed save', () => {
     // GIVEN
+    const alertService = TestBed.inject(AlertService);
+    spyOn(alertService, 'addAlert');
     mockAccountService.save = jest.fn(() => throwError('ERROR'));
 
     // WHEN
@@ -86,6 +90,6 @@ describe('SettingsComponent', () => {
     comp.save();
 
     // THEN
-    expect(comp.success).toBe(false);
+    expect(alertService.addAlert).toHaveBeenCalledWith(expect.objectContaining({ type: AlertType.danger }));
   });
 });

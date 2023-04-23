@@ -5,14 +5,13 @@ import { Observable } from 'rxjs';
 import { AccountService } from 'app/core/auth/account.service';
 import { PasswordService } from './password.service';
 import { AccountDTO } from 'api-client';
+import { AlertService, AlertType } from '../../core/util/alert.service';
 
 @Component({
   selector: 'jhi-password',
   templateUrl: './password.component.html',
 })
 export class PasswordComponent implements OnInit {
-  error = false;
-  success = false;
   account$?: Observable<AccountDTO | null>;
   passwordForm = new FormGroup(
     {
@@ -29,7 +28,7 @@ export class PasswordComponent implements OnInit {
     { validators: this.matchingPasswords }
   );
 
-  constructor(private passwordService: PasswordService, private accountService: AccountService) {}
+  constructor(private passwordService: PasswordService, private accountService: AccountService, private alertService: AlertService) {}
 
   ngOnInit(): void {
     this.account$ = this.accountService.identity();
@@ -42,13 +41,10 @@ export class PasswordComponent implements OnInit {
   }
 
   changePassword(): void {
-    this.error = false;
-    this.success = false;
-
     const { newPassword, currentPassword } = this.passwordForm.getRawValue();
     this.passwordService.save(newPassword, currentPassword).subscribe({
-      next: () => (this.success = true),
-      error: () => (this.error = true),
+      next: () => this.alertService.addAlert({ type: AlertType.success, translationKey: 'password.messages.success' }),
+      error: () => this.alertService.addAlert({ type: AlertType.danger, translationKey: 'password.messages.error' }),
     });
   }
 }

@@ -37,7 +37,7 @@
       <mat-list>
         <mat-list-item *ngFor="let account of accounts$ | async">
           <mat-icon aria-hidden="false" aria-label="account icon">person</mat-icon>
-          {{ account.firstName }} ({{ account.lastName }})
+          {{ account.firstName ? account.firstName : '' }} {{ account.lastName ? account.lastName : '' }} ({{ account.login }})
         </mat-list-item>
       </mat-list>
       <div *ngIf="loading">Loading...</div>

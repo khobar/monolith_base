@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AccountService } from 'app/core/auth/account.service';
 import { LANGUAGES } from 'app/config/language.constants';
 import { AccountDTO } from 'api-client';
+import { AlertService, AlertType } from '../../core/util/alert.service';
 
 const initialAccount: AccountDTO = {} as AccountDTO;
 
@@ -13,7 +14,6 @@ const initialAccount: AccountDTO = {} as AccountDTO;
   templateUrl: './settings.component.html',
 })
 export class SettingsComponent implements OnInit {
-  success = false;
   languages = LANGUAGES;
 
   settingsForm = new FormGroup({
@@ -37,7 +37,7 @@ export class SettingsComponent implements OnInit {
     login: new FormControl(initialAccount.login, { nonNullable: true }),
   });
 
-  constructor(private accountService: AccountService, private translateService: TranslateService) {}
+  constructor(private accountService: AccountService, private translateService: TranslateService, private alertService: AlertService) {}
 
   ngOnInit(): void {
     this.accountService.identity().subscribe(account => {
@@ -48,17 +48,19 @@ export class SettingsComponent implements OnInit {
   }
 
   save(): void {
-    this.success = false;
-
     const account = this.settingsForm.getRawValue();
-    this.accountService.save(account).subscribe(() => {
-      this.success = true;
-
-      this.accountService.authenticate(account);
-
-      if (account.langKey !== this.translateService.currentLang) {
-        this.translateService.use(account.langKey);
+    this.accountService.save(account).subscribe(
+      () => {
+        this.accountService.authenticate(account);
+        if (account.langKey !== this.translateService.currentLang) {
+          this.translateService.use(account.langKey);
+        }
+        this.alertService.addAlert({ type: AlertType.success, translationKey: 'settings.messages.success' });
+      },
+      error => {
+        this.alertService.addAlert({ type: AlertType.danger, translationKey: 'settings.messages.error' });
+        console.log(error);
       }
-    });
+    );
   }
 }
