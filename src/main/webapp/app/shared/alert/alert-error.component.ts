@@ -75,6 +75,9 @@ export class AlertErrorComponent implements OnDestroy {
         case 404:
           this.addErrorAlert('Not found', 'error.url.not.found');
           break;
+        case 401:
+          this.addErrorAlert('Unauthorised please try again ', 'error.http.401');
+          break;
 
         default:
           if (httpErrorResponse.error !== '' && httpErrorResponse.error.message) {
@@ -107,7 +110,13 @@ export class AlertErrorComponent implements OnDestroy {
     alert.close?.(this.alerts);
   }
 
-  private addErrorAlert(message?: string, translationKey?: string, translationParams?: { [key: string]: unknown }): void {
+  private addErrorAlert(
+    message?: string,
+    translationKey?: string,
+    translationParams?: {
+      [key: string]: unknown;
+    }
+  ): void {
     this.alertService.addAlert({ type: AlertType.danger, message, translationKey, translationParams }, this.alerts);
   }
 }

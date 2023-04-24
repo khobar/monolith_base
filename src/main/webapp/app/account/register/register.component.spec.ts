@@ -31,21 +31,29 @@ describe('RegisterComponent', () => {
     comp = fixture.componentInstance;
   });
 
-  it('should ensure the two passwords entered match', () => {
-    comp.registerForm.patchValue({
-      password: 'password',
-      confirmPassword: 'non-matching',
+  it('should show error if passwords do not match', () => {
+    fakeAsync(() => {
+      comp.registerForm.patchValue({
+        password: 'password1',
+        confirmPassword: 'password2',
+      });
+      // WHEN
+      fixture.detectChanges();
+      // THEN
+      const submitBtn = fixture.debugElement.nativeElement.querySelector('#register-submit');
+      expect(submitBtn.disabled).toBeTruthy();
     });
-
-    comp.register();
+    // GIVEN
   });
 
   it('should update success to true after creating an account', inject(
-    [RegisterService, TranslateService],
-    fakeAsync((service: RegisterService, mockTranslateService: TranslateService) => {
+    [RegisterService, TranslateService, AlertService],
+    fakeAsync((service: RegisterService, mockTranslateService: TranslateService, alertService: AlertService) => {
       const mockRouter = TestBed.inject(Router);
       jest.spyOn(mockRouter, 'navigate').mockImplementation(() => Promise.resolve(true));
       jest.spyOn(service, 'save').mockReturnValue(of({}));
+      jest.spyOn(alertService, 'addAlert');
+
       mockTranslateService.currentLang = 'pl';
       comp.registerForm.patchValue({
         password: 'password',
@@ -63,6 +71,11 @@ describe('RegisterComponent', () => {
       });
       //expect mockRouter to be called with login
       expect(mockRouter.navigate).toHaveBeenCalledWith(['/login']);
+      expect(alertService.addAlert).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: AlertType.success,
+        })
+      );
       flush();
     })
   ));

@@ -1,3 +1,5 @@
+import { TranslateModule } from '@ngx-translate/core';
+
 jest.mock('app/core/auth/account.service');
 jest.mock('app/login/login.service');
 
@@ -22,7 +24,7 @@ describe('LoginComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule.withRoutes([])],
+      imports: [TranslateModule.forRoot(), RouterTestingModule.withRoutes([])],
       declarations: [LoginComponent],
       providers: [
         FormBuilder,

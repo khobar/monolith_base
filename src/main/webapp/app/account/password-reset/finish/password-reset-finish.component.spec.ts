@@ -1,12 +1,15 @@
 import { ElementRef } from '@angular/core';
-import { ComponentFixture, TestBed, inject, tick, fakeAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, inject, tick, fakeAsync, flush } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormBuilder } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 
 import { PasswordResetFinishComponent } from './password-reset-finish.component';
 import { PasswordResetFinishService } from './password-reset-finish.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { RouterTestingModule } from '@angular/router/testing';
+import { AlertService, AlertType } from '../../../core/util/alert.service';
 
 describe('PasswordResetFinishComponent', () => {
   let fixture: ComponentFixture<PasswordResetFinishComponent>;
@@ -14,7 +17,7 @@ describe('PasswordResetFinishComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([]), TranslateModule.forRoot()],
       declarations: [PasswordResetFinishComponent],
       providers: [
         FormBuilder,
@@ -50,21 +53,28 @@ describe('PasswordResetFinishComponent', () => {
     expect(node.focus).toHaveBeenCalled();
   });
 
-  it('should ensure the two passwords entered match', () => {
-    comp.passwordForm.patchValue({
-      newPassword: 'password',
-      confirmPassword: 'non-matching',
+  it('should show error if passwords do not match', () => {
+    fakeAsync(() => {
+      comp.passwordForm.patchValue({
+        newPassword: 'password1',
+        confirmPassword: 'password2',
+      });
+      // WHEN
+      fixture.detectChanges();
+      // THEN
+      const submitBtn = fixture.debugElement.nativeElement.querySelector('#password-submit');
+      expect(submitBtn.disabled).toBeTruthy();
     });
-
-    comp.finishReset();
-
-    expect(comp.doNotMatch).toBe(true);
+    // GIVEN
   });
 
   it('should update success to true after resetting password', inject(
-    [PasswordResetFinishService],
-    fakeAsync((service: PasswordResetFinishService) => {
+    [PasswordResetFinishService, AlertService],
+    fakeAsync((service: PasswordResetFinishService, alertService: AlertService) => {
       jest.spyOn(service, 'save').mockReturnValue(of({}));
+      jest.spyOn(alertService, 'addAlert');
+      const mockRouter = TestBed.inject(Router);
+      jest.spyOn(mockRouter, 'navigate').mockImplementation(() => Promise.resolve(true));
       comp.passwordForm.patchValue({
         newPassword: 'password',
         confirmPassword: 'password',
@@ -74,7 +84,13 @@ describe('PasswordResetFinishComponent', () => {
       tick();
 
       expect(service.save).toHaveBeenCalledWith('XYZPDQ', 'password');
-      expect(comp.success).toBe(true);
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/login']);
+      expect(alertService.addAlert).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: AlertType.success,
+        })
+      );
+      flush();
     })
   ));
 

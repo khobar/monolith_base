@@ -3,7 +3,7 @@ import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { EventManager } from 'app/core/util/event-manager.service';
-import { Alert, AlertService } from 'app/core/util/alert.service';
+import { Alert, AlertService, AlertType } from 'app/core/util/alert.service';
 
 import { AlertErrorComponent } from './alert-error.component';
 
@@ -136,6 +136,23 @@ describe('Alert Error Component', () => {
       // THEN
       expect(comp.alerts.length).toBe(1);
       expect(comp.alerts[0].translationKey).toBe('Error Message');
+    });
+    it('Should display an alert on status 401 for error headers', () => {
+      // GIVEN
+      const response = new HttpErrorResponse({
+        url: 'http://localhost:8080/api/foos',
+        headers: new HttpHeaders().append('app-error', 'Error Message').append('app-params', 'foo'),
+        status: 401,
+        statusText: 'Bad Auth',
+        error: {
+          status: 400,
+          message: 'error.validation',
+        },
+      });
+      eventManager.broadcast({ name: 'appbase.httpError', content: response });
+      // THEN
+      expect(comp.alerts.length).toBe(1);
+      expect(comp.alerts[0].type).toBe(AlertType.danger);
     });
 
     it('Should display an alert on status 500 with detail', () => {

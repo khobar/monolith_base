@@ -3,9 +3,9 @@
   <div class="flex justify-center">
     <div class="w-fit md:w-1/2">
       <h1 appTranslate="login.title" data-cy="loginTitle">Autoryzacja</h1>
-      <div class="alert alert-danger" *ngIf="authenticationError" appTranslate="login.messages.error.authentication" data-cy="loginError">
+      <mat-error class="mb-3" *ngIf="authenticationError" appTranslate="login.messages.error.authentication" data-cy="loginError">
         <strong>Nieudane logowanie!</strong> Sprawdź swoje dane logowania i spróbuj ponownie.
-      </div>
+      </mat-error>
       <form class="form" role="form" (ngSubmit)="login()" [formGroup]="loginForm">
         <div class="mb-3">
           <mat-form-field appearance="outline" class="w-1/2">
@@ -46,15 +46,14 @@
 
         <button type="submit" mat-raised-button color="primary" appTranslate="login.form.button" data-cy="submit">Zaloguj</button>
       </form>
-      <div class="mt-3 alert alert-warning">
-        <a class="alert-link" routerLink="/account/reset/request" appTranslate="login.password.forgot" data-cy="forgetYourPasswordSelector"
+      <div class="mt-3">
+        <a class="underline" routerLink="/account/reset/request" appTranslate="login.password.forgot" data-cy="forgetYourPasswordSelector"
           >Zapomniałeś swojego hasła?</a
         >
       </div>
-
-      <div class="alert alert-warning">
+      <div>
         <span appTranslate="global.messages.info.register.noaccount">Nie masz jeszcze konta?</span>
-        <a class="alert-link" routerLink="/account/register" appTranslate="global.messages.info.register.link">Zarejestruj się</a>
+        <a class="underline" routerLink="/account/register" appTranslate="global.messages.info.register.link">Zarejestruj się</a>
       </div>
     </div>
   </div>

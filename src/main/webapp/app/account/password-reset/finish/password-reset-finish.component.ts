@@ -1,8 +1,9 @@
-import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { PasswordResetFinishService } from './password-reset-finish.service';
+import { AlertService, AlertType } from '../../../core/util/alert.service';
 
 @Component({
   selector: 'jhi-password-reset-finish',
@@ -13,23 +14,36 @@ export class PasswordResetFinishComponent implements OnInit, AfterViewInit {
   newPassword?: ElementRef;
 
   initialized = false;
-  doNotMatch = false;
   error = false;
   success = false;
   key = '';
 
-  passwordForm = new FormGroup({
-    newPassword: new FormControl('', {
-      nonNullable: true,
-      validators: [Validators.required, Validators.minLength(4), Validators.maxLength(50)],
-    }),
-    confirmPassword: new FormControl('', {
-      nonNullable: true,
-      validators: [Validators.required, Validators.minLength(4), Validators.maxLength(50)],
-    }),
-  });
+  passwordForm = new FormGroup(
+    {
+      newPassword: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required, Validators.minLength(4), Validators.maxLength(50)],
+      }),
+      confirmPassword: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required, Validators.minLength(4), Validators.maxLength(50)],
+      }),
+    },
+    { validators: this.matchingPasswords }
+  );
 
-  constructor(private passwordResetFinishService: PasswordResetFinishService, private route: ActivatedRoute) {}
+  constructor(
+    private passwordResetFinishService: PasswordResetFinishService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private alertService: AlertService
+  ) {}
+
+  matchingPasswords(c: AbstractControl): { [key: string]: boolean } | null {
+    const password = c.get(['newPassword']);
+    const confirmPassword = c.get(['confirmPassword']);
+    return password && confirmPassword && password.value !== confirmPassword.value ? { notSame: true } : null;
+  }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -47,18 +61,14 @@ export class PasswordResetFinishComponent implements OnInit, AfterViewInit {
   }
 
   finishReset(): void {
-    this.doNotMatch = false;
-    this.error = false;
-
-    const { newPassword, confirmPassword } = this.passwordForm.getRawValue();
-
-    if (newPassword !== confirmPassword) {
-      this.doNotMatch = true;
-    } else {
-      this.passwordResetFinishService.save(this.key, newPassword).subscribe({
-        next: () => (this.success = true),
-        error: () => (this.error = true),
-      });
-    }
+    const { newPassword } = this.passwordForm.getRawValue();
+    this.passwordResetFinishService.save(this.key, newPassword).subscribe({
+      next: () => {
+        this.router.navigate(['/login']).then(() => {
+          this.alertService.addAlert({ type: AlertType.success, translationKey: 'reset.finish.messages.success' });
+        });
+      },
+      error: () => (this.error = true),
+    });
   }
 }
