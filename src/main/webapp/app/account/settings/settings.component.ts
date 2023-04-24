@@ -59,7 +59,7 @@ export class SettingsComponent implements OnInit {
       },
       error => {
         this.alertService.addAlert({ type: AlertType.danger, translationKey: 'settings.messages.error' });
-        console.log(error);
+        console.error(error);
       }
     );
   }

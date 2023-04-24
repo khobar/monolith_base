@@ -1,5 +1,5 @@
 import { ElementRef } from '@angular/core';
-import { ComponentFixture, TestBed, inject, tick, fakeAsync, flush } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, flush, inject, TestBed, tick } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -7,7 +7,7 @@ import { of, throwError } from 'rxjs';
 
 import { PasswordResetFinishComponent } from './password-reset-finish.component';
 import { PasswordResetFinishService } from './password-reset-finish.service';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AlertService, AlertType } from '../../../core/util/alert.service';
 

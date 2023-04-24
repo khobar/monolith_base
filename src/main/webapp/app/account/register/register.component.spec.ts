@@ -69,7 +69,7 @@ describe('RegisterComponent', () => {
         login: '',
         langKey: 'pl',
       });
-      //expect mockRouter to be called with login
+      // expect mockRouter to be called with login
       expect(mockRouter.navigate).toHaveBeenCalledWith(['/login']);
       expect(alertService.addAlert).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -84,7 +84,7 @@ describe('RegisterComponent', () => {
     [RegisterService, AlertService],
     fakeAsync((service: RegisterService, alertService: AlertService) => {
       jest.spyOn(alertService, 'addAlert');
-      const spy = jest.spyOn(service, 'save').mockReturnValue(
+      jest.spyOn(service, 'save').mockReturnValue(
         throwError({
           status: 400,
           error: { type: LOGIN_ALREADY_USED_TYPE },
@@ -133,7 +133,7 @@ describe('RegisterComponent', () => {
   it('should notify of generic error', inject(
     [RegisterService, AlertService],
     fakeAsync((service: RegisterService, alertService: AlertService) => {
-      //alert service spy on addAlert
+      // alert service spy on addAlert
       jest.spyOn(alertService, 'addAlert');
       jest.spyOn(service, 'save').mockReturnValue(
         throwError({
@@ -146,7 +146,7 @@ describe('RegisterComponent', () => {
       });
       comp.register();
       tick();
-      //expect alertService.addAlert to be called with partial of error
+      // expect alertService.addAlert to be called with partial of error
       expect(alertService.addAlert).toHaveBeenCalledWith(expect.objectContaining({ type: AlertType.danger }));
       flush();
     })

@@ -13,8 +13,7 @@ export class DocsComponent {
   }
 
   @HostListener('window:resize', ['$event'])
-  getScreenSize(event?: any) {
+  getScreenSize(): void {
     this.screenHeight = window.innerHeight - 100;
-    console.log(this.screenHeight);
   }
 }

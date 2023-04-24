@@ -1,4 +1,3 @@
-import { AccountDTO } from 'api-client';
 import { ComponentFixture, fakeAsync, flush, inject, TestBed, waitForAsync } from '@angular/core/testing';
 import { HttpResponse } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -19,16 +18,6 @@ describe('PasswordComponent', () => {
   let comp: PasswordComponent;
   let fixture: ComponentFixture<PasswordComponent>;
   let service: PasswordService;
-  const account: AccountDTO = {
-    firstName: 'John',
-    lastName: 'Doe',
-    activated: true,
-    email: 'john.doe@mail.com',
-    langKey: 'pl',
-    login: 'john',
-    authorities: new Set(),
-    imageUrl: '',
-  };
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
