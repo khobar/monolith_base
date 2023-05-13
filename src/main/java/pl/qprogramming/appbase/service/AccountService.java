@@ -4,7 +4,6 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
-
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.slf4j.Logger;
@@ -81,7 +80,8 @@ public class AccountService {
                 user.setResetKey(RandomUtil.generateResetKey());
                 user.setResetDate(Instant.now());
                 return user;
-            });
+            })
+            .map(userRepository::save);
     }
 
     public Account registerUser(AccountDTO accountDTO, String password) {
@@ -213,6 +213,7 @@ public class AccountService {
                 user.setLangKey(langKey);
                 user.setImageUrl(imageUrl);
                 log.debug("Changed Information for User: {}", user);
+                this.clearUserCaches(user);
             });
     }
 

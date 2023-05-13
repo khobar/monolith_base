@@ -111,9 +111,7 @@
         </div>
         <div class="mb-3">
           <mat-form-field appearance="outline" class="w-1/2">
-            <mat-label appTranslate="global.form.confirmpassword.label"
-              >Potwierdź nowe hasło
-            </mat-label>
+            <mat-label appTranslate="global.form.confirmpassword.label">Potwierdź nowe hasło </mat-label>
             <input
               matInput
               type="password"
@@ -171,12 +169,14 @@
       </form>
 
       <mat-card class="p-3">
-        <span appTranslate="global.messages.info.authenticated.prefix">Jeśli chcesz się </span>
-        <a routerLink="/login" appTranslate="global.messages.info.authenticated.link">zalogować</a
-        ><span appTranslate="global.messages.info.authenticated.suffix"
-          >, możesz spróbować któregoś z domyślnych kont:<br />- Administrator (login="admin" i hasło="admin") <br />- Użytkownik
-          (login="user" i hasło="user").</span
-        >
+        <div>
+          <span appTranslate="global.messages.info.authenticated.prefix">Jeśli chcesz się </span>
+          <a class="underline" routerLink="/login" appTranslate="global.messages.info.authenticated.link">zalogować</a>
+          <span appTranslate="global.messages.info.authenticated.suffix"
+            >, możesz spróbować któregoś z domyślnych kont:<br />- Administrator (login="admin" i hasło="admin") <br />- Użytkownik
+            (login="user" i hasło="user").</span
+          >
+        </div>
       </mat-card>
     </div>
   </div>

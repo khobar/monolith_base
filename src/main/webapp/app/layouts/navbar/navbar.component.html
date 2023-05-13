@@ -10,7 +10,7 @@
       </a>
       <ng-container [ngSwitch]="account !== null">
         <ng-container *ngSwitchCase="true">
-          <a mat-button *hasAnyAuthority="'ROLE_ADMIN'" [matMenuTriggerFor]="adminMenu" class="mx-2">
+          <a mat-button *hasAnyAuthority="Role.Admin" [matMenuTriggerFor]="adminMenu" class="mx-2">
             <mat-icon>admin_panel_settings</mat-icon>
             {{ 'global.menu.admin.main' | translate }}
             <span class="absolute mt-1">

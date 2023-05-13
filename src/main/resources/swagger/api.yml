@@ -16,15 +16,20 @@ paths:
         - 'accounts'
       summary: Gets all accounts
       operationId: getAccounts
+      parameters:
+        - name: pageable
+          in: query
+          required: false
+          example: 'page=0&size=10&sort=configName,asc'
+          schema:
+            $ref: '#/components/schemas/Pageable'
       responses:
         '200':
           description: Successful operation
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/AccountDTO'
+                $ref: '#/components/schemas/Page'
 
 components:
   schemas:
@@ -98,6 +103,52 @@ components:
           title: Login
           description: Login
           pattern: "[a-zA-Z0-9\\._\\-]{3,}"
+    Pageable:
+      description: minimal Pageable query parameters
+      type: object
+      properties:
+        page:
+          type: integer
+          example: 0
+        size:
+          type: integer
+          example: 10
+        sort:
+          type: string
+          default: 'lastModifiedDate,desc'
+    Page:
+      description: Page object containing objects
+      type: object
+      properties:
+        content:
+          type: array
+          description: 'Searched content'
+          items:
+            type: object
+        first:
+          type: boolean
+          description: 'is it first page '
+          example: false
+        last:
+          type: boolean
+          description: 'is it last page '
+          example: false
+        totalPages:
+          type: integer
+          description: 'How many pages in total'
+          example: 10,
+        totalElements:
+          type: integer
+          description: 'How many elements in total for searched criteria'
+          example: 20
+        number:
+          type: integer
+          description: 'current page number'
+          example: 2
+        size:
+          type: integer
+          description: 'How many elements per page are there'
+          example: 10
 
     Role:
       type: string

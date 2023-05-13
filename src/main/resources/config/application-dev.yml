@@ -35,9 +35,9 @@ spring:
       indent-output: true
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:postgresql://192.168.1.50:5432/appbase
+    url: jdbc:postgresql://localhost:32768/appbase
     username: postgres
-    password: password
+    password: postgrespw
     hikari:
       poolName: Hikari
       auto-commit: false
@@ -48,7 +48,7 @@ spring:
     defer-datasource-initialization: true
   mail:
     host: localhost
-    port: 25
+    port: 5555
     username:
     password:
   messages:
@@ -90,7 +90,7 @@ jhipster:
         token-validity-in-seconds: 86400
         token-validity-in-seconds-for-remember-me: 2592000
   mail: # specific JHipster mail property, for standard properties see MailProperties
-    base-url: http://127.0.0.1:8080
+    base-url: http://localhost:9000
   logging:
     use-json-format: false # By default, logs are not in Json format
     logstash: # Forward logs to logstash over a socket, used by LoggingConfiguration

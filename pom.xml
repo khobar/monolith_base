@@ -797,10 +797,14 @@
                                 <supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
                                 <importMappings>
                                     <importMapping>Problem=org.zalando.problem.Problem</importMapping>
+                                    <importMapping>Page=org.springframework.data.domain.Page</importMapping>
+                                    <importMapping>Pageable=org.springframework.data.domain.Pageable</importMapping>
                                     <importMapping>java.time.OffsetDateTime=java.time.Instant</importMapping>
                                 </importMappings>
                                 <typeMappings>
                                     <typeMapping>OffsetDateTime=Instant</typeMapping>
+                                    <typeMapping>Page=org.springframework.data.domain.Page</typeMapping>
+                                    <typeMapping>Pageable=org.springframework.data.domain.Pageable</typeMapping>
                                 </typeMappings>
                                 <skipValidateSpec>false</skipValidateSpec>
                                 <configOptions>

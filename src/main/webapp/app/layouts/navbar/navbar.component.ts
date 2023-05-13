@@ -9,7 +9,7 @@ import { AccountService } from 'app/core/auth/account.service';
 import { LoginService } from 'app/login/login.service';
 import { ProfileService } from 'app/layouts/profiles/profile.service';
 import { EntityNavbarItems } from 'app/entities/entity-navbar-items';
-import { AccountDTO } from 'api-client';
+import { AccountDTO, Role } from 'api-client';
 
 @Component({
   selector: 'app-navbar',
@@ -26,6 +26,7 @@ export class NavbarComponent implements OnInit {
   account: AccountDTO | null = null;
   entitiesNavbarItems: any[] = [];
   hamburgerOpen = false;
+  protected readonly Role = Role;
 
   constructor(
     private loginService: LoginService,

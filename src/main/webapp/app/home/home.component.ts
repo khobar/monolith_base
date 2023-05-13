@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { finalize, Observable, Subject, tap } from 'rxjs';
-import { shareReplay, takeUntil } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { AccountService } from 'app/core/auth/account.service';
 import { AccountDTO, AccountsService } from 'api-client';
@@ -33,17 +33,5 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-  }
-
-  loadUsers(): void {
-    this.accounts$ = this.accountsService.getAccounts().pipe(
-      shareReplay(),
-      finalize(() => {
-        this.loading = false;
-      }),
-      tap(() => {
-        this.loading = true;
-      })
-    );
   }
 }
