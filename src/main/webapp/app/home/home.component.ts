@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { AccountService } from 'app/core/auth/account.service';
@@ -12,7 +12,6 @@ import { AccountDTO, AccountsService } from 'api-client';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  accounts$!: Observable<AccountDTO[]>;
   account: AccountDTO | null = null;
   loading = false;
   private readonly destroy$ = new Subject<void>();

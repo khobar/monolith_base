@@ -94,6 +94,9 @@ public class Account extends AbstractAuditingEntity<Long> implements Serializabl
     @ToString.Exclude
     private Set<Authority> authorities = new HashSet<>();
 
+    @Column(name = "dark_mode")
+    private boolean darkMode = false;
+
     // Lowercase the login before saving it in database
     public void setLogin(String login) {
         this.login = StringUtils.lowerCase(login, Locale.ENGLISH);

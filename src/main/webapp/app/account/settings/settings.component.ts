@@ -32,6 +32,7 @@ export class SettingsComponent implements OnInit {
     langKey: new FormControl(initialAccount.langKey, { nonNullable: true }),
 
     activated: new FormControl(initialAccount.activated, { nonNullable: true }),
+    darkMode: new FormControl(initialAccount.darkMode, { nonNullable: true }),
     authorities: new FormControl(initialAccount.authorities, { nonNullable: true }),
     imageUrl: new FormControl(initialAccount.imageUrl, { nonNullable: true }),
     login: new FormControl(initialAccount.login, { nonNullable: true }),
@@ -49,18 +50,18 @@ export class SettingsComponent implements OnInit {
 
   save(): void {
     const account = this.settingsForm.getRawValue();
-    this.accountService.save(account).subscribe(
-      () => {
-        this.accountService.authenticate(account);
+    this.accountService.save(account).subscribe({
+      next: () => {
+        this.accountService.updateAndForceReload();
         if (account.langKey !== this.translateService.currentLang) {
           this.translateService.use(account.langKey);
         }
         this.alertService.addAlert({ type: AlertType.success, translationKey: 'settings.messages.success' });
       },
-      error => {
+      error: error => {
         this.alertService.addAlert({ type: AlertType.danger, translationKey: 'settings.messages.error' });
         console.error(error);
-      }
-    );
+      },
+    });
   }
 }

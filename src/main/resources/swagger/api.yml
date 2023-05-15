@@ -39,7 +39,6 @@ components:
         - email
         - langKey
       type: object
-
       properties:
         id:
           type: integer
@@ -90,6 +89,8 @@ components:
           uniqueItems: true
           items:
             $ref: '#/components/schemas/Role'
+        darkMode:
+          type: boolean
     UserDTO:
       type: object
       properties:

@@ -124,7 +124,7 @@ public class AccountResource {
             throw new EmailAlreadyUsedException();
         }
         Optional<Account> user = userRepository.findOneByLogin(userLogin);
-        if (!user.isPresent()) {
+        if (user.isEmpty()) {
             throw new AccountResourceException("User could not be found");
         }
         //TODO change to ti also include cache clean etc ?
@@ -133,7 +133,8 @@ public class AccountResource {
             userDTO.getLastName(),
             userDTO.getEmail(),
             userDTO.getLangKey(),
-            userDTO.getImageUrl()
+            userDTO.getImageUrl(),
+            userDTO.getDarkMode()
         );
     }
 

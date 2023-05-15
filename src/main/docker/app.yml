@@ -9,18 +9,19 @@ services:
       - MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED=true
       - SPRING_DATASOURCE_URL=jdbc:postgresql://appbase-postgresql:5432/appbase
       - SPRING_LIQUIBASE_URL=jdbc:postgresql://appbase-postgresql:5432/appbase
-      - JHIPSTER_SLEEP=30 # gives time for other services to boot before the application
+      - JHIPSTER_SLEEP=10 # gives time for other services to boot before the application
     # If you want to expose these ports outside your dev PC,
     # remove the "127.0.0.1:" prefix
     ports:
-      - 127.0.0.1:8080:8080
+      - 8080:8080
   appbase-postgresql:
     image: postgres:14.5
-    # volumes:
+    volumes:
+      - ./sql/create_database.sql:/docker-entrypoint-initdb.d/create_database.sql
     #   - ~/volumes/jhipster/appbase/postgresql/:/var/lib/postgresql/data/
     environment:
-      - POSTGRES_USER=appbase
-      - POSTGRES_PASSWORD=
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
       - POSTGRES_HOST_AUTH_METHOD=trust
     # If you want to expose these ports outside your dev PC,
     # remove the "127.0.0.1:" prefix

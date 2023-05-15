@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-center">
+<div class="flex justify-center">
   <div class="col-8">
     <div *ngIf="user">
       <h2>
@@ -10,8 +10,10 @@
         <dt><span appTranslate="userManagement.login">Login</span></dt>
         <dd>
           <span>{{ user.login }}</span>
-          <span *ngIf="user.activated" class="badge bg-success" appTranslate="userManagement.activated">Aktywny</span>
-          <span *ngIf="!user.activated" class="badge bg-danger" appTranslate="userManagement.deactivated">Nieaktywny</span>
+          <mat-chip-option *ngIf="user.activated" class="px-3" color="primary" selected appTranslate="userManagement.activated"
+            >Aktywny
+          </mat-chip-option>
+          <mat-chip-option *ngIf="!user.activated" class="px-3" appTranslate="userManagement.deactivated">Nieaktywny </mat-chip-option>
         </dd>
 
         <dt><span appTranslate="userManagement.firstName">Imię</span></dt>
@@ -30,25 +32,25 @@
         <dd>{{ user.createdBy }}</dd>
 
         <dt><span appTranslate="userManagement.createdDate">Data utworzenia</span></dt>
-        <dd>{{ user.createdDate | date: 'dd/MM/yy HH:mm' }}</dd>
+        <dd>{{ user.createdDate | date : 'dd/MM/yy HH:mm' }}</dd>
 
         <dt><span appTranslate="userManagement.lastModifiedBy">Zmodyfikowany przez</span></dt>
         <dd>{{ user.lastModifiedBy }}</dd>
 
         <dt><span appTranslate="userManagement.lastModifiedDate">Data modyfikacji</span></dt>
-        <dd>{{ user.lastModifiedDate | date: 'dd/MM/yy HH:mm' }}</dd>
+        <dd>{{ user.lastModifiedDate | date : 'dd/MM/yy HH:mm' }}</dd>
 
         <dt><span appTranslate="userManagement.profiles">Profile</span></dt>
         <dd>
           <ul class="list-unstyled">
             <li *ngFor="let authority of user.authorities">
-              <span class="badge bg-info">{{ authority }}</span>
+              <mat-chip class="mb-1">{{ 'enum.' + authority | translate }}</mat-chip>
             </li>
           </ul>
         </dd>
       </dl>
 
-      <button type="submit" routerLink="../../" class="btn btn-info">
+      <button mat-stroked-button type="submit" routerLink="../../">
         <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span appTranslate="entity.action.back">Wstecz</span>
       </button>
     </div>

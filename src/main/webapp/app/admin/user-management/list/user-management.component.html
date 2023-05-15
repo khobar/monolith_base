@@ -3,17 +3,17 @@
     <span id="user-management-page-heading" appTranslate="userManagement.home.title" data-cy="userManagementPageHeading">Użytkownicy</span>
 
     <div class="d-flex justify-content-end">
-      <button class="btn btn-info me-2" (click)="reloadAccounts()">
-        <fa-icon icon="sync"></fa-icon>
+      <button mat-raised-button (click)="reloadAccounts()">
+        <mat-icon>sync</mat-icon>
         <span appTranslate="userManagement.home.refreshListLabel">Refresh list</span>
       </button>
-      <button class="btn btn-primary jh-create-entity" [routerLink]="['./new']">
-        <fa-icon icon="plus"></fa-icon>
+      <button mat-raised-button color="primary" [routerLink]="['./new']">
+        <mat-icon>add</mat-icon>
         <span appTranslate="userManagement.home.createLabel">Stwórz nowego użytkownika</span>
       </button>
     </div>
   </h2>
-  <div *ngIf="page$ | async as page">
+  <div *ngIf="page$ | async as page" class="mt-2">
     <table *ngIf="page.content" mat-table [dataSource]="page.content" matSort (matSortChange)="sortChange($event)">
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef mat-sort-header><span appTranslate="global.field.id">ID</span></th>
@@ -47,7 +47,7 @@
         <th mat-header-cell *matHeaderCellDef><span appTranslate="userManagement.profiles">Profile</span></th>
         <td mat-cell *matCellDef="let account">
           <mat-chip *ngFor="let authority of account.authorities" class="mr-2" color="primary">
-            {{ authority }}
+            {{ 'enum.' + authority | translate }}
           </mat-chip>
         </td>
       </ng-container>
@@ -69,12 +69,12 @@
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let account">
           <div class="btn-group">
-            <button mat-button type="submit" [routerLink]="['./', account.login, 'view']" class="btn btn-info btn-sm">
+            <button mat-stroked-button type="submit" [routerLink]="['./', account.login, 'view']" class="btn btn-info btn-sm">
               <mat-icon>visibility</mat-icon>
               <span class="d-none d-md-inline" appTranslate="entity.action.view">Widok</span>
             </button>
             <button
-              mat-button
+              mat-stroked-button
               type="submit"
               [routerLink]="['./', account.login, 'edit']"
               queryParamsHandling="merge"
@@ -86,7 +86,7 @@
             <button
               type="button"
               (click)="deleteUser(account)"
-              mat-button
+              mat-stroked-button
               color="warn"
               [disabled]="!currentAccount || currentAccount.login === account.login"
             >
@@ -111,100 +111,4 @@
     >
     </mat-paginator>
   </div>
-  <!--  <div class="table-responsive" *ngIf="users">-->
-  <!--    <table class="table table-striped" aria-describedby="user-management-page-heading">-->
-  <!--      <thead>-->
-  <!--      <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="transition()">-->
-  <!--        <th scope="col" jhiSortBy="id"><span appTranslate="global.field.id">ID</span>-->
-  <!--          <fa-icon icon="sort"></fa-icon>-->
-  <!--        </th>-->
-  <!--        <th scope="col" jhiSortBy="login"><span appTranslate="userManagement.login">Login</span>-->
-  <!--          <fa-icon icon="sort"></fa-icon>-->
-  <!--        </th>-->
-  <!--        <th scope="col" jhiSortBy="email"><span appTranslate="userManagement.email">Email</span>-->
-  <!--          <fa-icon icon="sort"></fa-icon>-->
-  <!--        </th>-->
-  <!--        <th scope="col"></th>-->
-  <!--        <th scope="col" jhiSortBy="langKey"><span appTranslate="userManagement.langKey">Język</span>-->
-  <!--          <fa-icon icon="sort"></fa-icon>-->
-  <!--        </th>-->
-  <!--        <th scope="col"><span appTranslate="userManagement.profiles">Profile</span></th>-->
-  <!--        <th scope="col" jhiSortBy="createdDate">-->
-  <!--          <span appTranslate="userManagement.createdDate">Data utworzenia</span>-->
-  <!--          <fa-icon icon="sort"></fa-icon>-->
-  <!--        </th>-->
-  <!--        <th scope="col" jhiSortBy="lastModifiedBy">-->
-  <!--          <span appTranslate="userManagement.lastModifiedBy">Zmodyfikowany przez</span>-->
-  <!--          <fa-icon icon="sort"></fa-icon>-->
-  <!--        </th>-->
-  <!--        <th scope="col" jhiSortBy="lastModifiedDate">-->
-  <!--          <span appTranslate="userManagement.lastModifiedDate">Data modyfikacji</span>-->
-  <!--          <fa-icon icon="sort"></fa-icon>-->
-  <!--        </th>-->
-  <!--        <th scope="col"></th>-->
-  <!--      </tr>-->
-  <!--      </thead>-->
-  <!--      <tbody *ngIf="users">-->
-  <!--      <tr *ngFor="let user of users; trackBy: trackIdentity">-->
-  <!--        <td>-->
-  <!--          <a [routerLink]="['./', user.login, 'view']">{{ user.id }}</a>-->
-  <!--        </td>-->
-  <!--        <td>{{ user.login }}</td>-->
-  <!--        <td>{{ user.email }}</td>-->
-  <!--        <td>-->
-  <!--          <button-->
-  <!--            class="btn btn-danger btn-sm"-->
-  <!--            (click)="setActive(user, true)"-->
-  <!--            *ngIf="!user.activated"-->
-  <!--            appTranslate="userManagement.deactivated"-->
-  <!--          >-->
-  <!--            Nieaktywny-->
-  <!--          </button>-->
-  <!--          <button-->
-  <!--            class="btn btn-success btn-sm"-->
-  <!--            (click)="setActive(user, false)"-->
-  <!--            *ngIf="user.activated"-->
-  <!--            [disabled]="!currentAccount || currentAccount.login === user.login"-->
-  <!--            appTranslate="userManagement.activated"-->
-  <!--          >-->
-  <!--            Aktywny-->
-  <!--          </button>-->
-  <!--        </td>-->
-  <!--        <td>{{ user.langKey }}</td>-->
-  <!--        <td>-->
-  <!--          <div *ngFor="let authority of user.authorities">-->
-  <!--            <span class="badge bg-info">{{ authority }}</span>-->
-  <!--          </div>-->
-  <!--        </td>-->
-  <!--        <td>{{ user.createdDate | date: 'dd/MM/yy HH:mm' }}</td>-->
-  <!--        <td>{{ user.lastModifiedBy }}</td>-->
-  <!--        <td>{{ user.lastModifiedDate | date: 'dd/MM/yy HH:mm' }}</td>-->
-  <!--        <td class="text-end">-->
-  <!--          <div class="btn-group">-->
-  <!--            <button type="submit" [routerLink]="['./', user.login, 'view']" class="btn btn-info btn-sm">-->
-  <!--              <fa-icon icon="eye"></fa-icon>-->
-  <!--              <span class="d-none d-md-inline" appTranslate="entity.action.view">Widok</span>-->
-  <!--            </button>-->
-
-  <!--            <button type="submit" [routerLink]="['./', user.login, 'edit']" queryParamsHandling="merge"-->
-  <!--                    class="btn btn-primary btn-sm">-->
-  <!--              <fa-icon icon="pencil-alt"></fa-icon>-->
-  <!--              <span class="d-none d-md-inline" appTranslate="entity.action.edit">Edytuj</span>-->
-  <!--            </button>-->
-
-  <!--            <button-->
-  <!--              type="button"-->
-  <!--              (click)="deleteUser(user)"-->
-  <!--              class="btn btn-danger btn-sm"-->
-  <!--              [disabled]="!currentAccount || currentAccount.login === user.login"-->
-  <!--            >-->
-  <!--              <fa-icon icon="times"></fa-icon>-->
-  <!--              <span class="d-none d-md-inline" appTranslate="entity.action.delete">Usuń</span>-->
-  <!--            </button>-->
-  <!--          </div>-->
-  <!--        </td>-->
-  <!--      </tr>-->
-  <!--      </tbody>-->
-  <!--    </table>-->
-  <!--  </div>-->
 </div>

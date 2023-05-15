@@ -37,6 +37,12 @@ export class AccountService {
     }
   }
 
+  updateAndForceReload() {
+    this.identity(true).subscribe({
+      next: account => this.authenticate(account),
+    });
+  }
+
   hasAnyAuthority(authorities: string[] | string): boolean {
     if (!this.userIdentity || !this.userIdentity.authorities) {
       return false;

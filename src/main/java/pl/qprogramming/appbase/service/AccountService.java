@@ -15,7 +15,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 import pl.qprogramming.appbase.config.Constants;
 import pl.qprogramming.appbase.domain.Account;
 import pl.qprogramming.appbase.domain.Authority;
@@ -199,8 +198,9 @@ public class AccountService {
      * @param email     email id of user.
      * @param langKey   language key.
      * @param imageUrl  image URL of user.
+     * @param darkMode if user prefers darkmode applicaiton
      */
-    public void updateUser(String firstName, String lastName, String email, String langKey, String imageUrl) {
+    public void updateUser(String firstName, String lastName, String email, String langKey, String imageUrl, boolean darkMode) {
         SecurityUtils
             .getCurrentUserLogin()
             .flatMap(userRepository::findOneByLogin)
@@ -212,6 +212,7 @@ public class AccountService {
                 }
                 user.setLangKey(langKey);
                 user.setImageUrl(imageUrl);
+                user.setDarkMode(darkMode);
                 log.debug("Changed Information for User: {}", user);
                 this.clearUserCaches(user);
             });

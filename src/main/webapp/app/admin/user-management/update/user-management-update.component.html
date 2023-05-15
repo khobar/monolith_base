@@ -1,141 +1,144 @@
-<div class="d-flex justify-content-center">
-  <div class="col-8">
+<div class="flex justify-center">
+  <div class="w-fit md:w-1/2">
     <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
       <h2 id="myUserLabel" appTranslate="userManagement.home.createOrEditLabel">Stwórz lub edytuj użytkownika</h2>
 
       <alert-error></alert-error>
 
       <div class="mb-3" [hidden]="!editForm.value.id">
-        <label appTranslate="global.field.id">ID</label>
-        <input type="text" class="form-control" name="id" formControlName="id" readonly />
+        <mat-form-field appearance="outline" class="w-1/2">
+          <mat-label appTranslate="global.field.id">ID</mat-label>
+          <input matInput type="text" id="id" name="id" formControlName="id" readonly />
+        </mat-form-field>
       </div>
 
       <div class="mb-3">
-        <label class="form-label" appTranslate="userManagement.login">Login</label>
-        <input type="text" class="form-control" name="login" formControlName="login" />
-
+        <mat-form-field appearance="outline" class="w-1/2">
+          <mat-label appTranslate="userManagement.login">Login</mat-label>
+          <input matInput type="text" id="login" name="login" formControlName="login" data-cy="username" />
+        </mat-form-field>
         <div *ngIf="editForm.get('login')!.invalid && (editForm.get('login')!.dirty || editForm.get('login')!.touched)">
-          <small class="form-text text-danger" *ngIf="editForm.get('login')?.errors?.required" appTranslate="entity.validation.required">
+          <mat-error *ngIf="editForm.get('login')?.errors?.required" appTranslate="entity.validation.required">
             To pole jest wymagane.
-          </small>
+          </mat-error>
 
-          <small
-            class="form-text text-danger"
+          <mat-error
             *ngIf="editForm.get('login')?.errors?.maxlength"
             appTranslate="entity.validation.maxlength"
             [translateValues]="{ max: 50 }"
           >
             Wartość nie może być dłuższa niż 50 znaków.
-          </small>
+          </mat-error>
 
-          <small class="form-text text-danger" *ngIf="editForm.get('login')?.errors?.pattern" appTranslate="entity.validation.patternLogin">
+          <mat-error
+            class="form-text text-danger"
+            *ngIf="editForm.get('login')?.errors?.pattern"
+            appTranslate="entity.validation.patternLogin"
+          >
             This field can only contain letters, digits and e-mail addresses.
-          </small>
+          </mat-error>
         </div>
       </div>
 
       <div class="mb-3">
-        <label class="form-label" appTranslate="userManagement.firstName">Imię</label>
-        <input type="text" class="form-control" name="firstName" formControlName="firstName" />
-
+        <mat-form-field appearance="outline" class="w-1/2">
+          <mat-label appTranslate="userManagement.firstName">Imię</mat-label>
+          <input matInput type="text" id="firstName" name="firstName" formControlName="firstName" />
+        </mat-form-field>
         <div *ngIf="editForm.get('firstName')!.invalid && (editForm.get('firstName')!.dirty || editForm.get('firstName')!.touched)">
-          <small
-            class="form-text text-danger"
+          <mat-error
             *ngIf="editForm.get('firstName')?.errors?.maxlength"
             appTranslate="entity.validation.maxlength"
             [translateValues]="{ max: 50 }"
           >
             Wartość nie może być dłuższa niż 50 znaków.
-          </small>
+          </mat-error>
         </div>
       </div>
 
       <div class="mb-3">
-        <label appTranslate="userManagement.lastName">Nazwisko</label>
-        <input type="text" class="form-control" name="lastName" formControlName="lastName" />
-
+        <mat-form-field appearance="outline" class="w-1/2">
+          <mat-label appTranslate="userManagement.lastName">Nazwisko</mat-label>
+          <input matInput type="text" id="lastName" name="lastName" formControlName="lastName" />
+        </mat-form-field>
         <div *ngIf="editForm.get('lastName')!.invalid && (editForm.get('lastName')!.dirty || editForm.get('lastName')!.touched)">
-          <small
+          <mat-error
             class="form-text text-danger"
             *ngIf="editForm.get('lastName')?.errors?.maxlength"
             appTranslate="entity.validation.maxlength"
             [translateValues]="{ max: 50 }"
           >
             Wartość nie może być dłuższa niż 50 znaków.
-          </small>
+          </mat-error>
         </div>
       </div>
 
       <div class="mb-3">
-        <label class="form-label" appTranslate="userManagement.email">Email</label>
-        <input type="email" class="form-control" name="email" formControlName="email" />
-
+        <mat-form-field appearance="outline" class="w-1/2">
+          <mat-label appTranslate="userManagement.email">Email</mat-label>
+          <input matInput type="email" id="email" name="email" formControlName="email" />
+        </mat-form-field>
         <div *ngIf="editForm.get('email')!.invalid && (editForm.get('email')!.dirty || editForm.get('email')!.touched)">
-          <small class="form-text text-danger" *ngIf="editForm.get('email')?.errors?.required" appTranslate="entity.validation.required">
+          <mat-error *ngIf="editForm.get('email')?.errors?.required" appTranslate="entity.validation.required">
             To pole jest wymagane.
-          </small>
+          </mat-error>
 
-          <small
-            class="form-text text-danger"
+          <mat-error
             *ngIf="editForm.get('email')?.errors?.maxlength"
             appTranslate="entity.validation.maxlength"
             [translateValues]="{ max: 100 }"
           >
             Wartość nie może być dłuższa niż 100 znaków.
-          </small>
+          </mat-error>
 
-          <small
+          <mat-error
             class="form-text text-danger"
             *ngIf="editForm.get('email')?.errors?.minlength"
             appTranslate="entity.validation.minlength"
             [translateValues]="{ min: 5 }"
           >
             Wartość musi mieć długość co najmniej 5 znaków.
-          </small>
+          </mat-error>
 
-          <small
+          <mat-error
             class="form-text text-danger"
             *ngIf="editForm.get('email')?.errors?.email"
             appTranslate="global.messages.validate.email.invalid"
           >
             Twój email jest błędny.
-          </small>
+          </mat-error>
         </div>
       </div>
 
       <div class="form-check">
-        <label class="form-check-label" for="activated">
-          <input
-            class="form-check-input"
-            [attr.disabled]="editForm.value.id === undefined ? 'disabled' : null"
-            type="checkbox"
-            id="activated"
-            name="activated"
-            formControlName="activated"
-          />
-          <span appTranslate="userManagement.activated">Aktywny</span>
-        </label>
+        <mat-checkbox name="activated" formControlName="activated" [attr.disabled]="editForm.value.id === undefined ? 'disabled' : null">
+          {{ 'userManagement.activated' | translate }}
+        </mat-checkbox>
       </div>
 
       <div class="mb-3" *ngIf="languages && languages.length > 0">
-        <label appTranslate="userManagement.langKey">Język</label>
-        <select class="form-control" id="langKey" name="langKey" formControlName="langKey">
-          <option *ngFor="let language of languages" [value]="language">{{ language | findLanguageFromKey }}</option>
-        </select>
+        <mat-form-field appearance="outline" class="w-1/2">
+          <mat-label appTranslate="settings.form.language">Język</mat-label>
+          <mat-select id="langKey" formControlName="langKey" data-cy="langKey">
+            <mat-option *ngFor="let language of languages" [value]="language">{{ language | findLanguageFromKey }}</mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
 
       <div class="mb-3">
-        <label appTranslate="userManagement.profiles">Profile</label>
-        <select class="form-control" multiple name="authority" formControlName="authorities">
-          <option *ngFor="let authority of authorities" [value]="authority">{{ authority }}</option>
-        </select>
+        <mat-form-field appearance="outline" class="w-1/2">
+          <mat-label appTranslate="settings.form.language">Język</mat-label>
+          <mat-select id="authority" formControlName="authorities" name="authority" multiple>
+            <mat-option *ngFor="let authority of authorities" [value]="authority">{{ 'enum.' + authority | translate }}</mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
-      <button type="button" class="btn btn-secondary" (click)="previousState()">
-        <fa-icon icon="ban"></fa-icon>&nbsp;<span appTranslate="entity.action.cancel">Anuluj</span>
+      <button type="button" mat-flat-button (click)="previousState()">
+        <mat-icon>close</mat-icon>&nbsp;<span appTranslate="entity.action.cancel">Anuluj</span>
       </button>
 
-      <button type="submit" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
-        <fa-icon icon="save"></fa-icon>&nbsp;<span appTranslate="entity.action.save">Zapisz</span>
+      <button type="submit" [disabled]="editForm.invalid || isSaving" mat-flat-button color="primary">
+        <mat-icon>save</mat-icon>&nbsp;<span appTranslate="entity.action.save">Zapisz</span>
       </button>
     </form>
   </div>

@@ -1,0 +1,6 @@
+{
+  "enum": {
+    "ROLE_USER": "Użytkownik",
+    "ROLE_ADMIN": "Administrator"
+  }
+}
