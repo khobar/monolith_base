@@ -3,10 +3,12 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Thread, ThreadState } from 'app/admin/metrics/metrics.model';
 import { MetricsModalThreadsComponent } from '../metrics-modal-threads/metrics-modal-threads.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'jhi-jvm-threads',
   templateUrl: './jvm-threads.component.html',
+  styleUrls: ['./jvm-threads.component.css'],
 })
 export class JvmThreadsComponent {
   threadStats = {
@@ -46,10 +48,11 @@ export class JvmThreadsComponent {
 
   private _threads: Thread[] | undefined;
 
-  constructor(private modalService: NgbModal) {}
+  constructor(private modalService: NgbModal, public dialog: MatDialog) {}
 
   open(): void {
-    const modalRef = this.modalService.open(MetricsModalThreadsComponent);
-    modalRef.componentInstance.threads = this.threads;
+    this.dialog.open(MetricsModalThreadsComponent, { data: this.threads });
+    // const modalRef = this.modalService.open(MetricsModalThreadsComponent);
+    // modalRef.componentInstance.threads = this.threads;
   }
 }

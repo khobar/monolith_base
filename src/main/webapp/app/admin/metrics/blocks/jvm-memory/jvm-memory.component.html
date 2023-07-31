@@ -1,34 +1,21 @@
 <h4 appTranslate="metrics.jvm.memory.title">Pamięć</h4>
-<div class="works">PINK</div>
 <div *ngIf="!updating && jvmMemoryMetrics">
-  <div *ngFor="let entry of jvmMemoryMetrics | keyvalue">
+  <div *ngFor="let entry of jvmMemoryMetrics | keyvalue" class="mb-1">
     <span *ngIf="entry.value.max !== -1; else other">
       <span>{{ entry.key }}</span>
       ({{ entry.value.used / 1048576 | number : '1.0-0' }}M / {{ entry.value.max / 1048576 | number : '1.0-0' }}M)
     </span>
 
-    <div>Committed : {{ entry.value.committed / 1048576 | number : '1.0-0' }}M</div>
+    <div class="mt-1">Committed : {{ entry.value.committed / 1048576 | number : '1.0-0' }}M</div>
 
     <ng-template #other>
       <span
         ><span>{{ entry.key }}</span> {{ entry.value.used / 1048576 | number : '1.0-0' }}M</span
       >
     </ng-template>
-    <section class="example-section">
-      <mat-progress-bar mode="determinate" [value]="(100 * entry.value.used) / entry.value.max" class="green-progress"> </mat-progress-bar>
-      <div style="position: absolute; padding: 10px; color: white">
-        {{ (entry.value.used * 100) / entry.value.max | number : '1.0-0' }}%
-      </div>
-    </section>
-    <!--    <section class="example-section">-->
-    <!--      <mat-progress-bar-->
-    <!--        *ngIf="entry.value.max !== -1"-->
-    <!--        class="downloadProgress"-->
-    <!--        mode="determinate"-->
-    <!--        [value]="(100 * entry.value.used) / entry.value.max"-->
-    <!--      >-->
-    <!--        <span>{{ (entry.value.used * 100) / entry.value.max | number: '1.0-0' }}%</span>-->
-    <!--      </mat-progress-bar>-->
-    <!--    </section>-->
+    <div class="relative">
+      <mat-progress-bar mode="determinate" [value]="(100 * entry.value.used) / entry.value.max"></mat-progress-bar>
+      <span class="absolute top-0.5">{{ (entry.value.used * 100) / entry.value.max | number : '1.0-0' }}%</span>
+    </div>
   </div>
 </div>

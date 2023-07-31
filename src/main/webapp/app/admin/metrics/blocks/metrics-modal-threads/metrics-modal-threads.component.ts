@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 
 import { Thread, ThreadState } from 'app/admin/metrics/metrics.model';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'jhi-thread-modal',
@@ -18,7 +18,9 @@ export class MetricsModalThreadsComponent implements OnInit {
   threadDumpTimedWaiting = 0;
   threadDumpWaiting = 0;
 
-  constructor(private activeModal: NgbActiveModal) {}
+  constructor(public dialogRef: MatDialogRef<MetricsModalThreadsComponent>, @Inject(MAT_DIALOG_DATA) public data: Thread[]) {
+    this.threads = data;
+  }
 
   ngOnInit(): void {
     this.threads?.forEach(thread => {
@@ -54,6 +56,6 @@ export class MetricsModalThreadsComponent implements OnInit {
   }
 
   dismiss(): void {
-    this.activeModal.dismiss();
+    this.dialogRef.close();
   }
 }

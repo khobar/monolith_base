@@ -1,10 +1,16 @@
-<div class="modal-header">
-  <h4 class="modal-title" appTranslate="metrics.jvm.threads.dump.title">Zrzut wątków</h4>
-
-  <button type="button" class="btn-close" (click)="dismiss()">&times;</button>
+<div mat-dialog-title>
+  <div class="flex">
+    <div class="flex-auto">
+      <h3 appTranslate="metrics.jvm.threads.dump.title">Zrzut wątków</h3>
+    </div>
+    <div class="flex-none">
+      <button mat-icon-button (click)="dismiss()" class="">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
 </div>
-
-<div class="modal-body">
+<div mat-dialog-content>
   <div class="mb-3">
     <span class="badge bg-primary hand" (click)="threadStateFilter = undefined">
       <fa-icon *ngIf="threadStateFilter === undefined" icon="check"></fa-icon>
@@ -34,6 +40,7 @@
 
   <div class="pad" *ngFor="let thread of getThreads()">
     <h6>
+      <app-badge>{{ thread.threadState }}</app-badge>
       <span class="badge" [ngClass]="getBadgeClass(thread.threadState)">{{ thread.threadState }}</span>
 
       &nbsp;{{ thread.threadName }} (ID {{ thread.threadId }})
