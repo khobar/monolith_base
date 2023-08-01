@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/cor
 
 import { Thread, ThreadState } from 'app/admin/metrics/metrics.model';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { BadgeType } from '../../../../shared/material/components/badge/badge.model';
 
 @Component({
   selector: 'jhi-thread-modal',
@@ -38,6 +39,21 @@ export class MetricsModalThreadsComponent implements OnInit {
     this.threadDumpAll = this.threadDumpRunnable + this.threadDumpWaiting + this.threadDumpTimedWaiting + this.threadDumpBlocked;
   }
 
+  getBadgeType(threadState: ThreadState): BadgeType {
+    switch (threadState) {
+      case ThreadState.Runnable:
+        return BadgeType.SUCCESS;
+      case ThreadState.Waiting:
+        return BadgeType.INFO;
+      case ThreadState.TimedWaiting:
+        return BadgeType.WARNING;
+      case ThreadState.Blocked:
+        return BadgeType.ERROR;
+      default:
+        return BadgeType.INFO;
+    }
+  }
+
   getBadgeClass(threadState: ThreadState): string {
     if (threadState === ThreadState.Runnable) {
       return 'bg-success';
@@ -58,4 +74,6 @@ export class MetricsModalThreadsComponent implements OnInit {
   dismiss(): void {
     this.dialogRef.close();
   }
+
+  protected readonly BadgeType = BadgeType;
 }

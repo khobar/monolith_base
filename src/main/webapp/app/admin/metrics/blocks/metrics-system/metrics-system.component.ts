@@ -5,6 +5,7 @@ import { ProcessMetrics } from 'app/admin/metrics/metrics.model';
 @Component({
   selector: 'jhi-metrics-system',
   templateUrl: './metrics-system.component.html',
+  styleUrls: ['./metrics-system.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MetricsSystemComponent {

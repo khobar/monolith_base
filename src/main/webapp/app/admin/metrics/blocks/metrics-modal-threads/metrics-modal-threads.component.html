@@ -12,37 +12,31 @@
 </div>
 <div mat-dialog-content>
   <div class="mb-3">
-    <span class="badge bg-primary hand" (click)="threadStateFilter = undefined">
+    <app-badge [type]="BadgeType.SUCCESS" (click)="threadStateFilter = undefined">
       <fa-icon *ngIf="threadStateFilter === undefined" icon="check"></fa-icon>
       All&nbsp;<span class="badge rounded-pill bg-default">{{ threadDumpAll }}</span>
-    </span>
-
-    <span class="badge bg-success hand" (click)="threadStateFilter = ThreadState.Runnable">
+    </app-badge>
+    <app-badge [type]="BadgeType.INFO" (click)="threadStateFilter = ThreadState.Runnable">
       <fa-icon *ngIf="threadStateFilter === ThreadState.Runnable" icon="check"></fa-icon>
       Runnable&nbsp;<span class="badge rounded-pill bg-default">{{ threadDumpRunnable }}</span>
-    </span>
-
-    <span class="badge bg-info hand" (click)="threadStateFilter = ThreadState.Waiting">
+    </app-badge>
+    <app-badge [type]="BadgeType.WARNING" (click)="threadStateFilter = ThreadState.Waiting">
       <fa-icon *ngIf="threadStateFilter === ThreadState.Waiting" icon="check"></fa-icon>
       Waiting&nbsp;<span class="badge rounded-pill bg-default">{{ threadDumpWaiting }}</span>
-    </span>
-
-    <span class="badge bg-warning hand" (click)="threadStateFilter = ThreadState.TimedWaiting">
+    </app-badge>
+    <app-badge [type]="BadgeType.WARNING" (click)="threadStateFilter = ThreadState.TimedWaiting">
       <fa-icon *ngIf="threadStateFilter === ThreadState.TimedWaiting" icon="check"></fa-icon>
       Timed Waiting&nbsp;<span class="badge rounded-pill bg-default">{{ threadDumpTimedWaiting }}</span>
-    </span>
-
-    <span class="badge bg-danger hand" (click)="threadStateFilter = ThreadState.Blocked">
+    </app-badge>
+    <app-badge [type]="BadgeType.ERROR" (click)="threadStateFilter = ThreadState.Blocked">
       <fa-icon *ngIf="threadStateFilter === ThreadState.Blocked" icon="check"></fa-icon>
       Blocked&nbsp;<span class="badge rounded-pill bg-default">{{ threadDumpBlocked }}</span>
-    </span>
+    </app-badge>
   </div>
 
   <div class="pad" *ngFor="let thread of getThreads()">
     <h6>
-      <app-badge>{{ thread.threadState }}</app-badge>
-      <span class="badge" [ngClass]="getBadgeClass(thread.threadState)">{{ thread.threadState }}</span>
-
+      <app-badge [type]="getBadgeType(thread.threadState)">{{ thread.threadState }}</app-badge>
       &nbsp;{{ thread.threadName }} (ID {{ thread.threadId }})
 
       <a (click)="thread.showThreadDump = !thread.showThreadDump" href="javascript:void(0);">

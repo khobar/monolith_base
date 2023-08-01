@@ -38,8 +38,12 @@
             "styles": [
               "@angular/material/prebuilt-themes/indigo-pink.css",
               "src/main/webapp/content/scss/vendor.scss",
-              "src/main/webapp/content/scss/global.scss"
+              "src/main/webapp/content/scss/global.scss",
+              "src/main/webapp/content/scss/theme.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": ["src/main/webapp/content/scss"]
+            },
             "scripts": []
           },
           "configurations": {

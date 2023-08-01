@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Thread, ThreadState } from 'app/admin/metrics/metrics.model';
 import { MetricsModalThreadsComponent } from '../metrics-modal-threads/metrics-modal-threads.component';
@@ -48,11 +47,9 @@ export class JvmThreadsComponent {
 
   private _threads: Thread[] | undefined;
 
-  constructor(private modalService: NgbModal, public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog) {}
 
   open(): void {
     this.dialog.open(MetricsModalThreadsComponent, { data: this.threads });
-    // const modalRef = this.modalService.open(MetricsModalThreadsComponent);
-    // modalRef.componentInstance.threads = this.threads;
   }
 }

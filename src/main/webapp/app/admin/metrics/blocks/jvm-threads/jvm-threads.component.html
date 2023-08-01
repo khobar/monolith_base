@@ -2,30 +2,30 @@
 
 <span><span appTranslate="metrics.jvm.threads.runnable">Uruchamialne</span> {{ threadStats.threadDumpRunnable }}</span>
 
-<mat-progress-bar [value]="(threadStats.threadDumpRunnable * 100) / threadStats.threadDumpAll" type="success">
+<mat-progress-bar [value]="(threadStats.threadDumpRunnable * 100) / threadStats.threadDumpAll" color="accent">
   <span>{{ (threadStats.threadDumpRunnable * 100) / threadStats.threadDumpAll | number : '1.0-0' }}%</span>
 </mat-progress-bar>
 
-<span><span appTranslate="metrics.jvm.threads.timedwaiting">Czasowo oczekujące</span> ({{ threadStats.threadDumpTimedWaiting }})</span>
+<span><span appTranslate="metrics.jvm.threads.timedwaiting">Czasowo oczekujące</span> ({{ threadStats.threadDumpTimedWaiting }} )</span>
 
-<mat-progress-bar [value]="(threadStats.threadDumpTimedWaiting * 100) / threadStats.threadDumpAll" type="warning">
+<mat-progress-bar [value]="(threadStats.threadDumpTimedWaiting * 100) / threadStats.threadDumpAll" color="warn">
   <span>{{ (threadStats.threadDumpTimedWaiting * 100) / threadStats.threadDumpAll | number : '1.0-0' }}%</span>
 </mat-progress-bar>
 
 <span><span appTranslate="metrics.jvm.threads.waiting">Oczekujące</span> ({{ threadStats.threadDumpWaiting }})</span>
 
-<mat-progress-bar [value]="(threadStats.threadDumpWaiting * 100) / threadStats.threadDumpAll" type="warning">
+<mat-progress-bar [value]="(threadStats.threadDumpWaiting * 100) / threadStats.threadDumpAll" color="warn">
   <span>{{ (threadStats.threadDumpWaiting * 100) / threadStats.threadDumpAll | number : '1.0-0' }}%</span>
 </mat-progress-bar>
 
 <span><span appTranslate="metrics.jvm.threads.blocked">Zablokowane</span> ({{ threadStats.threadDumpBlocked }})</span>
 
-<mat-progress-bar [value]="(threadStats.threadDumpBlocked * 100) / threadStats.threadDumpAll">
+<mat-progress-bar [value]="(threadStats.threadDumpBlocked * 100) / threadStats.threadDumpAll" color="warn">
   <span>{{ (threadStats.threadDumpBlocked * 100) / threadStats.threadDumpAll | number : '1.0-0' }}%</span>
 </mat-progress-bar>
 
 <div>Total: {{ threadStats.threadDumpAll }}</div>
 
-<button class="hand btn btn-primary btn-sm" (click)="open()" data-toggle="modal" data-target="#threadDump">
+<button mat-raised-button color="primary" (click)="open()" data-toggle="modal" data-target="#threadDump">
   <span>Expand</span>
 </button>

@@ -1,3 +1,23 @@
 .badge {
-  //todo
+  padding: 2px;
+  color: white;
+  margin: 2px 0;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+}
+.rounded {
+  border-radius: 50%;
+}
+.badge-info {
+  background: #3e8acc;
+}
+.badge-success {
+  background: #28a745;
+}
+.badge-warn {
+  background: #ffc107;
+}
+.badge-error {
+  background: #dc3545;
 }
