@@ -7,7 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'jhi-jvm-threads',
   templateUrl: './jvm-threads.component.html',
-  styleUrls: ['./jvm-threads.component.css'],
+  styleUrls: ['./jvm-threads.component.scss'],
 })
 export class JvmThreadsComponent {
   threadStats = {
@@ -50,6 +50,6 @@ export class JvmThreadsComponent {
   constructor(public dialog: MatDialog) {}
 
   open(): void {
-    this.dialog.open(MetricsModalThreadsComponent, { data: this.threads });
+    this.dialog.open(MetricsModalThreadsComponent, { data: this.threads, panelClass: 'theme-bg' });
   }
 }

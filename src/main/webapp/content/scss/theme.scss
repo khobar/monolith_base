@@ -1,5 +1,5 @@
 @use '@angular/material' as mat;
-
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap');
 // Be sure that you only ever include this mixin once!
 @include mat.core();
 
@@ -70,8 +70,6 @@ $mat-dark-theme-warn-palette: map-merge(
 );
 $mat-dark-theme-warn: mat.define-palette($mat-dark-theme-warn-palette, $default: A100, $lighter: 100, $darker: A700, $text: 100);
 
-@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap');
-
 $mat-core-theme: mat.define-light-theme(
   (
     color: (
@@ -93,7 +91,34 @@ $mat-dark-theme: mat.define-dark-theme(
 );
 
 @include mat.all-component-themes($mat-core-theme);
-
-.dark-theme {
+.light {
+  --primary-accent: #2c5aa0;
+  --contrast-accent: white;
+  --info: #34b8e0;
+  --contrast-info: white;
+  --success: #43b05c;
+  --contrast-success: white;
+  --warn: #f4ab27;
+  --contrast-warn: #fff;
+  --error: #db2f2e;
+  --contrast-error: #fff;
+  --elevated-background: #fff;
+  --background: #fafafa;
+  --text: #212121;
+}
+.dark {
   @include mat.all-component-colors($mat-dark-theme);
+  --primary-accent: #2c5aa0;
+  --contrast-accent: white;
+  --info: #247e96;
+  --contrast-info: #ececec;
+  --success: #2d733a;
+  --contrast-success: #ececec;
+  --warn: #a97914;
+  --contrast-warn: #ececec;
+  --error: #9a1818;
+  --contrast-error: #ececec;
+  --elevated-background: #424242;
+  --background: #303030;
+  --text: #ececec;
 }

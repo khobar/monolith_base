@@ -2,13 +2,13 @@
 
 <span><span appTranslate="metrics.jvm.threads.runnable">Uruchamialne</span> {{ threadStats.threadDumpRunnable }}</span>
 
-<mat-progress-bar [value]="(threadStats.threadDumpRunnable * 100) / threadStats.threadDumpAll" color="accent">
+<mat-progress-bar [value]="(threadStats.threadDumpRunnable * 100) / threadStats.threadDumpAll">
   <span>{{ (threadStats.threadDumpRunnable * 100) / threadStats.threadDumpAll | number : '1.0-0' }}%</span>
 </mat-progress-bar>
 
 <span><span appTranslate="metrics.jvm.threads.timedwaiting">Czasowo oczekujące</span> ({{ threadStats.threadDumpTimedWaiting }} )</span>
 
-<mat-progress-bar [value]="(threadStats.threadDumpTimedWaiting * 100) / threadStats.threadDumpAll" color="warn">
+<mat-progress-bar [value]="(threadStats.threadDumpTimedWaiting * 100) / threadStats.threadDumpAll" color="warn" class="pink">
   <span>{{ (threadStats.threadDumpTimedWaiting * 100) / threadStats.threadDumpAll | number : '1.0-0' }}%</span>
 </mat-progress-bar>
 

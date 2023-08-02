@@ -5,7 +5,7 @@ import { JvmMetrics } from 'app/admin/metrics/metrics.model';
 @Component({
   selector: 'jhi-jvm-memory',
   templateUrl: './jvm-memory.component.html',
-  styleUrls: ['./jvm-memory.component.css'],
+  styleUrls: ['./jvm-memory.component.scss'],
 })
 export class JvmMemoryComponent {
   /**

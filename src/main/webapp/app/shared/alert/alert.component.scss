@@ -6,11 +6,11 @@ Messages
   width: 100%;
   bottom: 0;
   margin-bottom: 0 !important;
-  -webkit-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .6), 0 4px 15px 0 rgba(0, 0, 0, .5);
-  box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .6), 0 4px 15px 0 rgba(0, 0, 0, .5);
+  -webkit-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.6), 0 4px 15px 0 rgba(0, 0, 0, 0.5);
+  box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.6), 0 4px 15px 0 rgba(0, 0, 0, 0.5);
   border: 0;
-  -webkit-border-radius: .125rem;
-  border-radius: .125rem;
+  -webkit-border-radius: 0.125rem;
+  border-radius: 0.125rem;
 }
 
 #message-container {
@@ -18,17 +18,17 @@ Messages
   z-index: 999999;
   top: 60px;
   /*bottom: 15px;*/
-  right: 12px
+  right: 12px;
 }
 
 #message-container * {
   -webkit-box-sizing: border-box;
-  box-sizing: border-box
+  box-sizing: border-box;
 }
 
 #message-container > div {
-  -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
+  -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
   position: relative;
   overflow: hidden;
   margin: 0 0 6px;
@@ -37,30 +37,32 @@ Messages
 }
 
 #message-container > :hover {
-  -webkit-box-shadow: 0 8px 17px 0 rgba(0, 0, 0, .2), 0 6px 20px 0 rgba(0, 0, 0, .19);
-  box-shadow: 0 8px 17px 0 rgba(0, 0, 0, .2), 0 6px 20px 0 rgba(0, 0, 0, .19);
-  -o-transition: .5s;
-  -webkit-transition: .5s;
-  transition: .5s;
+  -webkit-box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  -o-transition: 0.5s;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
   opacity: 1;
-  cursor: pointer
+  cursor: pointer;
 }
 
 .message-text {
   //font-family: 'Righteous', cursive;
-  word-wrap: break-word
+  word-wrap: break-word;
 }
 
 .message {
-  background-color: #010101
+  background-color: #010101;
 }
 
 .message-success {
-  background-color: #43b05c;
+  background-color: var(--success);
+  color: var(--contrast-success);
 }
 
 .message-error {
-  background-color: #db2f2e;
+  background-color: var(--error);
+  color: var(--contrast-error);
 }
 
 .message-info {
@@ -68,7 +70,8 @@ Messages
 }
 
 .message-warning {
-  background-color: #f4ab27;
+  background-color: var(--warn);
+  color: var(--contrast-warn);
 }
 
 .message-undo {

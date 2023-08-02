@@ -15,7 +15,7 @@
     </ng-template>
     <div class="relative">
       <mat-progress-bar mode="determinate" [value]="(100 * entry.value.used) / entry.value.max"></mat-progress-bar>
-      <span class="absolute top-0.5">{{ (entry.value.used * 100) / entry.value.max | number : '1.0-0' }}%</span>
+      <span class="absolute top-0.5 ml-3 progress-bar-num">{{ (entry.value.used * 100) / entry.value.max | number : '1.0-0' }}%</span>
     </div>
   </div>
 </div>

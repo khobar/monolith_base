@@ -1,4 +1,4 @@
-<div [class.dark-theme]="account?.darkMode" class="h-full">
+<div [class.dark]="account?.darkMode" [class.light]="!account?.darkMode" class="h-full">
   <app-alert></app-alert>
   <alert-error></alert-error>
   <mat-sidenav-container>
