@@ -14,7 +14,7 @@ export class BadgeComponent {
     return (this.rounded ? 'rounded ' : '') + this.getBadeTypeClass();
   }
 
-  private getBadeTypeClass() {
+  private getBadeTypeClass(): string {
     switch (this.type) {
       case BadgeType.SUCCESS:
         return 'badge-success';

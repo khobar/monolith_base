@@ -18,6 +18,7 @@ export class MetricsModalThreadsComponent implements OnInit {
   threadDumpRunnable = 0;
   threadDumpTimedWaiting = 0;
   threadDumpWaiting = 0;
+  protected readonly BadgeType = BadgeType;
 
   constructor(public dialogRef: MatDialogRef<MetricsModalThreadsComponent>, @Inject(MAT_DIALOG_DATA) public data: Thread[]) {
     this.threads = data;
@@ -74,6 +75,4 @@ export class MetricsModalThreadsComponent implements OnInit {
   dismiss(): void {
     this.dialogRef.close();
   }
-
-  protected readonly BadgeType = BadgeType;
 }

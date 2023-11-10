@@ -26,6 +26,7 @@ describe('SettingsComponent', () => {
     login: 'john',
     authorities: new Set(),
     imageUrl: '',
+    darkMode: false,
   };
 
   beforeEach(waitForAsync(() => {

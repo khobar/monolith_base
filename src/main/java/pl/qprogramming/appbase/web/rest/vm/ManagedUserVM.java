@@ -1,6 +1,6 @@
 package pl.qprogramming.appbase.web.rest.vm;
 
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.Size;
 import pl.qprogramming.appbase.service.api.dto.AccountDTO;
 
 /**

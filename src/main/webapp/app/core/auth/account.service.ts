@@ -37,7 +37,7 @@ export class AccountService {
     }
   }
 
-  updateAndForceReload() {
+  updateAndForceReload(): void {
     this.identity(true).subscribe({
       next: account => this.authenticate(account),
     });

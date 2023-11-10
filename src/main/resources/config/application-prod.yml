@@ -44,7 +44,6 @@ spring:
       poolName: Hikari
       auto-commit: false
   jpa:
-    database-platform: tech.jhipster.domain.util.FixedPostgreSQL10Dialect
     hibernate:
       ddl-auto: update
     defer-datasource-initialization: true

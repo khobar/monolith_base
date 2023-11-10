@@ -200,7 +200,7 @@ public class AccountService {
      * @param imageUrl  image URL of user.
      * @param darkMode if user prefers darkmode applicaiton
      */
-    public void updateUser(String firstName, String lastName, String email, String langKey, String imageUrl, boolean darkMode) {
+    public void updateUser(String firstName, String lastName, String email, String langKey, String imageUrl, Boolean darkMode) {
         SecurityUtils
             .getCurrentUserLogin()
             .flatMap(userRepository::findOneByLogin)
@@ -212,7 +212,7 @@ public class AccountService {
                 }
                 user.setLangKey(langKey);
                 user.setImageUrl(imageUrl);
-                user.setDarkMode(darkMode);
+                user.setDarkMode(Optional.ofNullable(darkMode).orElse(false));
                 log.debug("Changed Information for User: {}", user);
                 this.clearUserCaches(user);
             });

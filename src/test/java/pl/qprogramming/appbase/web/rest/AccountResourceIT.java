@@ -7,9 +7,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static pl.qprogramming.appbase.web.rest.AccountResourceIT.TEST_USER_LOGIN;
 
+import jakarta.mail.internet.MimeMessage;
 import java.time.Instant;
 import java.util.*;
-import javax.mail.internet.MimeMessage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

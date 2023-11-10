@@ -15,7 +15,7 @@
 
 spring:
   application:
-    name: appbase
+    name: newer
   # Replace by 'prod, faker' to add the faker context and have sample data loaded in production
   liquibase:
     contexts: test
@@ -49,7 +49,7 @@ spring:
   #    username: sa
   #    password:
   jpa:
-#    database-platform: tech.jhipster.domain.util.FixedPostgreSQL10Dialect
+    #    database-platform: tech.jhipster.domain.util.FixedPostgreSQL10Dialect
     open-in-view: false
     hibernate:
       naming:
@@ -86,7 +86,7 @@ jhipster:
       enabled: false
       host: localhost
       port: 5000
-      queue-size: 512
+      ring-buffer-size: 512
   security:
     authentication:
       jwt:
@@ -94,6 +94,7 @@ jhipster:
         base64-secret: OGI0ZTBiMWM1M2RkMmE2MzFkNTZkMzllOGVlZTgzOWI4YmZlZDZjZTRlOGM2NDQ3OTk3ODk4ZmU3NWExNmY4OTM3YjRjMDM2OGE0ODJkMmNiZTExNGZmMjhlZTg2NWEzMzI5MjAyOTIyYzczN2U2NTMyMWNkNGQzZTQzMDgwNWE=
         # Token is valid 24 hours
         token-validity-in-seconds: 86400
+        token-validity-in-seconds-for-remember-me: 86400
 
 # ===================================================================
 # Application specific properties

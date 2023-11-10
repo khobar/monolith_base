@@ -15,9 +15,9 @@ import { AccountDTO } from 'api-client';
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit, OnDestroy {
+  account: AccountDTO | null = null;
   private renderer: Renderer2;
   private readonly destroy$ = new Subject<void>();
-  account: AccountDTO | null = null;
 
   constructor(
     private accountService: AccountService,

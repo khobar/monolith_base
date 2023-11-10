@@ -33,7 +33,7 @@ describe('BadgeComponent', () => {
     component.type = BadgeType.WARNING;
     fixture.detectChanges();
     const badge = fixture.nativeElement.querySelector('.badge');
-    expect(badge.classList).toContain('badge-warning');
+    expect(badge.classList).toContain('badge-warn');
   });
 
   it('should render badge with info type', () => {
